@@ -1,6 +1,6 @@
 # Risan Bagja's Personal Blog
 
-Risan Bagja's personal blog powered by [Hugo](https://gohugo.io/).
+Rachel Ombok's personal blog powered by [Hugo](https://gohugo.io/).
 
 ## Requirements
 
