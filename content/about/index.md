@@ -13,6 +13,16 @@ In college, I took the Telecommunication Engineering degree. During that time my
 
 I still love programming. I was always excited to attend a programming course. Did a little bit of C, a bit of Visual Basic, some PHP, and a lot of Java. We even learned about assembly language. Used it to program a decades-old Intel 8085 microprocessor. Even my thesis was programming-related. I built a web-based application to visualize and calculate the budget of a radio microwave link.
 
+**Say hi!**
+* twitter
+* ig
+* github
+
+**subdomains**
+* twitter
+* ig
+* github
+
 Years later, my passion for computer programming is stronger than ever. Now I'm writing code for a living. I help my clients to launch their dream website. Sometimes I help startups to ship their million-dollar idea ([one of them got acquired](https://www.crunchbase.com/organization/fixd-repair) for tens of millions of dollars in 2019). I work with companies to manage and analyze their data, so they can make better decisions and grow their business.
 
 ![This is me posing on a cold winter morning in Gdańsk, Poland.](risan.jpg)
