@@ -1,6 +1,7 @@
-# Risan Bagja's Personal Blog
+# Rachel Ombok's Personal Blog
 
 Rachel Ombok's personal blog powered by [Hugo](https://gohugo.io/).
+[blog site](https://blog.rachelombok.com)
 
 ## Requirements
 
