@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>snippet on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/categories/snippet/</link>
+    <link>/categories/snippet/</link>
     <description>Recent content in snippet on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Nov 2020 20:28:00 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 Nov 2020 20:28:00 +0700</lastBuildDate><atom:link href="/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Vue.js: Implement Log In with Google Feature</title>
-      <link>blog.rachelombok.com/code/vue-google-login/</link>
+      <link>/code/vue-google-login/</link>
       <pubDate>Sun, 08 Nov 2020 20:28:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/vue-google-login/</guid>
+      <guid>/code/vue-google-login/</guid>
       <description>This weekend, I was tinkering with the latest version of Vue.js (v3) and the official Google API client library for JavaScript. I tried to implement the &amp;ldquo;Log In with Google&amp;rdquo; feature on a Vue.js project. I scaffolded the project using the Vue CLI. Added Vue Router for routing and Vuex for state management.
 First, we need to include the Google API client library on our HTML file. Note that we&amp;rsquo;re using the defer property so it won&amp;rsquo;t block the browser from parsing the rest of the HTML file.</description>
     </item>
     
     <item>
       <title>Integrating Raygun with Laravel</title>
-      <link>blog.rachelombok.com/code/integrating-raygun-with-laravel/</link>
+      <link>/code/integrating-raygun-with-laravel/</link>
       <pubDate>Sun, 07 Jun 2020 22:15:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/integrating-raygun-with-laravel/</guid>
+      <guid>/code/integrating-raygun-with-laravel/</guid>
       <description>You can use Raygun to easily monitor any errors within your Laravel application. Once you&amp;rsquo;ve signed up for Raygun account and got your Raygun&amp;rsquo;s API key. Install the official PHP library through composer:
 $ composer require mindscape/raygun4php Now head over to your app/Providers/AppServiceProvider.php file and register the RaygunClient instance.
 &amp;lt;?php namespace App\Providers; use GuzzleHttp\Client; use Raygun4php\RaygunClient; use Raygun4php\Transports\GuzzleAsync; use Illuminate\Support\ServiceProvider; class AppServiceProvider extends ServiceProvider { public function register() { // Register the async transport.</description>
@@ -30,80 +30,80 @@ $ composer require mindscape/raygun4php Now head over to your app/Providers/AppS
     
     <item>
       <title>Incorporating Vue UI with a Traditional Laravel Login Flow</title>
-      <link>blog.rachelombok.com/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</link>
+      <link>/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</link>
       <pubDate>Sun, 22 Mar 2020 21:21:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</guid>
+      <guid>/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</guid>
       <description>Let&amp;rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.
 In my case, I also use the VeeValidate library for validating on the frontend side.</description>
     </item>
     
     <item>
       <title>Setting Up Tailwind CSS with Vue CLI</title>
-      <link>blog.rachelombok.com/code/setting-up-tailwind-with-vue-cli/</link>
+      <link>/code/setting-up-tailwind-with-vue-cli/</link>
       <pubDate>Sat, 07 Mar 2020 22:16:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/setting-up-tailwind-with-vue-cli/</guid>
+      <guid>/code/setting-up-tailwind-with-vue-cli/</guid>
       <description>It&amp;rsquo;s quite easy to set up Tailwind CSS within your Vue CLI project. Since Vue CLI is already shipped with PostCSS, all we have to do is to install Tailwind as a PostCSS plugin. If you look at this Vue CLI source code, you&amp;rsquo;ll notice that Vue CLI will look through every possible PostCSS config file.
 const hasPostCSSConfig = !!(loaderOptions.postcss || api.service.pkg.postcss || findExisting(api.resolve(&amp;#39;.&amp;#39;), [ &amp;#39;.postcssrc&amp;#39;, &amp;#39;.postcssrc.js&amp;#39;, &amp;#39;postcss.config.js&amp;#39;, &amp;#39;.postcssrc.yaml&amp;#39;, &amp;#39;.postcssrc.json&amp;#39; ])) If the config file is not found, it will create a PostCSS config object where autoprefixer is loaded as a plugin.</description>
     </item>
     
     <item>
       <title>Axios: Handle Error Response with 200 Status Code</title>
-      <link>blog.rachelombok.com/code/axios-handle-error-response-with-200-status-code/</link>
+      <link>/code/axios-handle-error-response-with-200-status-code/</link>
       <pubDate>Sun, 23 Feb 2020 20:19:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/axios-handle-error-response-with-200-status-code/</guid>
+      <guid>/code/axios-handle-error-response-with-200-status-code/</guid>
       <description>You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact the 200 status code is meant for a successful response.
 Let&amp;rsquo;s say that the API uses the status field in the JSON body to indicate whether the operation is successful or not. When the status is false, the operation is failed, though the HTTP status code is 200.</description>
     </item>
     
     <item>
       <title>Add Postmark&#39;s Tag in Laravel</title>
-      <link>blog.rachelombok.com/code/postmark-tag-in-laravel/</link>
+      <link>/code/postmark-tag-in-laravel/</link>
       <pubDate>Sun, 09 Feb 2020 20:45:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/postmark-tag-in-laravel/</guid>
+      <guid>/code/postmark-tag-in-laravel/</guid>
       <description>Laravel makes it super easy to work with e-mail. It ships with an SMTP based mail driver out of the box. We can also easily use API based mail drivers like Amazon SES, Mailgun, or even Postmark.
 Since the Laravel&amp;rsquo;s drivers are meant to be effortlessly swappable, the API tends to be more general. That&amp;rsquo;s why some features might not be available out of the box, like Postmark&amp;rsquo;s tag for example.</description>
     </item>
     
     <item>
       <title>Bash Script for Switching Between PHP Versions</title>
-      <link>blog.rachelombok.com/code/bash-script-for-switching-between-php-versions/</link>
+      <link>/code/bash-script-for-switching-between-php-versions/</link>
       <pubDate>Sat, 18 May 2019 19:18:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/bash-script-for-switching-between-php-versions/</guid>
+      <guid>/code/bash-script-for-switching-between-php-versions/</guid>
       <description>Lately, I have to deal with the old codebase that is still using the outdated PHP version. And so I&amp;rsquo;ve found my self switching between multiple PHP versions quite often. Since I&amp;rsquo;m using Homebrew to install the PHP, I need to type these four commands to switch into an older PHP version.
 # Stop the latest stable PHP version that&amp;#39;s currently running $ brew services stop php $ brew unlink php # Start the old PHP 5.</description>
     </item>
     
     <item>
       <title>Colorful Google Maps Marker</title>
-      <link>blog.rachelombok.com/code/colorful-google-maps-marker/</link>
+      <link>/code/colorful-google-maps-marker/</link>
       <pubDate>Sun, 12 May 2019 14:32:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/colorful-google-maps-marker/</guid>
+      <guid>/code/colorful-google-maps-marker/</guid>
       <description>When we&amp;rsquo;re using the Google Maps API and adding a marker into our map instance, by default we&amp;rsquo;ll end up with this red pin figure.
  The default Google Maps marker However, when we&amp;rsquo;re displaying a bunch of markers that can be grouped into different categories, it&amp;rsquo;s useful that each marker category has a different visual cue. In the past, I usually use a PNG image to replace the default marker; where each category has different image URL.</description>
     </item>
     
     <item>
       <title>How to Clear Nunjucks Cache</title>
-      <link>blog.rachelombok.com/code/how-to-clear-nunjucks-cache/</link>
+      <link>/code/how-to-clear-nunjucks-cache/</link>
       <pubDate>Mon, 14 Jan 2019 21:01:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/how-to-clear-nunjucks-cache/</guid>
+      <guid>/code/how-to-clear-nunjucks-cache/</guid>
       <description>I&amp;rsquo;m building a static site generator (again) named Flores. Initially, I use Pug for the templating engine. But then I discovered Nunjucks. It has a lot more features and the syntax is quite similar to Twig which I&amp;rsquo;m familiar with. I also did a quick test and the render time is quite similar when the cache option is activated.
 However, I had an issue when Flores is on the &amp;ldquo;watch&amp;rdquo; mode (think of Webpack watch mode).</description>
     </item>
     
     <item>
       <title>Express Responds with Base64 Encoded Image</title>
-      <link>blog.rachelombok.com/code/express-responds-with-base64-image/</link>
+      <link>/code/express-responds-with-base64-image/</link>
       <pubDate>Tue, 04 Dec 2018 10:16:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/express-responds-with-base64-image/</guid>
+      <guid>/code/express-responds-with-base64-image/</guid>
       <description>I want to create an endpoint that will respond with a 1x1 pixel PNG file. Instead of using the sendFile method, I choose to use the base64 encoded representation since the file size is super small. This way I can avoid accessing the file system entirely.
 Here&amp;rsquo;s the gist:
 const express = require(&amp;#34;express&amp;#34;); const app = express(); app.get(&amp;#34;/test.png&amp;#34;, (req, res) =&amp;gt; { // A 1x1 pixel red colored PNG file.  const img = Buffer.</description>
@@ -111,10 +111,10 @@ const express = require(&amp;#34;express&amp;#34;); const app = express(); app.g
     
     <item>
       <title>Set Authorization Header with Apollo Client</title>
-      <link>blog.rachelombok.com/code/set-authorization-header-with-apollo-client/</link>
+      <link>/code/set-authorization-header-with-apollo-client/</link>
       <pubDate>Sat, 14 Apr 2018 13:00:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/set-authorization-header-with-apollo-client/</guid>
+      <guid>/code/set-authorization-header-with-apollo-client/</guid>
       <description>A GraphQL API often requires us to provide an authorization header to authenticate the request. How can we provide this authorization header using the popular Apollo Client library?
 It turns our Apollo already provides us with the apollo-link module. apollo-link is a composable network layer that we can use to configure the HTTP request. With apollo-link, we can create chainable middlewares that will construct our final HTTP request.
 Suppose our initial code to instantiate an Apollo Client look like this:</description>
@@ -122,10 +122,10 @@ Suppose our initial code to instantiate an Apollo Client look like this:</descri
     
     <item>
       <title>React Component with Dot Notation</title>
-      <link>blog.rachelombok.com/code/react-component-with-dot-notation/</link>
+      <link>/code/react-component-with-dot-notation/</link>
       <pubDate>Sat, 07 Apr 2018 23:04:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/react-component-with-dot-notation/</guid>
+      <guid>/code/react-component-with-dot-notation/</guid>
       <description>This is my answer to someone&amp;rsquo;s question on StackOverflow. How can we define a React component that is accessible through the dot notation?
 Take a look at the following code. We have the Menu component and its three children Menu.Item:
 const App = () =&amp;gt; ( &amp;lt;Menu&amp;gt; &amp;lt;Menu.Item&amp;gt;Home&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;Blog&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;About&amp;lt;/Menu.Item&amp;gt; &amp;lt;/Menu&amp;gt; ); How can we define a component like Menu? Where it has some kind of &amp;ldquo;sub-component&amp;rdquo; that is accessible through a dot notation.</description>
@@ -133,10 +133,10 @@ const App = () =&amp;gt; ( &amp;lt;Menu&amp;gt; &amp;lt;Menu.Item&amp;gt;Home&am
     
     <item>
       <title>Laravel AJAX Request dengan CSRF Token</title>
-      <link>blog.rachelombok.com/code/laravel-ajax-request-dengan-csrf-token/</link>
+      <link>/code/laravel-ajax-request-dengan-csrf-token/</link>
       <pubDate>Mon, 27 Jan 2014 20:00:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/laravel-ajax-request-dengan-csrf-token/</guid>
+      <guid>/code/laravel-ajax-request-dengan-csrf-token/</guid>
       <description>Jika Anda menggunakan Laravel dan mengkombinasikan teknik AJAX untuk mengirim request ke server, pasti Anda pernah memikirkan: bagaimana caranya memproteksi endpoint AJAX tersebut dari serangan CSRF?
 AJAX Form Sebagai contoh, kita memiliki sebuah laman untuk mengirimkan pesan ke server dengan teknik AJAX:
 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Ajax Form&amp;lt;/title&amp;gt; &amp;lt;meta name=&amp;#34;csrf-token&amp;#34; content=&amp;#34;{{ csrf_token() }}&amp;#34;&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; id=&amp;#34;message&amp;#34;&amp;gt; &amp;lt;button type=&amp;#34;button&amp;#34; id=&amp;#34;send&amp;#34;&amp;gt;Send&amp;lt;/button&amp;gt; &amp;lt;script src=&amp;#34;//code.jquery.com/jquery-1.10.2.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;{{ asset(&amp;#39;ajax-setup.js&amp;#39;) }}&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;{{ asset(&amp;#39;ajax-handler.</description>

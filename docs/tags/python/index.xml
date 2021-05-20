@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>python on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/tags/python/</link>
+    <link>/tags/python/</link>
     <description>Recent content in python on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Apr 2018 10:00:00 +0200</lastBuildDate><atom:link href="blog.rachelombok.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Apr 2018 10:00:00 +0200</lastBuildDate><atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Python Notes from Intro to Machine Learning</title>
-      <link>blog.rachelombok.com/code/python-notes-from-intro-to-machine-learning/</link>
+      <link>/code/python-notes-from-intro-to-machine-learning/</link>
       <pubDate>Sat, 14 Apr 2018 10:00:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/python-notes-from-intro-to-machine-learning/</guid>
+      <guid>/code/python-notes-from-intro-to-machine-learning/</guid>
       <description>I rarely use Python. I only have one repository at Github that is written in Python: iris-flower-classifier. And it was written two years ago!
 A few days ago I took this free course from Udacity: Intro to Machine Learning. The machine learning related codes are quite easy to grasp since it simply uses the scikit-learn modules. But most of the supporting Python modules that are provided by this course were like a black-box to me.</description>
     </item>

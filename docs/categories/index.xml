@@ -2,71 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Apr 2021 22:11:00 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Apr 2021 22:11:00 +0700</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>writing</title>
-      <link>blog.rachelombok.com/categories/writing/</link>
+      <link>/categories/writing/</link>
       <pubDate>Sun, 18 Apr 2021 22:11:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/writing/</guid>
+      <guid>/categories/writing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>journal</title>
-      <link>blog.rachelombok.com/categories/journal/</link>
+      <link>/categories/journal/</link>
       <pubDate>Thu, 08 Apr 2021 22:03:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/journal/</guid>
+      <guid>/categories/journal/</guid>
       <description></description>
     </item>
     
     <item>
       <title>log</title>
-      <link>blog.rachelombok.com/categories/log/</link>
+      <link>/categories/log/</link>
       <pubDate>Sun, 21 Mar 2021 17:19:56 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/log/</guid>
+      <guid>/categories/log/</guid>
       <description></description>
     </item>
     
     <item>
       <title>travel</title>
-      <link>blog.rachelombok.com/categories/travel/</link>
+      <link>/categories/travel/</link>
       <pubDate>Sat, 19 Dec 2020 20:24:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/travel/</guid>
+      <guid>/categories/travel/</guid>
       <description></description>
     </item>
     
     <item>
       <title>snippet</title>
-      <link>blog.rachelombok.com/categories/snippet/</link>
+      <link>/categories/snippet/</link>
       <pubDate>Sun, 08 Nov 2020 20:28:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/snippet/</guid>
+      <guid>/categories/snippet/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tutorial</title>
-      <link>blog.rachelombok.com/categories/tutorial/</link>
+      <link>/categories/tutorial/</link>
       <pubDate>Sat, 11 Jan 2020 23:13:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/categories/tutorial/</guid>
+      <guid>/categories/tutorial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>photos</title>
-      <link>blog.rachelombok.com/categories/photos/</link>
+      <link>/categories/photos/</link>
       <pubDate>Mon, 27 May 2019 04:44:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/categories/photos/</guid>
+      <guid>/categories/photos/</guid>
       <description></description>
     </item>
     

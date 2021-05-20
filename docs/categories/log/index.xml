@@ -2,85 +2,85 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>log on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/categories/log/</link>
+    <link>/categories/log/</link>
     <description>Recent content in log on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Mar 2021 17:19:56 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/categories/log/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 Mar 2021 17:19:56 +0700</lastBuildDate><atom:link href="/categories/log/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Logbook: 2021 March</title>
-      <link>blog.rachelombok.com/code/logbook-2021-03/</link>
+      <link>/code/logbook-2021-03/</link>
       <pubDate>Sun, 21 Mar 2021 17:19:56 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/logbook-2021-03/</guid>
+      <guid>/code/logbook-2021-03/</guid>
       <description>DataTables: Dynamic Ajax Parameter On DataTables, we can pass custom query parameters for the API through ajax.data option.
 $(&amp;#39;#table&amp;#39;).dataTable({ ajax: { url: &amp;#39;https://examples.com/api/users&amp;#39;, data: { paid_plan: true, }, }, // Omitted... }); If these custom query parameters are dynamic like retrieved from some input elements. We have to pass these parameters as a function instead of a plain object. This way, when the user updates these input elements; we can reload the DataTable, and it will pick up the updated query parameters.</description>
     </item>
     
     <item>
       <title>Logbook: 2021 February</title>
-      <link>blog.rachelombok.com/code/logbook-2021-02/</link>
+      <link>/code/logbook-2021-02/</link>
       <pubDate>Wed, 17 Feb 2021 21:19:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/logbook-2021-02/</guid>
+      <guid>/code/logbook-2021-02/</guid>
       <description>Install PHP 8 on Windows Today I managed to install the latest PHP version 8 on my Windows machine. It&amp;rsquo;s a pretty straightforward process:
  Download the binary from windows.php.net/download. I use the Thread Safe version to pair it with Nginx. If you PHP as a FastCGI on IIS, choose the Non Thread Safe version. I use Laragon, so I just have to extract the downloaded file into Laragon&amp;rsquo;s PHP directory (default to C:\laragon\bin\php).</description>
     </item>
     
     <item>
       <title>Building a Web-App to Track My Expense on Google Sheets</title>
-      <link>blog.rachelombok.com/code/web-app-to-track-expense-on-google-sheets/</link>
+      <link>/code/web-app-to-track-expense-on-google-sheets/</link>
       <pubDate>Sun, 27 Dec 2020 21:41:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/web-app-to-track-expense-on-google-sheets/</guid>
+      <guid>/code/web-app-to-track-expense-on-google-sheets/</guid>
       <description>I&amp;rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be the spending categories that didn&amp;rsquo;t fit my use case. Or some expense related fields that were missing, but I need those details. Or as simple as it didn&amp;rsquo;t have a web version, so I couldn&amp;rsquo;t log my spending while I was on my laptop.</description>
     </item>
     
     <item>
       <title>Let&#39;s Build Stuff Again</title>
-      <link>blog.rachelombok.com/code/lets-build-stuff-again/</link>
+      <link>/code/lets-build-stuff-again/</link>
       <pubDate>Mon, 21 Dec 2020 20:21:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/lets-build-stuff-again/</guid>
+      <guid>/code/lets-build-stuff-again/</guid>
       <description>Digging through my old hard drive and found these two folders containing more than 200 projects from my early days as a web developer in 2013. I&amp;rsquo;m amazed by so many things I&amp;rsquo;ve built during that time—though I believe most of them are just a simple one-page website. But still.
  Two folders from the old days. Back then, I had no idea how to write clean code or heard about SOLID principles.</description>
     </item>
     
     <item>
       <title>Switching to Hugo</title>
-      <link>blog.rachelombok.com/code/switching-to-hugo/</link>
+      <link>/code/switching-to-hugo/</link>
       <pubDate>Sun, 10 May 2020 21:27:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/switching-to-hugo/</guid>
+      <guid>/code/switching-to-hugo/</guid>
       <description>Another day, another static site generator to switch to. The curse is real. Instead of writing more blog posts, I ended up messing up with the platform. It was once powered by Jekyll. It was once using a custom static site generator that I wrote myself. It was once built on top of Gatsby. And now I&amp;rsquo;m switching to Hugo—the world&amp;rsquo;s fastest static site generator. And I&amp;rsquo;m very happy with it.</description>
     </item>
     
     <item>
       <title>Switching to Circle CI</title>
-      <link>blog.rachelombok.com/code/switching-to-circle-ci/</link>
+      <link>/code/switching-to-circle-ci/</link>
       <pubDate>Sun, 26 Jan 2020 22:15:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/switching-to-circle-ci/</guid>
+      <guid>/code/switching-to-circle-ci/</guid>
       <description>I used to use Travis CI for running my test suites. But now I&amp;rsquo;m switching to Circle CI for my latest open-source JavaScript project: helpers. Though it has no build matrix feature out of the box, the test suites often complete faster (I&amp;rsquo;m speaking about the free version here).
 Similar to Travis CI, Circle CI also uses a YAML file for configuration. We have to store this configuration file in .</description>
     </item>
     
     <item>
       <title>Lazy Load Google Maps API</title>
-      <link>blog.rachelombok.com/code/lazy-load-google-maps-api/</link>
+      <link>/code/lazy-load-google-maps-api/</link>
       <pubDate>Fri, 26 Apr 2019 19:31:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/lazy-load-google-maps-api/</guid>
+      <guid>/code/lazy-load-google-maps-api/</guid>
       <description>Yesterday I was combing through the vue2-google-maps source code. It&amp;rsquo;s a collection of Google Maps components for Vue. Then I found an interesting bit of how it loads the Google Maps JavaScript API lazily (check the src/manager.js and the src/main.js).
 It&amp;rsquo;s pretty useful, especially if you build a SPA (single page application) where there are pages that don&amp;rsquo;t actually use the Google Maps API. By lazy loading the Google Maps API, your users will only have to download the library once they hit the page that uses it.</description>
     </item>
     
     <item>
       <title>Regenerator Runtime is not defined</title>
-      <link>blog.rachelombok.com/code/regenerator-runtime-is-not-defined/</link>
+      <link>/code/regenerator-runtime-is-not-defined/</link>
       <pubDate>Sun, 11 Nov 2018 11:05:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/regenerator-runtime-is-not-defined/</guid>
+      <guid>/code/regenerator-runtime-is-not-defined/</guid>
       <description>I was tinkering with my antiquated, silly, and super tiny NPM module this morning: giphy-random. It basically for retrieving a random GIF using the Gihpy API.
 I simplified the code, from the class-based to just a simple function. I also replaced the Promise syntax with the async-await style. It&amp;rsquo;s super simple:
 import axios from &amp;#34;axios&amp;#34;; const giphyRandom = async (apiKey, { tag, rating = &amp;#34;g&amp;#34; } = {}) =&amp;gt; { const params = { api_key: apiKey, rating }; if (tag) { params.</description>
@@ -88,30 +88,30 @@ import axios from &amp;#34;axios&amp;#34;; const giphyRandom = async (apiKey, { 
     
     <item>
       <title>Building My First iOS Game</title>
-      <link>blog.rachelombok.com/code/building-my-first-ios-game/</link>
+      <link>/code/building-my-first-ios-game/</link>
       <pubDate>Wed, 10 Oct 2018 00:10:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/building-my-first-ios-game/</guid>
+      <guid>/code/building-my-first-ios-game/</guid>
       <description>Sunday night two weeks ago, I had nothing better to do. So I started googling for some iOS tutorial and landed on this amazing video tutorial by Ray Wenderlich. It&amp;rsquo;s quite exciting and easy to follow for a total beginner like me. I delved into Swift documentation before and got bored easily. 😝
 On that tutorial, you&amp;rsquo;ll learn the basic of iOS development by building some simple game named Bull&amp;rsquo;s Eye.</description>
     </item>
     
     <item>
       <title>Python Notes from Intro to Machine Learning</title>
-      <link>blog.rachelombok.com/code/python-notes-from-intro-to-machine-learning/</link>
+      <link>/code/python-notes-from-intro-to-machine-learning/</link>
       <pubDate>Sat, 14 Apr 2018 10:00:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/python-notes-from-intro-to-machine-learning/</guid>
+      <guid>/code/python-notes-from-intro-to-machine-learning/</guid>
       <description>I rarely use Python. I only have one repository at Github that is written in Python: iris-flower-classifier. And it was written two years ago!
 A few days ago I took this free course from Udacity: Intro to Machine Learning. The machine learning related codes are quite easy to grasp since it simply uses the scikit-learn modules. But most of the supporting Python modules that are provided by this course were like a black-box to me.</description>
     </item>
     
     <item>
       <title>I Create My Own Static Site Generator</title>
-      <link>blog.rachelombok.com/code/i-create-my-own-static-site-generator/</link>
+      <link>/code/i-create-my-own-static-site-generator/</link>
       <pubDate>Sun, 11 Feb 2018 17:06:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/i-create-my-own-static-site-generator/</guid>
+      <guid>/code/i-create-my-own-static-site-generator/</guid>
       <description>Instead of writing a blog post more often, I decided to redesign my four months old blog, ditched Jekyll and built a custom static site generator. The conversation went like this:
 My inner Yoda: &amp;ldquo;Write more often this year, you must&amp;rdquo;
 Dark side of the Force: &amp;ldquo;I find the combination of Ruby and Javascript is disturbing&amp;rdquo;
@@ -120,10 +120,10 @@ Me: &amp;ldquo;Okay, let&amp;rsquo;s reinvent the wheel and build the static sit
     
     <item>
       <title>New Blog and Things I learned Building It</title>
-      <link>blog.rachelombok.com/code/new-blog/</link>
+      <link>/code/new-blog/</link>
       <pubDate>Mon, 09 Oct 2017 17:06:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/new-blog/</guid>
+      <guid>/code/new-blog/</guid>
       <description>Hello, world!
 After more than four years, I finally have my programming blog again 🎉🎉🎉. It&amp;rsquo;s been bugging for quite some time.
 Having a blog will be a good exercise to improve my writing skill. It&amp;rsquo;s also a great way for documenting my learning journey and share back the knowledge to the vast programming community.

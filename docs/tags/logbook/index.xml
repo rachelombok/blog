@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>logbook on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/tags/logbook/</link>
+    <link>/tags/logbook/</link>
     <description>Recent content in logbook on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Mar 2021 17:19:56 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/tags/logbook/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 Mar 2021 17:19:56 +0700</lastBuildDate><atom:link href="/tags/logbook/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Logbook: 2021 March</title>
-      <link>blog.rachelombok.com/code/logbook-2021-03/</link>
+      <link>/code/logbook-2021-03/</link>
       <pubDate>Sun, 21 Mar 2021 17:19:56 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/logbook-2021-03/</guid>
+      <guid>/code/logbook-2021-03/</guid>
       <description>DataTables: Dynamic Ajax Parameter On DataTables, we can pass custom query parameters for the API through ajax.data option.
 $(&amp;#39;#table&amp;#39;).dataTable({ ajax: { url: &amp;#39;https://examples.com/api/users&amp;#39;, data: { paid_plan: true, }, }, // Omitted... }); If these custom query parameters are dynamic like retrieved from some input elements. We have to pass these parameters as a function instead of a plain object. This way, when the user updates these input elements; we can reload the DataTable, and it will pick up the updated query parameters.</description>
     </item>
     
     <item>
       <title>Logbook: 2021 February</title>
-      <link>blog.rachelombok.com/code/logbook-2021-02/</link>
+      <link>/code/logbook-2021-02/</link>
       <pubDate>Wed, 17 Feb 2021 21:19:00 +0700</pubDate>
       
-      <guid>blog.rachelombok.com/code/logbook-2021-02/</guid>
+      <guid>/code/logbook-2021-02/</guid>
       <description>Install PHP 8 on Windows Today I managed to install the latest PHP version 8 on my Windows machine. It&amp;rsquo;s a pretty straightforward process:
  Download the binary from windows.php.net/download. I use the Thread Safe version to pair it with Nginx. If you PHP as a FastCGI on IIS, choose the Non Thread Safe version. I use Laragon, so I just have to extract the downloaded file into Laragon&amp;rsquo;s PHP directory (default to C:\laragon\bin\php).</description>
     </item>

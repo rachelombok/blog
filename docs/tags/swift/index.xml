@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>swift on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/tags/swift/</link>
+    <link>/tags/swift/</link>
     <description>Recent content in swift on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Oct 2018 00:10:00 +0200</lastBuildDate><atom:link href="blog.rachelombok.com/tags/swift/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Oct 2018 00:10:00 +0200</lastBuildDate><atom:link href="/tags/swift/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building My First iOS Game</title>
-      <link>blog.rachelombok.com/code/building-my-first-ios-game/</link>
+      <link>/code/building-my-first-ios-game/</link>
       <pubDate>Wed, 10 Oct 2018 00:10:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/building-my-first-ios-game/</guid>
+      <guid>/code/building-my-first-ios-game/</guid>
       <description>Sunday night two weeks ago, I had nothing better to do. So I started googling for some iOS tutorial and landed on this amazing video tutorial by Ray Wenderlich. It&amp;rsquo;s quite exciting and easy to follow for a total beginner like me. I delved into Swift documentation before and got bored easily. 😝
 On that tutorial, you&amp;rsquo;ll learn the basic of iOS development by building some simple game named Bull&amp;rsquo;s Eye.</description>
     </item>

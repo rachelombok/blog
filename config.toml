@@ -1,4 +1,4 @@
-baseurl = "blog.rachelombok.com"
+baseurl = ""
 title = "rachel's blog"
 languageCode = "en-us"
 publishDir = 'docs'
@@ -12,7 +12,6 @@ publishDir = 'docs'
 
 [imaging]
   quality = 80
-
 
 [params]
   header_image = "images/main_go_wideandtall_darklayer.jpeg"

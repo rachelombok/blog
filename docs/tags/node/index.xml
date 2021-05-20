@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>node on rachel&#39;s blog</title>
-    <link>blog.rachelombok.com/tags/node/</link>
+    <link>/tags/node/</link>
     <description>Recent content in node on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Jan 2019 21:01:00 +0200</lastBuildDate><atom:link href="blog.rachelombok.com/tags/node/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Jan 2019 21:01:00 +0200</lastBuildDate><atom:link href="/tags/node/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Clear Nunjucks Cache</title>
-      <link>blog.rachelombok.com/code/how-to-clear-nunjucks-cache/</link>
+      <link>/code/how-to-clear-nunjucks-cache/</link>
       <pubDate>Mon, 14 Jan 2019 21:01:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/how-to-clear-nunjucks-cache/</guid>
+      <guid>/code/how-to-clear-nunjucks-cache/</guid>
       <description>I&amp;rsquo;m building a static site generator (again) named Flores. Initially, I use Pug for the templating engine. But then I discovered Nunjucks. It has a lot more features and the syntax is quite similar to Twig which I&amp;rsquo;m familiar with. I also did a quick test and the render time is quite similar when the cache option is activated.
 However, I had an issue when Flores is on the &amp;ldquo;watch&amp;rdquo; mode (think of Webpack watch mode).</description>
     </item>
     
     <item>
       <title>Express Responds with Base64 Encoded Image</title>
-      <link>blog.rachelombok.com/code/express-responds-with-base64-image/</link>
+      <link>/code/express-responds-with-base64-image/</link>
       <pubDate>Tue, 04 Dec 2018 10:16:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/express-responds-with-base64-image/</guid>
+      <guid>/code/express-responds-with-base64-image/</guid>
       <description>I want to create an endpoint that will respond with a 1x1 pixel PNG file. Instead of using the sendFile method, I choose to use the base64 encoded representation since the file size is super small. This way I can avoid accessing the file system entirely.
 Here&amp;rsquo;s the gist:
 const express = require(&amp;#34;express&amp;#34;); const app = express(); app.get(&amp;#34;/test.png&amp;#34;, (req, res) =&amp;gt; { // A 1x1 pixel red colored PNG file.  const img = Buffer.</description>
@@ -30,10 +30,10 @@ const express = require(&amp;#34;express&amp;#34;); const app = express(); app.g
     
     <item>
       <title>I Create My Own Static Site Generator</title>
-      <link>blog.rachelombok.com/code/i-create-my-own-static-site-generator/</link>
+      <link>/code/i-create-my-own-static-site-generator/</link>
       <pubDate>Sun, 11 Feb 2018 17:06:00 +0200</pubDate>
       
-      <guid>blog.rachelombok.com/code/i-create-my-own-static-site-generator/</guid>
+      <guid>/code/i-create-my-own-static-site-generator/</guid>
       <description>Instead of writing a blog post more often, I decided to redesign my four months old blog, ditched Jekyll and built a custom static site generator. The conversation went like this:
 My inner Yoda: &amp;ldquo;Write more often this year, you must&amp;rdquo;
 Dark side of the Force: &amp;ldquo;I find the combination of Ruby and Javascript is disturbing&amp;rdquo;
