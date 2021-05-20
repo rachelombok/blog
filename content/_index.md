@@ -1,5 +1,5 @@
 ---
-title: The Digital Archive of Risan Bagja Pradana
+title: rachel's blog
 images: [work-outdoor.jpg]
 ---
 # Welcome weary traveler. To my website. How may I assist you?
