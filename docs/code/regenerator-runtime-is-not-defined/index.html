@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Regenerator Runtime is not defined | rachel&#39;s blog</title>
+    <meta name="description" content="I was tinkering with my antiquated, silly, and super tiny NPM module this morning: giphy-random. It basically for retrieving a random GIF using the Gihpy API.
+I simplified the code, from the …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Regenerator Runtime is not defined" />
+<meta property="og:description" content="I was tinkering with my antiquated, silly, and super tiny NPM module this morning: giphy-random. It basically for retrieving a random GIF using the Gihpy API.
+I simplified the code, from the class-based to just a simple function. I also replaced the Promise syntax with the async-await style. It&rsquo;s super simple:
+import axios from &#34;axios&#34;; const giphyRandom = async (apiKey, { tag, rating = &#34;g&#34; } = {}) =&gt; { const params = { api_key: apiKey, rating }; if (tag) { params." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/regenerator-runtime-is-not-defined/" /><meta property="og:image" content="https://smith.github.io/img/babel.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2018-11-11T11:05:00&#43;02:00" />
+<meta property="article:modified_time" content="2018-11-11T11:05:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/img/babel.png"/>
+
+<meta name="twitter:title" content="Regenerator Runtime is not defined"/>
+<meta name="twitter:description" content="I was tinkering with my antiquated, silly, and super tiny NPM module this morning: giphy-random. It basically for retrieving a random GIF using the Gihpy API.
+I simplified the code, from the class-based to just a simple function. I also replaced the Promise syntax with the async-await style. It&rsquo;s super simple:
+import axios from &#34;axios&#34;; const giphyRandom = async (apiKey, { tag, rating = &#34;g&#34; } = {}) =&gt; { const params = { api_key: apiKey, rating }; if (tag) { params."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Regenerator Runtime is not defined</h1><time datetime='2018-11-11T11:05:00&#43;02:00'>2018-11-11</time><p>I was tinkering with my antiquated, silly, and super tiny NPM module this morning: <a href="https://github.com/risan/giphy-random">giphy-random</a>. It basically for retrieving a random GIF using the Gihpy API.</p>
+<p>I simplified the code, from the class-based to just a simple function. I also replaced the <code>Promise</code> syntax with the <code>async-await</code> style. It&rsquo;s super simple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> axios from <span style="color:#f1fa8c">&#34;axios&#34;</span>;
+
+<span style="color:#ff79c6">const</span> giphyRandom <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">async</span> (apiKey, { tag, rating <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;g&#34;</span> } <span style="color:#ff79c6">=</span> {}) =&gt; {
+  <span style="color:#ff79c6">const</span> params <span style="color:#ff79c6">=</span> { api_key<span style="color:#ff79c6">:</span> apiKey, rating };
+
+  <span style="color:#ff79c6">if</span> (tag) {
+    params.tag <span style="color:#ff79c6">=</span> tag;
+  }
+
+  <span style="color:#ff79c6">const</span> { data } <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> axios.get(<span style="color:#f1fa8c">&#34;https://api.giphy.com/v1/gifs/random&#34;</span>, {
+    params
+  });
+
+  <span style="color:#ff79c6">return</span> data;
+};
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> giphyRandom;
+</code></pre></div><p>Then I went ahead and upgraded the babel package to the latest version 7. Using Babel 7 means I no longer need to use the <a href="https://www.npmjs.com/package/babel-plugin-external-helpers"><code>babel-plugin-external-helpers</code></a>. This plugin was used to prevent Babel from injecting the same helper functions on each file its transformed.</p>
+<p>My <code>.babelrc</code> looks simpler without any additional plugins:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;presets&#34;</span>: [
+    [<span style="color:#f1fa8c">&#34;@babel/env&#34;</span>, {
+      <span style="color:#ff79c6">&#34;modules&#34;</span>: <span style="color:#ff79c6">false</span>
+    }]
+  ]
+}
+</code></pre></div><p>The <code>modules</code> is set to <code>false</code> because I use <a href="https://rollupjs.org/">rollup</a> to bundle my library—which can handle the ES module.</p>
+<h2 id="the-error">The Error</h2>
+<p>When I build this tiny library, an error arises from the UMD build:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">giphy<span style="color:#ff79c6">-</span>random.umd.js<span style="color:#ff79c6">:</span><span style="color:#bd93f9">59</span> Uncaught ReferenceError<span style="color:#ff79c6">:</span> regeneratorRuntime is not defined
+    at giphy<span style="color:#ff79c6">-</span>random.umd.js<span style="color:#ff79c6">:</span><span style="color:#bd93f9">59</span>
+    at giphy<span style="color:#ff79c6">-</span>random.umd.js<span style="color:#ff79c6">:</span><span style="color:#bd93f9">104</span>
+    at giphy<span style="color:#ff79c6">-</span>random.umd.js<span style="color:#ff79c6">:</span><span style="color:#bd93f9">4</span>
+    at giphy<span style="color:#ff79c6">-</span>random.umd.js<span style="color:#ff79c6">:</span><span style="color:#bd93f9">5</span>
+</code></pre></div><p>If you&rsquo;ve been working with Babel, you might&rsquo;ve already known the culprit. This error usually shows up when you use the <code>generator</code> or <code>async</code> function in your code.</p>
+<h2 id="the-culprit">The Culprit</h2>
+<p>When you support some older browsers that can&rsquo;t handle the <code>generator</code> or <code>async</code> syntax. Babel will transform your <code>generator</code>/<code>async</code> code into a backward-compatible ES5 syntax.</p>
+<p>Here&rsquo;s my <code>.browserslistrc</code> file. And apparently, some browsers in <a href="https://browserl.ist/?q=last+1+version%2C+%3E%3D+5%25%2C+not+dead">that query</a> still does not support <code>async</code> function 😅.</p>
+<pre><code>last 1 version
+&gt;= 5%
+not dead
+</code></pre><p>Here&rsquo;s the snippet of generated UMD build from my <code>giphy-random</code> library:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#8be9fd;font-style:italic">var</span> giphyRandom <span style="color:#ff79c6">=</span>
+<span style="color:#6272a4">/*#__PURE__*/</span>
+<span style="color:#8be9fd;font-style:italic">function</span> () {
+  <span style="color:#8be9fd;font-style:italic">var</span> <span style="color:#bd93f9">_</span>ref <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">_</span>asyncToGenerator(
+  <span style="color:#6272a4">/*#__PURE__*/</span>
+  regeneratorRuntime.mark(<span style="color:#8be9fd;font-style:italic">function</span> <span style="color:#bd93f9">_</span>callee(apiKey) {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>
+    <span style="color:#ff79c6">return</span> regeneratorRuntime.wrap(<span style="color:#8be9fd;font-style:italic">function</span> <span style="color:#bd93f9">_</span>callee$(<span style="color:#bd93f9">_</span>context) {
+      <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>    }, <span style="color:#bd93f9">_</span>callee, <span style="color:#ff79c6">this</span>);
+  }));
+
+  <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">function</span> giphyRandom(<span style="color:#bd93f9">_</span>x) {
+    <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">_</span>ref.apply(<span style="color:#ff79c6">this</span>, arguments);
+  };
+}();
+</code></pre></div><h2 id="the-solutions">The Solutions</h2>
+<p>As you can see the <code>async giphyRandom</code> function is transformed. And the error is thrown because it can&rsquo;t find the reference to the <code>regeneratorRuntime</code>. There are two possible solutions here:</p>
+<ol>
+<li>Let the user provides this <code>regeneratorRuntime</code> module itself.</li>
+<li>Include this <code>regeneratorRuntime</code> module in our bundle.</li>
+</ol>
+<p>The first approach is just too much of a hassle for the user. So let&rsquo;s include this <code>regeneratorRuntime</code> module in our bundle. (Or you can just drop the support for older browsers 😉)</p>
+<p>There are also three ways of including this <code>regeneratorRuntime</code> module in your bundle:</p>
+<ol>
+<li>Import the module explicitly: <a href="https://github.com/facebook/regenerator/tree/master/packages/regenerator-runtime"><code>regenerator-runtime</code></a>.</li>
+<li>Use the Babel plugin: <a href="https://babeljs.io/docs/en/babel-plugin-transform-runtime"><code>@babel/plugin-transform-runtime</code></a>.</li>
+<li>Or if you use <a href="https://babeljs.io/docs/en/babel-preset-env#usebuiltins"><code>@babel/preset-env</code></a>, you can simply set the <code>useBuiltIns</code> option to <code>usage</code>.</li>
+</ol>
+<p>The first solution is not scalable. Imagine that in the future all the browsers in our <code>.browserslistrc</code> file finally support this <code>async</code> function. But because we explicitly import the <code>regenerator-runtime</code>, this module will always be included in our final bundle.</p>
+<p>With the second and the third approach, the <code>regeneratorRuntime</code> module will only be injected if the targetted environment does not support a <code>generator</code> or <code>async</code> function.</p>
+<p>To execute the second solution, first install the plugin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install @babel/plugin-transform-runtime -D
+
+<span style="color:#6272a4"># If you use Yarn</span>
+$ yarn add @babel/plugin-transform-runtime -D
+</code></pre></div><p>Next, register this plugin on your <code>.babelrc</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;presets&#34;</span>: [
+    [<span style="color:#f1fa8c">&#34;@babel/env&#34;</span>, {
+      <span style="color:#ff79c6">&#34;modules&#34;</span>: <span style="color:#ff79c6">false</span>
+    }]
+  ],
+  <span style="color:#ff79c6">&#34;plugins&#34;</span>: [<span style="color:#f1fa8c">&#34;@babel/plugin-transform-runtime&#34;</span>]
+}
+</code></pre></div><p>Finally, update the babel plugin parameter on your Rollup configuration file. Set the <code>runtimeHelpers</code> argument to <code>true</code>.</p>
+<p>Here&rsquo;s the snippet of <code>giphy-random</code>&rsquo;s Rollup configuration for the UMD build format:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#34;rollup-plugin-babel&#34;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#34;rollup-plugin-commonjs&#34;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#34;rollup-plugin-node-resolve&#34;</span>;
+
+<span style="color:#ff79c6">import</span> pkg from <span style="color:#f1fa8c">&#34;./package.json&#34;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> [
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;src/index.js&#34;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> pkg.browser,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;umd&#34;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;giphyRandom&#34;</span>,
+      globals<span style="color:#ff79c6">:</span> {
+        axios<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;axios&#34;</span>
+      }
+    },
+    external<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#34;axios&#34;</span>],
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;node_modules/**&#34;</span>,
+        runtimeHelpers<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>
+      })
+    ]
+  }
+];
+</code></pre></div><p>The third solution is a lot more simpler. All we have to do is set the <code>useBuiltIns</code> option to <code>usage</code> on our <code>.babelrc</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;presets&#34;</span>: [
+    [<span style="color:#f1fa8c">&#34;@babel/env&#34;</span>, {
+      <span style="color:#ff79c6">&#34;modules&#34;</span>: <span style="color:#ff79c6">false</span>,
+      <span style="color:#ff79c6">&#34;useBuiltIns&#34;</span>: <span style="color:#f1fa8c">&#34;usage&#34;</span>
+    }]
+  ]
+}
+</code></pre></div><p>Babel will automatically import the polyfills for the features that we only use. The polyfill itself is provided by the <a href="https://github.com/zloirock/core-js">core-js</a>.</p>
+<p>Now everything should be working fine 👌🏻</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/log/">log</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/express-responds-with-base64-image/">Express Responds with Base64 Encoded Image</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/bundling-your-javascript-library-with-rollup/">Bundling Your JavaScript Library with Rollup</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

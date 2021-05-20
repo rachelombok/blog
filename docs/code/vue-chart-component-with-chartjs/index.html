@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Vue Chart Component with Chart.js | rachel&#39;s blog</title>
+    <meta name="description" content="Let&#39;s build a reusable and beautiful chart component for Vue.js using the Chart.js library.">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Vue Chart Component with Chart.js" />
+<meta property="og:description" content="Let&#39;s build a reusable and beautiful chart component for Vue.js using the Chart.js library." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/vue-chart-component-with-chartjs/" /><meta property="og:image" content="https://smith.github.io/code/vue-chart-component-with-chartjs/og.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2018-10-14T18:38:00&#43;02:00" />
+<meta property="article:modified_time" content="2018-10-14T18:38:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/code/vue-chart-component-with-chartjs/og.png"/>
+
+<meta name="twitter:title" content="Vue Chart Component with Chart.js"/>
+<meta name="twitter:description" content="Let&#39;s build a reusable and beautiful chart component for Vue.js using the Chart.js library."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Vue Chart Component with Chart.js</h1><time datetime='2018-10-14T18:38:00&#43;02:00'>2018-10-14</time><p>Chart.js is an amazing chart library for JavaScript. It&rsquo;s modern and performant; built on top of the HTML5 canvas. It includes 8 different chart types which super easy to extend and configure. On top of it all, the generated chart just looks beautiful.</p>
+<p>Last night I did some tinkering to integrate Chart.js within the existing Vue code base. So, how can we do that? If you want, there&rsquo;s actually a wrapper for Chart.js already available for Vue: <a href="https://vue-chartjs.org">vue-chartjs</a>. If you take a look at the <code>vue-chartjs</code> <a href="https://github.com/apertureless/vue-chartjs">source code</a>, it&rsquo;s actually pretty simple and straightforward. So let&rsquo;s try to build one ourself!</p>
+<p>You can check out the final working source code on <a href="https://github.com/risan/vue-chart-example">Github</a>. You can also visit the demo here: <a href="https://risan.github.io/vue-chart-example/">risan.github.io/vue-chart-example</a>.</p>
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#creating-new-project">Creating New Project</a></li>
+    <li><a href="#getting-started-with-chartjs">Getting Started with Chart.js</a>
+      <ul>
+        <li><a href="#plot-a-line-chart">Plot a Line Chart</a></li>
+        <li><a href="#configuring-our-line-chart">Configuring Our Line Chart</a></li>
+        <li><a href="#making-it-prettier">Making it Prettier</a></li>
+      </ul>
+    </li>
+    <li><a href="#integrating-chartjs-into-vue">Integrating Chart.js into Vue</a>
+      <ul>
+        <li><a href="#setting-up-the-vue-application">Setting Up the Vue Application</a></li>
+        <li><a href="#the-monthly-sales-chart-component">The Monthly Sales Chart Component</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-line-chart-component">The Line Chart Component</a>
+      <ul>
+        <li><a href="#put-back-chart-datasets-and-options">Put Back Chart Datasets and Options</a></li>
+      </ul>
+    </li>
+    <li><a href="#reactive-chart">Reactive Chart</a></li>
+    <li><a href="#closing-thought">Closing Thought</a></li>
+  </ul>
+</nav>
+
+<h2 id="creating-new-project">Creating New Project</h2>
+<p>On this tutorial, I will use <a href="https://cli.vuejs.org">Vue CLI</a> version 3 to scaffold my project. But of course you can always use your own build system as long as it can handle the Vue <a href="https://vuejs.org/v2/guide/single-file-components.html">Single File Component</a>—if not you have to slightly modify the component declaration by inlining the <code>&lt;template&gt;</code>&rsquo;s content into your <code>template</code> property.</p>
+<p>If you want to use Vue CLI and doesn&rsquo;t have one installed on your computer, run the following command on your terminal to install it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install -g @vue/cli
+
+<span style="color:#6272a4"># Or if you prefer to use yar.</span>
+$ yarn global add @vue/cli
+</code></pre></div><p>Next, let&rsquo;s create a new project with Vue CLI:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ vue create vue-chart-example
+</code></pre></div><p>You&rsquo;ll be prompted to choose the preset, I choose the default one which will configure Babel and ESLint for us. Then you&rsquo;ll be asked to choose the package manager to use: Yarn or the default NPM. The installation should be started, just wait until your project is created.</p>
+<p>You&rsquo;ll get a similar output upon a successful project creation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">🎉  Successfully created project vue-chart-example.
+👉  Get started with the following commands:
+
+$ <span style="color:#8be9fd;font-style:italic">cd</span> vue-chart-example
+$ yarn serve
+</code></pre></div><p>Now, let&rsquo;s run our project:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Go the project&#39;s directory</span>
+$ <span style="color:#8be9fd;font-style:italic">cd</span> vue-chart-example
+
+<span style="color:#6272a4"># Build and run the project.</span>
+$ npm run serve
+
+<span style="color:#6272a4"># Or if you use yarn.</span>
+$ yarn serve
+</code></pre></div><p>Once the development server is running, open the <a href="http://localhost:8080">localhost:8080</a> address on your browser. You should see your Vue project.</p>
+<p><figure>
+    <a href="01-vue-cli-project.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/01-vue-cli-project.png" alt="Vue CLI new project starter">
+    </a><figcaption>Vue CLI new project starter</figcaption></figure>
+</p>
+<p>Press <code>CTRL + c</code> to stop the development server. We&rsquo;re going to code from scratch, so we won&rsquo;t need any of the provided boilerplate code on <code>src</code> directory. Let&rsquo;s delete them!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rm -rf src/*
+</code></pre></div><h2 id="getting-started-with-chartjs">Getting Started with Chart.js</h2>
+<p>Open your terminal, and type the following command to install Chart.js:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install chart.js
+
+<span style="color:#6272a4"># Or if you prefer to use Yarn.</span>
+yarn add chart.js
+</code></pre></div><blockquote>
+<p>Note: if you use NPM prior to version 5, you need to provide the <code>--save</code> option to automatically update the <code>dependencies</code> list on your <code>package.json</code> file.</p>
+</blockquote>
+<p>Here&rsquo;s the constructor&rsquo;s signature on how to initialize a new Chart.js instance:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(context [CanvasRenderingContext2D<span style="color:#ff79c6">|</span>Element<span style="color:#ff79c6">|</span><span style="color:#8be9fd;font-style:italic">String</span>], {
+  type<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">String</span>,
+  data<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Object</span>,
+  options<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Object</span>
+});
+</code></pre></div><ul>
+<li><code>context</code>: It can either be an instance of <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D"><code>CanvasRenderingContext2D</code></a> interface, an <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element"><code>Element</code></a>, or a <code>String</code> of the canvas&rsquo;s id.</li>
+<li><code>type</code>: This is the chart&rsquo;s type like <code>line</code>, <code>bar</code>, or <code>pie</code>. Check out the <a href="http://www.chartjs.org/docs/latest/charts/">Charts Section</a> on the docs for a complete reference.</li>
+<li><code>data</code>: It will contain the <code>datasets</code> property which is the data that will be used to plot the chart.</li>
+<li><code>options</code>: Chart configuration options, like responsiveness, legend, axes, title, etc.</li>
+</ul>
+<h3 id="plot-a-line-chart">Plot a Line Chart</h3>
+<p>Confused? Let&rsquo;s create some line chart with Chart.js! Open the <code>public/index.html</code> file, then add a new <code>&lt;canvas&gt;</code> tag within the <code>&lt;body&gt;</code>. This <code>canvas</code> tag is where we will plot the chart.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#ff79c6">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#ff79c6">html</span> <span style="color:#50fa7b">lang</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;en&#34;</span>&gt;
+  ...
+  &lt;<span style="color:#ff79c6">body</span>&gt;
+    &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;app&#34;</span>&gt;&lt;/<span style="color:#ff79c6">div</span>&gt;
+
+    <span style="color:#6272a4">&lt;!-- Put canvas tag here. --&gt;</span>
+    &lt;<span style="color:#ff79c6">canvas</span> <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;my-chart&#34;</span> <span style="color:#50fa7b">width</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;500&#34;</span> <span style="color:#50fa7b">height</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;300&#34;</span>&gt;&lt;/<span style="color:#ff79c6">canvas</span>&gt;
+  &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>Now let&rsquo;s recreate the <code>src/main.js</code> file. This is the default entry point for the project scaffolded by the Vue CLI.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> Chart from <span style="color:#f1fa8c">&#39;chart.js&#39;</span>;
+
+<span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    labels<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;Jan&#39;</span>, <span style="color:#f1fa8c">&#39;Feb&#39;</span>, <span style="color:#f1fa8c">&#39;Mar&#39;</span>, <span style="color:#f1fa8c">&#39;Apr&#39;</span>, <span style="color:#f1fa8c">&#39;May&#39;</span>],
+    datasets<span style="color:#ff79c6">:</span> [
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+      }
+    ]
+  }
+});
+</code></pre></div><p>Note that we don&rsquo;t pass any <code>options</code> property for now. Let&rsquo;s run our project again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm run serve
+
+<span style="color:#6272a4"># Or</span>
+$ yarn serve
+</code></pre></div><p>You should now see your line chart plotted on the browser!</p>
+<p><figure>
+    <a href="02-first-line-chart.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/02-first-line-chart_huce9a7dafafa8790f2083d3b794b5d88c_31954_1080x0_resize_box_2.png" alt="Our First Line Chart">
+    </a><figcaption>Our First Line Chart</figcaption></figure>
+</p>
+<p>Note that even though we set the <code>width</code> to <code>500</code> and the <code>height</code> to <code>300</code>, the generated chart will occupy the entire screen. That&rsquo;s because, by default, Chart.js will generate a responsive chart that will occupy its parent container. You may also notice that even though it&rsquo;s stretched out, by default Chart.js will still maintain the original aspect ratio (5:3).</p>
+<p>If this is not the way you want it to be, you can always override this behavior. Read more about <a href="http://www.chartjs.org/docs/latest/general/responsive.html">responsive chart</a>.</p>
+<h4 id="data-format">Data Format</h4>
+<p>As you may see the <code>data</code> property holds a <code>datasets</code> property. This is an array of data that we want to plot on the chart. By default, on line-chart, these data will be represented on <code>y</code> axis (vertical axis). These data can also be formatted in <code>{x, y}</code> format:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
+  label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+  data<span style="color:#ff79c6">:</span> [
+    { x<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">0</span>, y<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">300</span> },
+    { x<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span>, y<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">700</span> },
+    { x<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">2</span>, y<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">450</span> },
+    { x<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">3</span>, y<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">750</span> },
+    { x<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">4</span>, y<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">450</span> }
+  ]
+}
+</code></pre></div><h4 id="labels">Labels</h4>
+<p>On line-chart, by default the <code>data.labels</code> property will be used as the label on <code>x</code> axis (horizontal axis). Each item on <code>data.datasets</code> will be paired with the item on <code>data.labels</code>.</p>
+<p>We can also configure the labels by passing it into <code>options.scales.xAxes</code> options instead:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> Chart from <span style="color:#f1fa8c">&#39;chart.js&#39;</span>;
+
+<span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    datasets<span style="color:#ff79c6">:</span> [
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+      }
+    ]
+  },
+  options<span style="color:#ff79c6">:</span> {
+    scales<span style="color:#ff79c6">:</span> {
+      xAxes<span style="color:#ff79c6">:</span> [{
+        type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;category&#39;</span>,
+        labels<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;Jan&#39;</span>, <span style="color:#f1fa8c">&#39;Feb&#39;</span>, <span style="color:#f1fa8c">&#39;Mar&#39;</span>, <span style="color:#f1fa8c">&#39;Apr&#39;</span>, <span style="color:#f1fa8c">&#39;May&#39;</span>],
+      }]
+    }
+  }
+});
+</code></pre></div><h4 id="multiple-datasets">Multiple Datasets</h4>
+<p>We can, of course, provide as many datasets as we like. For this example we&rsquo;ll add another dataset for <strong>2017 Sales</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    labels<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;Jan&#39;</span>, <span style="color:#f1fa8c">&#39;Feb&#39;</span>, <span style="color:#f1fa8c">&#39;Mar&#39;</span>, <span style="color:#f1fa8c">&#39;Apr&#39;</span>, <span style="color:#f1fa8c">&#39;May&#39;</span>],
+    datasets<span style="color:#ff79c6">:</span> [
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+      },
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2017 Sales&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">600</span>, <span style="color:#bd93f9">550</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">250</span>, <span style="color:#bd93f9">700</span>]
+      }
+    ]
+  }
+});
+</code></pre></div><p>Now, if we visit the project&rsquo;s URL, we should see the similar result:</p>
+<p><figure>
+    <a href="03-multiple-datasets.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/03-multiple-datasets_hu19d233d13ca5ade24b67572ddbe1f4cb_48670_1080x0_resize_box_2.png" alt="With Multiple Datasets">
+    </a><figcaption>With Multiple Datasets</figcaption></figure>
+</p>
+<h3 id="configuring-our-line-chart">Configuring Our Line Chart</h3>
+<h4 id="coloring-the-chart">Coloring The Chart</h4>
+<p>Right now it&rsquo;s hard to differentiate between the <strong>2018 Sales</strong> and the <strong>2017 Sales</strong> since both have the same color. We can configure the color for each dataset by providing the <code>backgroundColor</code> and <code>borderColor</code> to each <code>datasets</code> item:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    labels<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;Jan&#39;</span>, <span style="color:#f1fa8c">&#39;Feb&#39;</span>, <span style="color:#f1fa8c">&#39;Mar&#39;</span>, <span style="color:#f1fa8c">&#39;Apr&#39;</span>, <span style="color:#f1fa8c">&#39;May&#39;</span>],
+    datasets<span style="color:#ff79c6">:</span> [
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+        borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.5)&#39;</span>,
+        backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.1)&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+      },
+      {
+        label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2017 Sales&#39;</span>,
+        borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.5)&#39;</span>,
+        backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.1)&#39;</span>,
+        data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">600</span>, <span style="color:#bd93f9">550</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">250</span>, <span style="color:#bd93f9">700</span>]
+      }
+    ]
+  }
+});
+</code></pre></div><p>Both <code>borderColor</code> and <code>backgroundColor</code> receive a string of color which can be represented in the <code>rgba</code> format—similar to what we have in CSS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">rgba(red, green, blue, alpha)
+</code></pre></div><p>If we check our project on the browser, we should now have a colorful chart like this:</p>
+<p><figure>
+    <a href="04-colorful-chart.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/04-colorful-chart_hu15ddeb3e84efc2b3171b52c17431c933_51611_1080x0_resize_box_2.png" alt="Colorful Chart">
+    </a><figcaption>Colorful Chart</figcaption></figure>
+</p>
+<h4 id="configuring-the-y-axis-label">Configuring the Y-Axis Label</h4>
+<p>You may have noticed that the y-axis starts from <code>300</code> instead of <code>0</code>. That&rsquo;s because Chart.js will automatically use the lowest value on our datasets as the starting point. If that&rsquo;s not what you want, we can override this by providing the <code>beginAtZero</code> option:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+  options<span style="color:#ff79c6">:</span> {
+    scales<span style="color:#ff79c6">:</span> {
+      yAxes<span style="color:#ff79c6">:</span> [{
+        ticks<span style="color:#ff79c6">:</span> {
+          beginAtZero<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>
+        }
+      }]
+    }
+  }
+});
+</code></pre></div><p>Our line chart should now look like the following image.</p>
+<p><figure>
+    <a href="05-starts-at-zero.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/05-starts-at-zero_hub21ecf604c504f936cf132dc0f7bc1dd_40420_1080x0_resize_box_2.png" alt="Starts at Zero">
+    </a><figcaption>Starts at Zero</figcaption></figure>
+</p>
+<p>Also, wouldn&rsquo;t it be nice if we can put some dollar or other currency symbols on the y-axis? Let&rsquo;s put it then! But first, let&rsquo;s pull another library for number formatting: <a href="http://numeraljs.com">Numeral.js</a>. So we don&rsquo;t have to deal with the currency formatting on this tutorial 😛.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install numeral
+
+<span style="color:#6272a4"># Or if you use Yarn</span>
+$ yarn add numeral
+</code></pre></div><p>On <code>ticks</code> property, we can provide a <code>callback</code> option. This is a function that should return a custom axis label. This <code>callback</code> function will receive three arguments, the first one is the actual axis value that we can use:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> Chart from <span style="color:#f1fa8c">&#39;chart.js&#39;</span>;
+<span style="color:#ff79c6">import</span> numeral from <span style="color:#f1fa8c">&#39;numeral&#39;</span>;
+
+<span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+  options<span style="color:#ff79c6">:</span> {
+    scales<span style="color:#ff79c6">:</span> {
+      yAxes<span style="color:#ff79c6">:</span> [{
+        ticks<span style="color:#ff79c6">:</span> {
+          beginAtZero<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+          callback<span style="color:#ff79c6">:</span> value =&gt; numeral(value).format(<span style="color:#f1fa8c">&#39;$0,0&#39;</span>)
+        }
+      }]
+    }
+  }
+});
+</code></pre></div><p>The y-axis label should now have the currency symbol. Read more about all available <a href="http://www.chartjs.org/docs/latest/axes/">axes configuration</a> and <a href="http://www.chartjs.org/docs/latest/axes/labelling.html">labelling</a>.</p>
+<p><figure>
+    <a href="06-format-axis-label.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/06-format-axis-label.png" alt="Formatting the Axis Label">
+    </a><figcaption>Formatting the Axis Label</figcaption></figure>
+</p>
+<h4 id="configuring-the-tooltip">Configuring the Tooltip</h4>
+<p>Even though we already formatted the y-axis label, but if you hover or click on any of the data points, the displayed y-axis value is still not formatted.</p>
+<p><figure>
+    <a href="07-default-tooltip.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/07-default-tooltip_hu9d9b71851f4146d0e85a6ec1fcedf166_23002_1080x0_resize_box_2.png" alt="Y-Axis Value is Not Formatted on Tooltip">
+    </a><figcaption>Y-Axis Value is Not Formatted on Tooltip</figcaption></figure>
+</p>
+<p>To get around this, we have to provide a function to the <code>tooltips.callbacks.label</code> options like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+  options<span style="color:#ff79c6">:</span> {
+    scales<span style="color:#ff79c6">:</span> {
+      <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>    },
+    tooltips<span style="color:#ff79c6">:</span> {
+      callbacks<span style="color:#ff79c6">:</span> {
+        label(tooltipItem, data) {
+          <span style="color:#6272a4">// Get the dataset label.
+</span><span style="color:#6272a4"></span>          <span style="color:#ff79c6">const</span> label <span style="color:#ff79c6">=</span> data.datasets[tooltipItem.datasetIndex].label;
+
+          <span style="color:#6272a4">// Format the y-axis value.
+</span><span style="color:#6272a4"></span>          <span style="color:#ff79c6">const</span> value <span style="color:#ff79c6">=</span> numeral(tooltipItem.yLabel).format(<span style="color:#f1fa8c">&#39;$0,0&#39;</span>);
+
+          <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>label<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">: </span><span style="color:#f1fa8c">${</span>value<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">`</span>;
+        }
+      }
+    }
+  }
+});
+</code></pre></div><p>This <code>label</code> callback, received two arguments:</p>
+<ul>
+<li><code>tooltipItem</code>: An object of the selected data point, we can get the y-axis value by accessing the <code>tooltipItem.yLabel</code>.</li>
+<li><code>data</code>: It&rsquo;s the entire array of <code>data</code> property provided to the constructor. Combined with the <code>tooltipItem.datasetIndex</code> value, we can then get the selected dataset&rsquo;s label (&ldquo;2018 Sales&rdquo; and &ldquo;2017 Sales&rdquo;).</li>
+</ul>
+<p>If we check our project on the browser again, we should now have a nicely formatted data displayed on our tooltip.</p>
+<p><figure>
+    <a href="08-formatted-tooltip.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/08-formatted-tooltip_hud0bc2a53fc13b4cc4fdb7f88b6f1882b_23077_1080x0_resize_box_2.png" alt="Nicely Formatted Tooltip Data">
+    </a><figcaption>Nicely Formatted Tooltip Data</figcaption></figure>
+</p>
+<p>In our case, wouldn&rsquo;t it be nice if the tooltip can also display the sales amount from both of the datasets? To achieve this, we simply have to set the tooltip&rsquo;s <code>mode</code> to <code>index</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">new</span> Chart(<span style="color:#8be9fd;font-style:italic">document</span>.getElementById(<span style="color:#f1fa8c">&#39;my-chart&#39;</span>), {
+  type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+  data<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+  options<span style="color:#ff79c6">:</span> {
+    scales<span style="color:#ff79c6">:</span> {
+      <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>    },
+    tooltips<span style="color:#ff79c6">:</span> {
+      mode<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;index&#39;</span>,
+      callbacks<span style="color:#ff79c6">:</span> {
+        <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>      }
+    }
+  }
+});
+</code></pre></div><p>Now, when we hover to some data point, the tooltip should now display the sales amount from both datasets. Read more about all available <a href="http://www.chartjs.org/docs/latest/configuration/tooltip.html">tooltip configuration</a> and <a href="http://www.chartjs.org/docs/latest/general/interactions/modes.html#interaction-modes">interaction modes</a>.</p>
+<p><figure>
+    <a href="09-tooltip-index-mode.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/09-tooltip-index-mode_hu469e740958562b1d5bf18a5490a566a2_23827_1080x0_resize_box_2.png" alt="Nicely Formatted Tooltip Data">
+    </a><figcaption>Nicely Formatted Tooltip Data</figcaption></figure>
+</p>
+<h3 id="making-it-prettier">Making it Prettier</h3>
+<p>Before we start digging into the Vue stuff. Let&rsquo;s make our web page layout a bit prettier. You can skip this part if you want. I&rsquo;ll use <a href="https://bulma.io">Bulma</a> for styling up our page.</p>
+<p>Open the <code>public/index.html</code> file again, and let&rsquo;s add some simple <a href="https://bulma.io/documentation/components/navbar/">navbar</a> and put our <code>&lt;canvas&gt;</code> tag within a <a href="https://bulma.io/documentation/elements/box/">box</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#ff79c6">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#ff79c6">html</span> <span style="color:#50fa7b">lang</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;en&#34;</span>&gt;
+  &lt;<span style="color:#ff79c6">head</span>&gt;
+    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">charset</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;utf-8&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">http-equiv</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;X-UA-Compatible&#34;</span> <span style="color:#50fa7b">content</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;IE=edge&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;viewport&#34;</span> <span style="color:#50fa7b">content</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;width=device-width,initial-scale=1.0&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">link</span> <span style="color:#50fa7b">rel</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;icon&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;&lt;%= BASE_URL %&gt;favicon.ico&#34;</span>&gt;
+
+    <span style="color:#6272a4">&lt;!-- Load bulma --&gt;</span>
+    &lt;<span style="color:#ff79c6">link</span> <span style="color:#50fa7b">rel</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;stylesheet&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css&#34;</span> <span style="color:#50fa7b">integrity</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;sha256-2pUeJf+y0ltRPSbKOeJh09ipQFYxUdct5nTY6GAXswA=&#34;</span> <span style="color:#50fa7b">crossorigin</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;anonymous&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">title</span>&gt;Vue Chart Example&lt;/<span style="color:#ff79c6">title</span>&gt;
+
+    <span style="color:#6272a4">&lt;!-- Make the container a bit smaller. --&gt;</span>
+    &lt;<span style="color:#ff79c6">style</span>&gt;
+      .<span style="color:#50fa7b">container</span> {
+        <span style="color:#ff79c6">max-width</span>: <span style="color:#bd93f9">720</span><span style="color:#8be9fd">px</span>;
+      }
+    &lt;/<span style="color:#ff79c6">style</span>&gt;
+  &lt;/<span style="color:#ff79c6">head</span>&gt;
+  &lt;<span style="color:#ff79c6">body</span>&gt;
+    &lt;<span style="color:#ff79c6">noscript</span>&gt;
+      &lt;<span style="color:#ff79c6">strong</span>&gt;We&#39;re sorry but vue-chart-example doesn&#39;t work properly without JavaScript enabled. Please enable it to continue.&lt;/<span style="color:#ff79c6">strong</span>&gt;
+    &lt;/<span style="color:#ff79c6">noscript</span>&gt;
+
+    <span style="color:#6272a4">&lt;!-- Bulma&#39;s navbar declaration. --&gt;</span>
+    &lt;<span style="color:#ff79c6">nav</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar is-primary&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;container&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar-brand&#34;</span>&gt;
+          &lt;<span style="color:#ff79c6">a</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar-item&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/&#34;</span>&gt;
+            &lt;<span style="color:#ff79c6">h1</span>&gt;Vue Chart Example&lt;/<span style="color:#ff79c6">h1</span>&gt;
+          &lt;/<span style="color:#ff79c6">a</span>&gt;
+        &lt;/<span style="color:#ff79c6">div</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+    &lt;/<span style="color:#ff79c6">nav</span>&gt;
+
+    <span style="color:#6272a4">&lt;!-- Put the canvas around the box. --&gt;</span>
+    &lt;<span style="color:#ff79c6">section</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;section&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;container&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;box&#34;</span>&gt;
+          &lt;<span style="color:#ff79c6">h2</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;title is-5&#34;</span>&gt;Monthly Sales Chart&lt;/<span style="color:#ff79c6">h2</span>&gt;
+          &lt;<span style="color:#ff79c6">canvas</span> <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;my-chart&#34;</span> <span style="color:#50fa7b">width</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;500&#34;</span> <span style="color:#50fa7b">height</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;300&#34;</span>&gt;&lt;/<span style="color:#ff79c6">canvas</span>&gt;
+        &lt;/<span style="color:#ff79c6">div</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+    &lt;/<span style="color:#ff79c6">section</span>&gt;
+    <span style="color:#6272a4">&lt;!-- built files will be auto injected --&gt;</span>
+  &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>I won&rsquo;t go into detail. It just some basic Bulma UI elements. Now we should have some decent looking layout.</p>
+<p><figure>
+    <a href="10-prettier-with-bulma.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/10-prettier-with-bulma_huc06780e279ede7c97825109f4f9350df_39385_1080x0_resize_box_2.png" alt="Prettier with Bulma">
+    </a><figcaption>Prettier with Bulma</figcaption></figure>
+</p>
+<h2 id="integrating-chartjs-into-vue">Integrating Chart.js into Vue</h2>
+<p>Now, let&rsquo;s work on the real issue here. How can we integrate our chart into a Vue application?</p>
+<h3 id="setting-up-the-vue-application">Setting Up the Vue Application</h3>
+<p>Let&rsquo;s recreate the Vue application that once we&rsquo;ve deleted before. Open up the <code>public/index.html</code> file again. Remove the <code>&lt;canvas&gt;</code> tag and the entire box element. Then add back the <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code>, this is where our application root will be mounted.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#ff79c6">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#ff79c6">html</span> <span style="color:#50fa7b">lang</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;en&#34;</span>&gt;
+  &lt;<span style="color:#ff79c6">head</span>&gt;
+    ...
+  &lt;/<span style="color:#ff79c6">head</span>&gt;
+  &lt;<span style="color:#ff79c6">body</span>&gt;
+    ...
+    &lt;<span style="color:#ff79c6">nav</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar is-primary&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;container&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar-brand&#34;</span>&gt;
+          &lt;<span style="color:#ff79c6">a</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;navbar-item&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/&#34;</span>&gt;
+            &lt;<span style="color:#ff79c6">h1</span>&gt;Vue Chart Example&lt;/<span style="color:#ff79c6">h1</span>&gt;
+          &lt;/<span style="color:#ff79c6">a</span>&gt;
+        &lt;/<span style="color:#ff79c6">div</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+    &lt;/<span style="color:#ff79c6">nav</span>&gt;
+    &lt;<span style="color:#ff79c6">section</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;section&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;container&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;app&#34;</span>&gt;&lt;/<span style="color:#ff79c6">div</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+    &lt;/<span style="color:#ff79c6">section</span>&gt;
+    <span style="color:#6272a4">&lt;!-- built files will be auto injected --&gt;</span>
+  &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>Also, add back the <code>src/App.vue</code> file again, this is where we&rsquo;ll put our Vue application root code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;box&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">h2</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;title is-5&#34;</span>&gt;Monthly Sales Chart&lt;/<span style="color:#ff79c6">h2</span>&gt;
+  &lt;/<span style="color:#ff79c6">div</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;app&#39;</span>
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>Next, let&rsquo;s replace our <code>main.js</code> file to run the main <code>App.vue</code> component:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> Vue from <span style="color:#f1fa8c">&#39;vue&#39;</span>;
+<span style="color:#ff79c6">import</span> App from <span style="color:#f1fa8c">&#39;./App&#39;</span>;
+
+<span style="color:#ff79c6">new</span> Vue({
+  render<span style="color:#ff79c6">:</span> h =&gt; h(App)
+}).$mount(<span style="color:#f1fa8c">&#39;#app&#39;</span>);
+</code></pre></div><p>Our chart should now be gone. It&rsquo;s just a title and someempty box now. Let&rsquo;s put back our chart!</p>
+<p><figure>
+    <a href="11-empty-vue-app.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/11-empty-vue-app_hu9ca533d82ce95f1ea9cf2cd594b1deb7_7574_1080x0_resize_box_2.png" alt="Empty Vue App">
+    </a><figcaption>Empty Vue App</figcaption></figure>
+</p>
+<h3 id="the-monthly-sales-chart-component">The Monthly Sales Chart Component</h3>
+<p>Let&rsquo;s create a new Vue component for our monthly sales chart. Create a new file named &lsquo;MonthlySalesChart.vue&rsquo; and store it within the <code>src/components</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">canvas</span> <span style="color:#50fa7b">ref</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;myChart&#34;</span> <span style="color:#50fa7b">width</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;500&#34;</span> <span style="color:#50fa7b">height</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;300&#34;</span>&gt;&lt;/<span style="color:#ff79c6">canvas</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> Chart from <span style="color:#f1fa8c">&#39;chart.js&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  mounted() {
+    <span style="color:#ff79c6">new</span> Chart(<span style="color:#ff79c6">this</span>.$refs.myChart, {
+      type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+      data<span style="color:#ff79c6">:</span> {
+        labels<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;Jan&#39;</span>, <span style="color:#f1fa8c">&#39;Feb&#39;</span>, <span style="color:#f1fa8c">&#39;Mar&#39;</span>, <span style="color:#f1fa8c">&#39;Apr&#39;</span>, <span style="color:#f1fa8c">&#39;May&#39;</span>],
+        datasets<span style="color:#ff79c6">:</span> [
+          {
+            label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+            data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+          }
+        ]
+      }
+    });
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>You may have noticed, that actually it&rsquo;s just a code from our very first line chart. Notice how we put the Chart.js instantiation within the Vue <a href="https://vuejs.org/v2/api/#mounted"><code>mounted</code> hook</a>. That&rsquo;s because Chart.js needs an access to the actual DOM element to plot the chart. And the <code>&lt;canvas&gt;</code> element will only be available right after this component is mounted.</p>
+<p>Also, notice how we&rsquo;re making use of the <a href="https://vuejs.org/v2/api/#ref"><code>$refs</code></a> property to get the reference to the canvas element.</p>
+<p>Now, go back to the <code>src/App.vue</code> file again. Let&rsquo;s register and use our new <code>MonthlySalesChart</code> component:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;box&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">h2</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;title is-5&#34;</span>&gt;Monthly Sales Chart&lt;/<span style="color:#ff79c6">h2</span>&gt;
+    &lt;<span style="color:#ff79c6">monthly-sales-chart</span>&gt;<span style="color:#ff79c6">&lt;</span>/monthly-sales-chart&gt;
+  &lt;/<span style="color:#ff79c6">div</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> MonthlySalesChart from <span style="color:#f1fa8c">&#39;./components/MonthlySalesChart&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;app&#39;</span>,
+  components<span style="color:#ff79c6">:</span> {
+    MonthlySalesChart
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>If things go well, we should see the line chart again:</p>
+<p><figure>
+    <a href="12-monthly-sales-chart-component.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/12-monthly-sales-chart-component_hu8684720b28b3cbc2a94a42c271333290_34403_1080x0_resize_box_2.png" alt="Monthly Sales Chart Component">
+    </a><figcaption>Monthly Sales Chart Component</figcaption></figure>
+</p>
+<h2 id="the-line-chart-component">The Line Chart Component</h2>
+<p>Let&rsquo;s take our Vue and Chart.js integration even further. We can abstract away the <code>MonthlySalesChart</code> component into a more general component: <code>LineChart</code>. Create a new file named <code>LineChart.vue</code> and store it within the <code>src/components</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">canvas</span> <span style="color:#50fa7b">ref</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;myChart&#34;</span> <span style="color:#ff79c6">:width</span><span style="color:#f1fa8c">=&#34;width&#34;</span> <span style="color:#ff79c6">:height</span><span style="color:#f1fa8c">=&#34;height&#34;</span>&gt;&lt;/<span style="color:#ff79c6">canvas</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> Chart from <span style="color:#f1fa8c">&#39;chart.js&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  props<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// The canvas&#39;s width.
+</span><span style="color:#6272a4"></span>    width<span style="color:#ff79c6">:</span> {
+      type<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Number</span>,
+      validator<span style="color:#ff79c6">:</span> value =&gt; value <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span>
+    },
+
+    <span style="color:#6272a4">// The canvas&#39;s height.
+</span><span style="color:#6272a4"></span>    height<span style="color:#ff79c6">:</span> {
+      type<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Number</span>,
+      validator<span style="color:#ff79c6">:</span> value =&gt; value <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span>
+    },
+
+    <span style="color:#6272a4">// The chart&#39;s data.labels
+</span><span style="color:#6272a4"></span>    labels<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Array</span>,
+
+    <span style="color:#6272a4">// The chart&#39;s data.datasets
+</span><span style="color:#6272a4"></span>    datasets<span style="color:#ff79c6">:</span> {
+      type<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Array</span>,
+      required<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>
+    },
+
+    <span style="color:#6272a4">// The chart&#39;s options.
+</span><span style="color:#6272a4"></span>    options<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">Object</span>
+  },
+  mounted() {
+    <span style="color:#ff79c6">new</span> Chart(<span style="color:#ff79c6">this</span>.$refs.myChart, {
+      type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+      data<span style="color:#ff79c6">:</span> {
+        labels<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.labels,
+        datasets<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.datasets
+      },
+      options<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.options
+    });
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>Notice how we turn every configurable value into a component&rsquo;s props:</p>
+<ul>
+<li><code>width</code>: It&rsquo;s the canvas&rsquo;s width in pixel.</li>
+<li><code>height</code>: The canvas&rsquo;s height in pixel.</li>
+<li><code>labels</code>: It&rsquo;s the axis labels that will be passed to Chart.js constructor as <code>data.labels</code>. It&rsquo;s not required since it&rsquo;s possible for us to pass it as an <code>options</code> too.</li>
+<li><code>datasets</code>: The only required props, since this contains the data that we want to plot using Chart.js. This props will be passed to Chart.js constructor as <code>data.datasets</code>.</li>
+<li><code>options</code>: Finally this is the configuration <code>options</code> for the Chart.js.</li>
+</ul>
+<p>Let&rsquo;s modify our <code>src/component/MonthlySalesChart.vue</code> file to use this new <code>LineChart</code> component.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">line-chart</span>
+    <span style="color:#ff79c6">:width</span><span style="color:#f1fa8c">=&#34;500&#34;</span>
+    <span style="color:#ff79c6">:height</span><span style="color:#f1fa8c">=&#34;300&#34;</span>
+    <span style="color:#ff79c6">:</span><span style="color:#50fa7b">labels</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;[&#39;Jan&#39;, &#39;Feb&#39;, &#39;Mar&#39;, &#39;Apr&#39;, &#39;May&#39;]&#34;</span>
+    <span style="color:#ff79c6">:datasets</span><span style="color:#f1fa8c">=&#34;$options.datasets&#34;</span>
+  &gt;<span style="color:#ff79c6">&lt;</span>/line-chart&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> LineChart from <span style="color:#f1fa8c">&#39;./LineChart&#39;</span>;
+
+<span style="color:#ff79c6">const</span> datasets <span style="color:#ff79c6">=</span> [
+  {
+    label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+    data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+  }
+];
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  datasets,
+  components<span style="color:#ff79c6">:</span> {
+    LineChart
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>Notice how we put the <code>datasets</code> constant as a custom component&rsquo;s property instead of part of the usual component&rsquo;s <code>data</code>. That&rsquo;s because up until this point our <code>datasets</code> is static and no need to be reactive. So, there&rsquo;s no use to register it as a <code>data</code> property. We can use the <a href="https://vuejs.org/v2/api/#vm-options"><code>$options</code></a> to access the custom property.</p>
+<p>If things go well, we should still have the same exact chart like before.</p>
+<h3 id="put-back-chart-datasets-and-options">Put Back Chart Datasets and Options</h3>
+<p>Let&rsquo;s put back all previous datasets and Chart.js options to our <code>MonthlySalesChart.vue</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">line-chart</span>
+    <span style="color:#ff79c6">:width</span><span style="color:#f1fa8c">=&#34;500&#34;</span>
+    <span style="color:#ff79c6">:height</span><span style="color:#f1fa8c">=&#34;300&#34;</span>
+    <span style="color:#ff79c6">:</span><span style="color:#50fa7b">labels</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;[&#39;Jan&#39;, &#39;Feb&#39;, &#39;Mar&#39;, &#39;Apr&#39;, &#39;May&#39;]&#34;</span>
+    <span style="color:#ff79c6">:datasets</span><span style="color:#f1fa8c">=&#34;$options.datasets&#34;</span>
+    <span style="color:#ff79c6">:options</span><span style="color:#f1fa8c">=&#34;$options.options&#34;</span>
+  &gt;<span style="color:#ff79c6">&lt;</span>/line-chart&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> numeral from <span style="color:#f1fa8c">&#39;numeral&#39;</span>;
+<span style="color:#ff79c6">import</span> LineChart from <span style="color:#f1fa8c">&#39;./LineChart&#39;</span>;
+
+<span style="color:#ff79c6">const</span> datasets <span style="color:#ff79c6">=</span> [
+  {
+    label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+    borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.5)&#39;</span>,
+    backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.1)&#39;</span>,
+    data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+  },
+  {
+    label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2017 Sales&#39;</span>,
+    borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.5)&#39;</span>,
+    backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.1)&#39;</span>,
+    data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">600</span>, <span style="color:#bd93f9">550</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">250</span>, <span style="color:#bd93f9">700</span>]
+  }
+];
+
+<span style="color:#ff79c6">const</span> options <span style="color:#ff79c6">=</span> {
+  scales<span style="color:#ff79c6">:</span> {
+    yAxes<span style="color:#ff79c6">:</span> [{
+      ticks<span style="color:#ff79c6">:</span> {
+        beginAtZero<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+        callback<span style="color:#ff79c6">:</span> value =&gt; numeral(value).format(<span style="color:#f1fa8c">&#39;$0,0&#39;</span>)
+      }
+    }]
+  },
+  tooltips<span style="color:#ff79c6">:</span> {
+    mode<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;index&#39;</span>,
+    callbacks<span style="color:#ff79c6">:</span> {
+      label(tooltipItem, data) {
+        <span style="color:#ff79c6">const</span> label <span style="color:#ff79c6">=</span> data.datasets[tooltipItem.datasetIndex].label;
+        <span style="color:#ff79c6">const</span> value <span style="color:#ff79c6">=</span> numeral(tooltipItem.yLabel).format(<span style="color:#f1fa8c">&#39;$0,0&#39;</span>);
+
+        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>label<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">: </span><span style="color:#f1fa8c">${</span>value<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">`</span>;
+      }
+    }
+  }
+};
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  datasets,
+  options,
+  components<span style="color:#ff79c6">:</span> {
+    LineChart
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>We should now see the <strong>Sales 2018</strong> and the <strong>Sales 2017</strong> datasets again. The chart that we used to have: two different colors, currency formatted y-axis, and tooltip!</p>
+<p><figure>
+    <a href="13-vue-chart-full-config.png"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/13-vue-chart-full-config_huc06780e279ede7c97825109f4f9350df_39385_1080x0_resize_box_2.png" alt="A Complete Monthly Sales Chart">
+    </a><figcaption>A Complete Monthly Sales Chart</figcaption></figure>
+</p>
+<h2 id="reactive-chart">Reactive Chart</h2>
+<p>Let&rsquo;s do some experiment with reactive datasets. Open up the <code>src/components/MonthlySalesChart.vue</code>. Then add two new checkboxes that will toggle which datasets to display on the chart.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">div</span>&gt;
+    &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;field is-grouped&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;control&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">label</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;checkbox&#34;</span>&gt;
+          &lt;<span style="color:#ff79c6">input</span> <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;checkbox&#34;</span> <span style="color:#ff79c6">:value</span><span style="color:#f1fa8c">=&#34;2018&#34;</span> <span style="color:#ff79c6">v-model</span><span style="color:#f1fa8c">=&#34;selectedYears&#34;</span>&gt;
+          <span style="color:#50fa7b">2018</span> <span style="color:#50fa7b">Sales</span>
+        &lt;/<span style="color:#ff79c6">label</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+      &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;control&#34;</span>&gt;
+        &lt;<span style="color:#ff79c6">label</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;checkbox&#34;</span>&gt;
+          &lt;<span style="color:#ff79c6">input</span> <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;checkbox&#34;</span> <span style="color:#ff79c6">:value</span><span style="color:#f1fa8c">=&#34;2017&#34;</span> <span style="color:#ff79c6">v-model</span><span style="color:#f1fa8c">=&#34;selectedYears&#34;</span>&gt;
+          <span style="color:#50fa7b">2017</span> <span style="color:#50fa7b">Sales</span>
+        &lt;/<span style="color:#ff79c6">label</span>&gt;
+      &lt;/<span style="color:#ff79c6">div</span>&gt;
+    &lt;/<span style="color:#ff79c6">div</span>&gt;
+
+    &lt;<span style="color:#ff79c6">line-chart</span>
+      <span style="color:#ff79c6">:width</span><span style="color:#f1fa8c">=&#34;500&#34;</span>
+      <span style="color:#ff79c6">:height</span><span style="color:#f1fa8c">=&#34;300&#34;</span>
+      <span style="color:#ff79c6">:</span><span style="color:#50fa7b">labels</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;[&#39;Jan&#39;, &#39;Feb&#39;, &#39;Mar&#39;, &#39;Apr&#39;, &#39;May&#39;]&#34;</span>
+      <span style="color:#ff79c6">:datasets</span><span style="color:#f1fa8c">=&#34;displayedDatasets&#34;</span>
+      <span style="color:#ff79c6">:options</span><span style="color:#f1fa8c">=&#34;$options.options&#34;</span>
+    &gt;<span style="color:#ff79c6">&lt;</span>/line-chart&gt;
+  &lt;/<span style="color:#ff79c6">div</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+<span style="color:#ff79c6">import</span> numeral from <span style="color:#f1fa8c">&#39;numeral&#39;</span>;
+<span style="color:#ff79c6">import</span> LineChart from <span style="color:#f1fa8c">&#39;./LineChart&#39;</span>;
+
+<span style="color:#6272a4">// Key the datasets by year for easy access.
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> datasets <span style="color:#ff79c6">=</span> {
+  <span style="color:#bd93f9">2018</span><span style="color:#ff79c6">:</span> {
+    label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2018 Sales&#39;</span>,
+    borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.5)&#39;</span>,
+    backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(50, 115, 220, 0.1)&#39;</span>,
+    data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">300</span>, <span style="color:#bd93f9">700</span>, <span style="color:#bd93f9">450</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">450</span>]
+  },
+  <span style="color:#bd93f9">2017</span><span style="color:#ff79c6">:</span> {
+    label<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;2017 Sales&#39;</span>,
+    borderColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.5)&#39;</span>,
+    backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;rgba(255, 56, 96, 0.1)&#39;</span>,
+    data<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">600</span>, <span style="color:#bd93f9">550</span>, <span style="color:#bd93f9">750</span>, <span style="color:#bd93f9">250</span>, <span style="color:#bd93f9">700</span>]
+  }
+};
+
+<span style="color:#ff79c6">const</span> options <span style="color:#ff79c6">=</span> {
+  <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>};
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  datasets,
+  options,
+  components<span style="color:#ff79c6">:</span> {
+    LineChart
+  },
+  data() {
+    <span style="color:#ff79c6">return</span> {
+      <span style="color:#6272a4">// Select both years by default.
+</span><span style="color:#6272a4"></span>      selectedYears<span style="color:#ff79c6">:</span> [<span style="color:#bd93f9">2018</span>, <span style="color:#bd93f9">2017</span>]
+    };
+  },
+  computed<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// The datasets to display.
+</span><span style="color:#6272a4"></span>    displayedDatasets() {
+      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">this</span>.selectedYears.map(year =&gt; datasets[year]);
+    }
+  }
+}
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>Open up your project on the browser. You should now see two checkboxes. What happens when you toggle both of these checkboxes? Nothing. If you have the <a href="https://github.com/vuejs/vue-devtools">Vue Devtools</a> installed on your browser you could see that the <code>datasets</code> props on the <code>LineChart</code> component is indeed updated following these two checkboxes. But that won&rsquo;t trigger the underlying Chart.js to redraw the chart. Let&rsquo;s fix this!</p>
+<p><figure>
+    <a href="the-chart-is-not-updated.gif"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/the-chart-is-not-updated.gif" alt="The Chart Is Not Updated">
+    </a><figcaption>The Chart Is Not Updated</figcaption></figure>
+</p>
+<p>Edit the <code>src/components/LineChart.vue</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+  props<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+  data() {
+    <span style="color:#ff79c6">return</span> {
+      <span style="color:#6272a4">// Data that will hold the Chart.js instance.
+</span><span style="color:#6272a4"></span>      chart<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">null</span>
+    };
+  },
+  watch<span style="color:#ff79c6">:</span> {
+    <span style="color:#6272a4">// Watch for the datasets changes.
+</span><span style="color:#6272a4"></span>    datasets(newDatasets) {
+      <span style="color:#6272a4">// Replace the datasets and call the update() method on Chart.js
+</span><span style="color:#6272a4"></span>      <span style="color:#6272a4">// instance to re-render the chart.
+</span><span style="color:#6272a4"></span>      <span style="color:#ff79c6">this</span>.chart.data.datasets <span style="color:#ff79c6">=</span> newDatasets;
+      <span style="color:#ff79c6">this</span>.chart.update();
+    }
+  },
+  mounted() {
+    <span style="color:#6272a4">// Store the created instance.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">this</span>.chart <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Chart(<span style="color:#ff79c6">this</span>.$refs.myChart, {
+      type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;line&#39;</span>,
+      data<span style="color:#ff79c6">:</span> {
+        labels<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.labels,
+        datasets<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.datasets
+      },
+      options<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">this</span>.options
+    });
+  }
+}
+</code></pre></div><p>As you may see, we now store the created Chart.js instance within the <code>chart</code> data property. We then simply watch for the <code>datasets</code> props to change.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">...
+watch<span style="color:#ff79c6">:</span> {
+  datasets(newDatasets) {
+    <span style="color:#ff79c6">this</span>.chart.data.datasets <span style="color:#ff79c6">=</span> newDatasets;
+    <span style="color:#ff79c6">this</span>.chart.update();
+  }
+}
+</code></pre></div><p>If the <code>datasets</code> prop is changed. We simply replace the <code>data.datasets</code> property with the new one. We then call the <a href="http://www.chartjs.org/docs/latest/developers/api.html#updateconfig"><code>update()</code></a> method on the Chart.js instance to re-render the chart with new datasets.</p>
+<p>Now if you try to toggle the checkbox, the chart should be updated accordingly.</p>
+<p><figure>
+    <a href="togglable-chart-datasets.gif"><img src="https://smith.github.io/code/vue-chart-component-with-chartjs/togglable-chart-datasets.gif" alt="Togglable Chart Datasets">
+    </a><figcaption>Togglable Chart Datasets</figcaption></figure>
+</p>
+<p>Before the <code>LineChart</code> component instance is destroyed, it&rsquo;s a good practice to clear up all the object references and all the event listeners attached to the Chart.js instance. We can do so by calling the <code>destroy()</code> method on the Chart.js instance:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;monthly-sales-chart&#39;</span>,
+
+  ...
+
+  mounted() {
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>  },
+
+  beforeDestroy () {
+    <span style="color:#6272a4">// Don&#39;t forget to destroy the Chart.js instance.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">this</span>.chart) {
+      <span style="color:#ff79c6">this</span>.chart.destroy()
+    }
+  }
+}
+</code></pre></div><h2 id="closing-thought">Closing Thought</h2>
+<p>There you have it! A reusable chart component for Vue! You can check out the complete source code on <a href="https://github.com/risan/vue-chart-example">Github</a> and play around with the demo here: <a href="https://risan.github.io/vue-chart-example/">risan.github.io/vue-chart-example</a>.</p>
+<p>Note that on our case we only anticipate changes on the <code>datasets</code> prop. But of course, you might have a case where the <code>labels</code> or even the <code>options</code> are possible to change too. In that case, don&rsquo;t forget to watch for changes on those props too. Replace the associated chart&rsquo;s configuration, and call the <code>update()</code> method to re-render the chart.</p>
+<p>There other chart types available on Chart.js, like <code>bar</code>, <code>pie</code>, <code>scatter</code>, and even mixed type. Why don&rsquo;t you try to abstract away the <code>LineChart</code> component into something that&rsquo;s even more general; like <code>BaseChart</code>? Which later you can extend to create various chart types.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a>,&nbsp;<a href="/tags/vue/">vue</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/bundling-your-javascript-library-with-rollup/">Bundling Your JavaScript Library with Rollup</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/building-my-first-ios-game/">Building My First iOS Game</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

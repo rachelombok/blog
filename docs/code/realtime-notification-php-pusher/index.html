@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Realtime Notification using PHP and Pusher | rachel&#39;s blog</title>
+    <meta name="description" content="Pada tutorial kali ini kita akan membangun sistem notifikasi realtime sederhana dengan menggunakan PHP serta layanan third-party dari Pusher. Pusher adalah layanan cloud untuk mempermudah pengembangan …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Realtime Notification using PHP and Pusher" />
+<meta property="og:description" content="Pada tutorial kali ini kita akan membangun sistem notifikasi realtime sederhana dengan menggunakan PHP serta layanan third-party dari Pusher. Pusher adalah layanan cloud untuk mempermudah pengembangan aplikasi realtime. Selain Pusher, masih banyak provider lain yang menyediakan layanan sejenis, seperti Firebase dan PubNub .
+Registrasi Akun Pusher Jika Anda belum memiliki akun Pusher, registrasi dahulu di sini. Setelah proses registrasi berhasil dilakukan, Anda akan diarahkan ke laman dashboard dari aplikasi Pusher. Di sisi sebelah kanan, Anda akan mendapati App Credential yang nantinya akan kita gunakan untuk mengakses API dari Pusher." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/realtime-notification-php-pusher/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2014-01-27T19:00:00&#43;07:00" />
+<meta property="article:modified_time" content="2014-01-27T19:00:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Realtime Notification using PHP and Pusher"/>
+<meta name="twitter:description" content="Pada tutorial kali ini kita akan membangun sistem notifikasi realtime sederhana dengan menggunakan PHP serta layanan third-party dari Pusher. Pusher adalah layanan cloud untuk mempermudah pengembangan aplikasi realtime. Selain Pusher, masih banyak provider lain yang menyediakan layanan sejenis, seperti Firebase dan PubNub .
+Registrasi Akun Pusher Jika Anda belum memiliki akun Pusher, registrasi dahulu di sini. Setelah proses registrasi berhasil dilakukan, Anda akan diarahkan ke laman dashboard dari aplikasi Pusher. Di sisi sebelah kanan, Anda akan mendapati App Credential yang nantinya akan kita gunakan untuk mengakses API dari Pusher."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Realtime Notification using PHP and Pusher</h1><time datetime='2014-01-27T19:00:00&#43;07:00'>2014-01-27</time><p>Pada tutorial kali ini kita akan membangun sistem notifikasi <em>realtime</em> sederhana dengan menggunakan PHP serta layanan <em>third-party</em> dari <a href="http://pusher.com/">Pusher</a>. Pusher adalah layanan <em>cloud</em> untuk mempermudah pengembangan aplikasi <em>realtime</em>. Selain Pusher, masih banyak <em>provider</em> lain yang menyediakan layanan sejenis, seperti <a href="https://www.firebase.com/">Firebase</a> dan <a href="http://www.pubnub.com/">PubNub</a> .</p>
+<h2 id="registrasi-akun-pusher">Registrasi Akun Pusher</h2>
+<p>Jika Anda belum memiliki akun Pusher, registrasi dahulu <a href="http://pusher.com/pricing">di sini</a>. Setelah proses registrasi berhasil dilakukan, Anda akan diarahkan ke laman <em>dashboard</em> dari aplikasi Pusher. Di sisi sebelah kanan, Anda akan mendapati <em>App Credential</em> yang nantinya akan kita gunakan untuk mengakses API dari Pusher.
+￼</p>
+<h2 id="form-pengirim-pesan-notifikasi">Form Pengirim Pesan Notifikasi</h2>
+<p>Sekarang kita akan membuat laman HTML yang menampilkan form untuk mengirim pesan notifikasi. Tidak ada yang spesial, hanya form dengan satu buah input text yang menjadi masukan bagi pesan notifikasi. Proses pengirimannya sendiri akan ditangani oleh file <code>push-process.php</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#ff79c6">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#ff79c6">html</span>&gt;
+  &lt;<span style="color:#ff79c6">head</span>&gt;
+    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">charset</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;utf-8&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">title</span>&gt;Push Notification&lt;/<span style="color:#ff79c6">title</span>&gt;
+  &lt;/<span style="color:#ff79c6">head</span>&gt;
+  &lt;<span style="color:#ff79c6">body</span>&gt;
+    &lt;<span style="color:#ff79c6">form</span> <span style="color:#50fa7b">action</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;push-process.php&#34;</span> <span style="color:#50fa7b">method</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;post&#34;</span>&gt;
+      &lt;<span style="color:#ff79c6">input</span> <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;text&#34;</span> <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;message&#34;</span>&gt;&lt;<span style="color:#ff79c6">br</span>&gt;
+      &lt;<span style="color:#ff79c6">input</span> <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;submit&#34;</span> <span style="color:#50fa7b">value</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Push Message!&#34;</span>&gt;
+    &lt;/<span style="color:#ff79c6">form</span>&gt;
+  &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>Simpan kode tersebut sebagai file HTML: <code>push.html</code>. Pembuatan form ini tentu hanya untuk contoh semata. Pada implementasi sebenarnya pesan notifikasi akan di-<em>generate</em> secara otomatis oleh aplikasi itu sendiri.</p>
+<h2 id="mengirim-pesan-notifikasi-ke-pusher">Mengirim Pesan Notifikasi ke Pusher</h2>
+<p>Pada langkah sebelumnya, kita mengarahkan form <em>submission</em> ke file <code>push-process.php</code>—file inilah yang sebenarnya akan menangani pengiriman pesan notifikasi ke Pusher.</p>
+<p>Pusher sendiri telah menyediakan <em>library</em> PHP yang siap digunakan: <a href="https://github.com/pusher/pusher-php-server">Pusher PHP Library</a>. Kita akan menggunakan <em>library</em> ini untuk mempermudah pengiriman pesan notifikasi. Anda bisa menggunakan <a href="http://getcomposer.org/">Composer</a> atau unduh langsung class <code>Pusher</code>-nya <a href="https://raw2.github.com/pusher/pusher-php-server/master/lib/Pusher.php">di sini</a>.</p>
+<p>Berikut adalah kode lengkap untuk mengirimkan pesan notifikasi ke Pusher:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+<span style="color:#6272a4">// Include Pusher PHP library
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">include</span>(‘Pusher<span style="color:#ff79c6">.</span>php’);
+
+<span style="color:#6272a4">// Your Pusher App credential
+</span><span style="color:#6272a4"></span>define(‘APP_KEY’    , ‘xxxxxxxxx’);
+define(‘APP_SECRET’ , ‘xxxxxxxxx’);
+define(‘APP_ID’     , ‘xxxx’);
+
+<span style="color:#6272a4">// Channel and event name
+</span><span style="color:#6272a4"></span>define(‘CHANNEL’    , ‘my_channel’);
+define(‘EVENT’      , ‘notification’);
+
+<span style="color:#6272a4">// Get a submitted message
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> trim(htmlspecialchars(<span style="color:#8be9fd;font-style:italic">$_POST</span>[‘message’]));
+<span style="color:#6272a4">// Create Pusher object
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$pusher</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Pusher(APP_KEY, APP_SECRET, APP_ID);
+<span style="color:#6272a4">// Data to be sent to Pusher
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$data</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">array</span>(‘message’ <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$message</span>);
+<span style="color:#6272a4">// Push data to Pusher
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$pusher</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">trigger</span>(CHANNEL, EVENT, <span style="color:#8be9fd;font-style:italic">$data</span>);
+
+<span style="color:#6272a4">// Redirect back to form
+</span><span style="color:#6272a4"></span>header(‘location<span style="color:#ff79c6">:</span> push<span style="color:#ff79c6">.</span>html’);
+</code></pre></div><p>Gantilah nilai dari <code>APP_KEY</code>, <code>APP_SECRET</code>, serta <code>APP_ID</code> sesuai dengan <em>app credential</em> dari aplikasi Pusher Anda.</p>
+<p>Pesan yang dikirimkan ke Pusher, kemudian akan di-<em>broadcast</em> keseluruh client yang &ldquo;mendengarkan&rdquo; channel terkait. Pada langkah selanjutnya kita akan membahas cara &ldquo;mendengarkan&rdquo; notifikasi yang dikirimkan.</p>
+<h2 id="mendengarkan-notifikasi">Mendengarkan Notifikasi</h2>
+<p>Sekarang yang tinggal kita lakukan adalah &ldquo;mendengarkan&rdquo; pesan notifikasi yang dikirimkan dan menampilkannya. Untuk &ldquo;mendengarkan&rdquo; pesan notifikasi secara realtime, kita membutuhkan  <a href="https://github.com/pusher/pusher-js">Pusher Javascript Client</a> . Anda bisa mengunduhnya dari Github, atau langsung menggunakan URL file yang disediakan Pusher:  <a href="http://js.pusher.com/2.1/pusher.min.js">http://js.pusher.com/2.1/pusher.min.js</a> .</p>
+<p>Sebagai langkah opsional, kita akan menggunakan  <a href="http://jquery.com/">jQuery</a>  serta plugin-nya  <a href="https://github.com/jboesch/Gritter/">jQuery Growl</a>  untuk memperindah tampilan notifikasi. Berikut adalah kode lengkap untuk &ldquo;mendengarkan&rdquo; dan menampilkan pesan notifikasi yang dikirim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#ff79c6">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#ff79c6">html</span>&gt;
+  &lt;<span style="color:#ff79c6">head</span>&gt;
+    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">charset</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;utf-8&#34;</span>&gt;
+    &lt;<span style="color:#ff79c6">title</span>&gt;Realtime Push Notification&lt;/<span style="color:#ff79c6">title</span>&gt;
+    <span style="color:#ff79c6">&lt;!— jQuery Growl CSS. —&gt;</span>
+    &lt;<span style="color:#ff79c6">link</span> <span style="color:#50fa7b">rel</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;stylesheet&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;css/jquery.gritter.css&#34;</span>&gt;
+  &lt;/<span style="color:#ff79c6">head</span>&gt;
+  &lt;<span style="color:#ff79c6">body</span>&gt;
+    &lt;<span style="color:#ff79c6">h1</span>&gt;Realtime Notification&lt;/<span style="color:#ff79c6">h1</span>&gt;
+
+    <span style="color:#ff79c6">&lt;!— Include jQuery CDN file. —&gt;</span>
+    &lt;<span style="color:#ff79c6">script</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;//code.jquery.com/jquery-1.10.2.min.js&#34;</span>&gt;&lt;/<span style="color:#ff79c6">script</span>&gt;
+    <span style="color:#ff79c6">&lt;!— Include jQuery Growl plugin. —&gt;</span>
+    &lt;<span style="color:#ff79c6">script</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;js/jquery.gritter.min.js&#34;</span>&gt;&lt;/<span style="color:#ff79c6">script</span>&gt;
+    <span style="color:#ff79c6">&lt;!— Include Pusher javascript client. —&gt;</span>
+
+    &lt;<span style="color:#ff79c6">script</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;http://js.pusher.com/2.1/pusher.min.js&#34;</span>&gt;&lt;/<span style="color:#ff79c6">script</span>&gt;
+    &lt;<span style="color:#ff79c6">script</span>&gt;
+      $(<span style="color:#8be9fd;font-style:italic">function</span>() {
+        <span style="color:#6272a4">// Create Pusher object.
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">var</span> pusher <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Pusher(‘APP_KEY’);
+        <span style="color:#6272a4">// Listen to desired channel.
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">var</span> channel <span style="color:#ff79c6">=</span> pusher.subscribe(‘my_channel’);
+        <span style="color:#6272a4">// Catch notification message
+</span><span style="color:#6272a4"></span>        channel.bind(‘notification’, <span style="color:#8be9fd;font-style:italic">function</span>(data) {
+          addNotif(data.message);
+        });
+
+        <span style="color:#6272a4">// Display notification message.
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">function</span> addNotif(message) {
+          $.gritter.add({
+            title   <span style="color:#ff79c6">:</span> ‘Notification’,   <span style="color:#6272a4">// Growl title
+</span><span style="color:#6272a4"></span>            text    <span style="color:#ff79c6">:</span> message,          <span style="color:#6272a4">// Growl notif message
+</span><span style="color:#6272a4"></span>            time    <span style="color:#ff79c6">:</span> <span style="color:#bd93f9">8000</span>,             <span style="color:#6272a4">// Time to life
+</span><span style="color:#6272a4"></span>          });
+        }
+      });
+    &lt;/<span style="color:#ff79c6">script</span>&gt;
+  &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>Ganti nilai dari <code>APP_KEY</code> sesuai dengan <em>app credential</em> dari aplikasi Pusher Anda. Simpan kode berikut sebagai file html: <code>index.html</code>.</p>
+<p>Tes aplikasi yang telah kita buat dengan membuka <code>index.htm</code> serta <code>push.html</code> pada jendela yang berbeda. Cobalah kirimkan pesan lewat laman <code>push.html</code>, jika berhasil Anda akan mendapatkan pesan notifikasi tersebut di laman <code>index.html</code>!
+￼
+Anda juga bisa mengunduh seluruh <em>source code</em> lengkap dari tutorial ini di repository berikut: <a href="https://github.com/risan/php-realtime-notification">PHP Realtime Notification</a>. Tabik.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/laravel-ajax-request-dengan-csrf-token/">Laravel AJAX Request dengan CSRF Token</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

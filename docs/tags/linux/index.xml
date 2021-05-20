@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/linux/</link>
+    <description>Recent content in linux on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 29 Nov 2017 17:06:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Upgrade Your SSH Key to Ed25519</title>
+      <link>https://smith.github.io/code/upgrade-ssh-key-to-ed25519/</link>
+      <pubDate>Wed, 29 Nov 2017 17:06:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/upgrade-ssh-key-to-ed25519/</guid>
+      <description>If you&amp;rsquo;re a DevOps engineer or a web developer, there&amp;rsquo;s a good chance that you&amp;rsquo;re already familiar and using the SSH key authentication on a daily basis. Whether it&amp;rsquo;s for logging into the remote server or when pushing your commit to the remote repository. It provides us with better security than the traditional password-based authentication.
+But, when is the last time you created or upgraded your SSH key? And did you use the latest recommended public-key algorithm?</description>
+    </item>
+    
+  </channel>
+</rss>

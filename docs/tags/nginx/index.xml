@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nginx on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/nginx/</link>
+    <description>Recent content in nginx on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Oct 2017 17:06:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>New Blog and Things I learned Building It</title>
+      <link>https://smith.github.io/code/new-blog/</link>
+      <pubDate>Mon, 09 Oct 2017 17:06:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/new-blog/</guid>
+      <description>Hello, world!
+After more than four years, I finally have my programming blog again 🎉🎉🎉. It&amp;rsquo;s been bugging for quite some time.
+Having a blog will be a good exercise to improve my writing skill. It&amp;rsquo;s also a great way for documenting my learning journey and share back the knowledge to the vast programming community.
+Table of Contents  The Tech Stacks New Things I Learned  Collapsible Sidebar with Pure CSS Nginx Header Is Overridden on a More Specific Block IP Tables Persistence Service is not Working on Ubuntu Xenial Generating Tag Archive Page in Jekyll Code Highlighting for PHP Won&amp;rsquo;t Work Without Opening Tag Line Numbers for Code Snippets with GFM Syntax   Final Thoughts   The Tech Stacks I use Jekyll to generate this static blog.</description>
+    </item>
+    
+  </channel>
+</rss>

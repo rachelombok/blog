@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Integrating Raygun with Laravel | rachel&#39;s blog</title>
+    <meta name="description" content="You can use Raygun to easily monitor any errors within your Laravel application. Once you&rsquo;ve signed up for Raygun account and got your Raygun&rsquo;s API key. Install the official PHP library …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Integrating Raygun with Laravel" />
+<meta property="og:description" content="You can use Raygun to easily monitor any errors within your Laravel application. Once you&rsquo;ve signed up for Raygun account and got your Raygun&rsquo;s API key. Install the official PHP library through composer:
+$ composer require mindscape/raygun4php Now head over to your app/Providers/AppServiceProvider.php file and register the RaygunClient instance.
+&lt;?php namespace App\Providers; use GuzzleHttp\Client; use Raygun4php\RaygunClient; use Raygun4php\Transports\GuzzleAsync; use Illuminate\Support\ServiceProvider; class AppServiceProvider extends ServiceProvider { public function register() { // Register the async transport." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/integrating-raygun-with-laravel/" /><meta property="og:image" content="https://smith.github.io/img/laravel.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-06-07T22:15:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-06-07T22:15:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/img/laravel.png"/>
+
+<meta name="twitter:title" content="Integrating Raygun with Laravel"/>
+<meta name="twitter:description" content="You can use Raygun to easily monitor any errors within your Laravel application. Once you&rsquo;ve signed up for Raygun account and got your Raygun&rsquo;s API key. Install the official PHP library through composer:
+$ composer require mindscape/raygun4php Now head over to your app/Providers/AppServiceProvider.php file and register the RaygunClient instance.
+&lt;?php namespace App\Providers; use GuzzleHttp\Client; use Raygun4php\RaygunClient; use Raygun4php\Transports\GuzzleAsync; use Illuminate\Support\ServiceProvider; class AppServiceProvider extends ServiceProvider { public function register() { // Register the async transport."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Integrating Raygun with Laravel</h1><time datetime='2020-06-07T22:15:00&#43;07:00'>2020-06-07</time><p>You can use <a href="https://raygun.com/">Raygun</a> to easily monitor any errors within your Laravel application. Once you&rsquo;ve signed up for Raygun account and got your Raygun&rsquo;s API key. Install the official PHP library through composer:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ composer require mindscape/raygun4php
+</code></pre></div><p>Now head over to your <code>app/Providers/AppServiceProvider.php</code> file and register the <code>RaygunClient</code> instance.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+
+<span style="color:#ff79c6">namespace</span> App\Providers;
+
+<span style="color:#ff79c6">use</span> GuzzleHttp\Client;
+<span style="color:#ff79c6">use</span> Raygun4php\RaygunClient;
+<span style="color:#ff79c6">use</span> Raygun4php\Transports\GuzzleAsync;
+<span style="color:#ff79c6">use</span> Illuminate\Support\ServiceProvider;
+
+<span style="color:#ff79c6">class</span> <span style="color:#50fa7b">AppServiceProvider</span> <span style="color:#ff79c6">extends</span> ServiceProvider
+{
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">register</span>()
+    {
+        <span style="color:#6272a4">// Register the async transport.
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">app</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">singleton</span>(GuzzleAsync<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>, <span style="color:#ff79c6">function</span> (<span style="color:#8be9fd;font-style:italic">$app</span>) {
+            <span style="color:#8be9fd;font-style:italic">$httpClient</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Client([
+                <span style="color:#f1fa8c">&#39;base_uri&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;https://api.raygun.com&#39;</span>,
+                <span style="color:#f1fa8c">&#39;headers&#39;</span> <span style="color:#ff79c6">=&gt;</span> [
+                    <span style="color:#f1fa8c">&#39;X-ApiKey&#39;</span> <span style="color:#ff79c6">=&gt;</span> config(<span style="color:#f1fa8c">&#39;services.raygun.api_key&#39;</span>),
+                ]
+            ]);
+
+            <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> GuzzleAsync(<span style="color:#8be9fd;font-style:italic">$httpClient</span>);
+        });
+
+        <span style="color:#6272a4">// Register the RaygunClient instance.
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">app</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">singleton</span>(RaygunClient<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>, <span style="color:#ff79c6">function</span> (<span style="color:#8be9fd;font-style:italic">$app</span>) {
+            <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> RaygunClient(<span style="color:#8be9fd;font-style:italic">$app</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">make</span>(GuzzleAsync<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>));
+        });
+    }
+
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">boot</span>()
+    {
+        <span style="color:#6272a4">// Any requests to Raygun server will be send right before shutdown.
+</span><span style="color:#6272a4"></span>        register_shutdown_function([
+            <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">app</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">make</span>(GuzzleAsync<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>), <span style="color:#f1fa8c">&#39;wait&#39;</span>
+        ]);
+    }
+}
+</code></pre></div><p>We register two instances: <code>GuzzleAsync</code> and the <code>RaygunClient</code> itself. We use the <code>GuzzleAsync</code> so any requests to the Raygun server are done asynchronously. This way, when we send an exception data to Raygun, it won&rsquo;t block the code flow. Because the request will be sent right before the PHP script shutdown. Note, that we also register these two instances as a <code>singleton</code>.</p>
+<p>Update your <code>config/services.php</code> file to include a new entry named <code>raygun</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+
+<span style="color:#ff79c6">return</span> [
+
+    <span style="color:#6272a4">// Other settings...
+</span><span style="color:#6272a4"></span>
+    <span style="color:#f1fa8c">&#39;raygun&#39;</span> <span style="color:#ff79c6">=&gt;</span> [
+        <span style="color:#f1fa8c">&#39;api_key&#39;</span> <span style="color:#ff79c6">=&gt;</span> env(<span style="color:#f1fa8c">&#39;RAYGUN_API_KEY&#39;</span>),
+    ],
+
+];
+</code></pre></div><p>This way, when we need access to our Raygun API key, we can do something like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">config(<span style="color:#f1fa8c">&#39;services.raygun.api_key&#39;</span>);
+</code></pre></div><p>And we can safely put our Raygun API key within the <code>.env</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">APP_NAME</span><span style="color:#ff79c6">=</span>Laravel
+
+<span style="color:#6272a4"># Other settings...</span>
+
+<span style="color:#8be9fd;font-style:italic">RAYGUN_API_KEY</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;YOUR_RAYGUN_API_KEY_HERE&#34;</span>
+</code></pre></div><p>Finally, we can start sending the exception data to Raygun within the <code>app/Excpetions/Handler.php</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+
+<span style="color:#ff79c6">namespace</span> App\Exceptions;
+
+<span style="color:#ff79c6">use</span> Throwable;
+<span style="color:#ff79c6">use</span> Raygun4php\RaygunClient;
+<span style="color:#ff79c6">use</span> Illuminate\Support\Facades\App;
+<span style="color:#ff79c6">use</span> Illuminate\Foundation\Exceptions\Handler <span style="color:#ff79c6">as</span> ExceptionHandler;
+
+<span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Handler</span> <span style="color:#ff79c6">extends</span> ExceptionHandler
+{
+    <span style="color:#6272a4">//...
+</span><span style="color:#6272a4"></span>
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">report</span>(Throwable <span style="color:#8be9fd;font-style:italic">$exception</span>)
+    {
+        <span style="color:#ff79c6">parent</span><span style="color:#ff79c6">::</span><span style="color:#50fa7b">report</span>(<span style="color:#8be9fd;font-style:italic">$exception</span>);
+
+        <span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">shouldntReport</span>(<span style="color:#8be9fd;font-style:italic">$exception</span>)) {
+            <span style="color:#ff79c6">return</span>;
+        }
+
+        <span style="color:#6272a4">// Only send exception data on non-local environment.
+</span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span> App<span style="color:#ff79c6">::</span><span style="color:#50fa7b">environment</span>(<span style="color:#f1fa8c">&#39;local&#39;</span>)) {
+            <span style="color:#8be9fd;font-style:italic">$raygun</span> <span style="color:#ff79c6">=</span> resolve(RaygunClient<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>);
+
+            <span style="color:#8be9fd;font-style:italic">$raygun</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">SendException</span>(<span style="color:#8be9fd;font-style:italic">$exception</span>);
+        }
+    }
+
+    <span style="color:#6272a4">//...
+</span><span style="color:#6272a4"></span>}
+</code></pre></div><p>Note that on the example above, we only send an exception data if the environment is not set to <code>local</code>. You can also send additional data like <a href="https://github.com/MindscapeHQ/raygun4php#adding-tags">tags</a> or <a href="https://github.com/MindscapeHQ/raygun4php#affected-user-tracking">affected user</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#8be9fd;font-style:italic">$raygun</span> <span style="color:#ff79c6">=</span> resolve(RaygunClient<span style="color:#ff79c6">::</span><span style="color:#50fa7b">class</span>);
+
+<span style="color:#8be9fd;font-style:italic">$raygun</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">SendException</span>(<span style="color:#8be9fd;font-style:italic">$exception</span>, [<span style="color:#f1fa8c">&#39;your-custom-tag&#39;</span>, <span style="color:#f1fa8c">&#39;your-other-tag&#39;</span>]);
+
+<span style="color:#8be9fd;font-style:italic">$raygunClient</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">SetUser</span>(auth()<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">user</span>()<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">email</span>);
+</code></pre></div><footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/snippet/">snippet</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/laravel/">laravel</a>,&nbsp;<a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/vue-google-login/">Vue.js: Implement Log In with Google Feature</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/switching-to-hugo/">Switching to Hugo</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

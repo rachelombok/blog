@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial Dasar Facebook PHP SDK | rachel&#39;s blog</title>
+    <meta name="description" content="Pada tutorial kali ini kita akan mempelajari dasar-dasar penggunaan Facebook PHP SDK untuk mengakses API dari Facebook. Kita akan membuat aplikasi sederhana untuk menampilkan data profil Facebook dari …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Tutorial Dasar Facebook PHP SDK" />
+<meta property="og:description" content="Pada tutorial kali ini kita akan mempelajari dasar-dasar penggunaan Facebook PHP SDK untuk mengakses API dari Facebook. Kita akan membuat aplikasi sederhana untuk menampilkan data profil Facebook dari pengguna yang menggunakan aplikasi kita.
+Mendaftarkan Aplikasi Facebook Sebelum membahas lebih lanjut, Anda perlu memiliki Facebook App ID serta App Secret sebagai prasyarat mengakses API Facebook. Untuk mendapatkan App ID dan App Secret, Anda harus mendaftarkan aplikasi Anda di Facebook Developer. ￼ Pada laman developer, klik menu Apps &gt; Create a new app." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/tutorial-dasar-facebook-php-sdk/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2014-01-29T20:00:00&#43;07:00" />
+<meta property="article:modified_time" content="2014-01-29T20:00:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Tutorial Dasar Facebook PHP SDK"/>
+<meta name="twitter:description" content="Pada tutorial kali ini kita akan mempelajari dasar-dasar penggunaan Facebook PHP SDK untuk mengakses API dari Facebook. Kita akan membuat aplikasi sederhana untuk menampilkan data profil Facebook dari pengguna yang menggunakan aplikasi kita.
+Mendaftarkan Aplikasi Facebook Sebelum membahas lebih lanjut, Anda perlu memiliki Facebook App ID serta App Secret sebagai prasyarat mengakses API Facebook. Untuk mendapatkan App ID dan App Secret, Anda harus mendaftarkan aplikasi Anda di Facebook Developer. ￼ Pada laman developer, klik menu Apps &gt; Create a new app."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Tutorial Dasar Facebook PHP SDK</h1><time datetime='2014-01-29T20:00:00&#43;07:00'>2014-01-29</time><p>Pada tutorial kali ini kita akan mempelajari dasar-dasar penggunaan Facebook PHP SDK untuk mengakses API dari Facebook. Kita akan membuat aplikasi sederhana untuk menampilkan data profil Facebook dari pengguna yang menggunakan aplikasi kita.</p>
+<h2 id="mendaftarkan-aplikasi-facebook">Mendaftarkan Aplikasi Facebook</h2>
+<p>Sebelum membahas lebih lanjut, Anda perlu memiliki Facebook <em>App ID</em> serta <em>App Secret</em> sebagai prasyarat mengakses API Facebook. Untuk mendapatkan <em>App ID</em> dan <em>App Secret</em>, Anda harus mendaftarkan aplikasi Anda di <a href="https://developers.facebook.com/apps">Facebook Developer</a>.
+￼
+Pada laman developer, klik menu <em>Apps &gt; Create a new app</em>. Akan ada jendela popup yang muncul, isikan nama, <em>namespace</em> (opsional), serta kategori dari aplikasi Anda. Kemudian klik tombol <strong>Create App</strong> untuk mendaftarkan aplikasi baru Anda.</p>
+<p>Jika berhasil, Anda akan dibawa ke laman dashboard. Di laman ini Anda akan mendapatkan <em>App ID</em> serta <em>App Secret</em> untuk aplikasi Anda.
+￼
+Sekarang buka menu <em>Settings</em> yang ada di samping kanan untuk melakukan sedikit konfigurasi. Pada bagian paling bawah dari tab <em>Basic</em>, klik tombol <strong>+ Add Platform</strong> untuk menambahkan platform dari aplikasi Facebook kita. Akan muncul popup yang berisi pilihan berbagai platform: klik <strong>Website</strong>.
+￼
+Setelah platfrom berhasil ditambahkan, akan ada panel baru dengan judul &ldquo;Website&rdquo;. Pada panel baru ini, isikan alamat Url lengkap dari aplikasi kita ke isian <strong>Site URL</strong>.
+￼
+Klik tombol <strong>Save Changes</strong> untuk menyimpan perubahan yang telah kita terapkan.</p>
+<h2 id="instalasi-facebook-php-sdk">Instalasi Facebook PHP SDK</h2>
+<p>Facebook PHP SDK digunakan untuk mempermudah akses ke API Facebook. Untuk menyertakannya ke dalam aplikasi yang kita buat, kita akan menggunakan bantuan <a href="https://getcomposer.org/">Composer</a>. Menggunakan teks editor favorit Anda, buatlah file <code>composer.json</code> berikut dan simpan di dalam direktori aplikasi Anda.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;require&#34;</span> : {
+    <span style="color:#ff79c6">&#34;facebook/php-sdk&#34;</span> : <span style="color:#f1fa8c">&#34;*&#34;</span>
+  }
+}
+</code></pre></div><p>Di dalam direktori aplikasi Anda, jalankan perintah Composer berikut untuk meng-install Facebook PHP SDK:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ composer install
+</code></pre></div><p>Jika instalasi sudah selesai, Anda akan mendapati direktori facebook di dalam direktori <code>vendor</code> Anda.</p>
+<p>Jika Anda tidak menggunakan Composer, Anda bisa langsung mengunduh Facebook API SDK langsung dari <a href="https://github.com/facebook/facebook-php-sdk/archive/master.zip">repository Github</a>. Ekstrak file ZIP tersebut dan <em>copy</em> direktori <code>src</code> ke dalam direktori aplikasi Anda.</p>
+<h2 id="mendapatkan-id-user">Mendapatkan ID User</h2>
+<p><em>Now, let&rsquo;s dive into the code</em>! Hal pertama yang akan kita lakukan adalah mendapatkan ID Facebook dari pengguna aplikasi kita. Buat file <code>index.php</code> di dalam direktori aplikasi Anda, buat kode berikut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+<span style="color:#6272a4">// Include Composer autoloader
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">require</span> <span style="color:#f1fa8c">&#39;vendor/autoload.php&#39;</span>;
+
+<span style="color:#6272a4">// Create an instance of Facebook class
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$fb</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Facebook(<span style="color:#ff79c6">array</span>(
+  <span style="color:#f1fa8c">&#39;appId&#39;</span>  <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;YOUR_APP_ID&#39;</span>,
+  <span style="color:#f1fa8c">&#39;secret&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;YOUR_APP_SECRET&#39;</span>,
+));
+
+<span style="color:#6272a4">// Get the user ID
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getUser</span>();
+</code></pre></div><p>Pertama kita menyertakan file <em>autoloader</em> yang secara otomatis di-<em>generate</em> oleh Composer. Jika Anda tidak menggunakan Composer dan teknik <em>autoloading</em>, Anda bisa secara manual menyertakan file class <code>facebook.php</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">require</span> <span style="color:#f1fa8c">&#39;src/facebook.php&#39;</span>;
+</code></pre></div><p>Selanjutnya kita membuat objek dari class <code>Facebook</code>. Objek inilah yang akan kita gunakan untuk mengakses beragam API Facebook. Jangan lupa untuk mengganti <code>YOUR_APP_ID</code> dan <code>YOUR_APP_SECRET</code> dengan <em>App ID</em> serta <em>App Secret</em> dari aplikasi Anda.</p>
+<p>Pada baris terakhir kita memanggil metode <code>getUser()</code> untuk mendapatkan Facebook ID dari pengguna aplikasi kita. Jika pengguna belum terhubung dengan akun Facebook-nya, metode <code>getUser()</code> akan mengambalikan nilai <code>0</code>.</p>
+<h2 id="mendapatkan-profil-pengguna">Mendapatkan Profil Pengguna</h2>
+<p>Masuk ketahap selanjutnya: mendapatkan profil pengguna, tambahkan potongan kode berikut kedalam file <code>index.php</code> Anda:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#6272a4">// If we get a connected Facebook user ID
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$user</span>) {
+  <span style="color:#6272a4">// Try to fetch the connected user profile
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">try</span> {
+    <span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">api</span>(<span style="color:#f1fa8c">&#39;/me&#39;</span>);
+  } <span style="color:#ff79c6">catch</span> (FacebookApiException <span style="color:#8be9fd;font-style:italic">$e</span>) {
+    <span style="color:#6272a4">// If the connected user has an invalid access token
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// Access token became invalid because user logged out of Facebook
+</span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+  }
+}
+</code></pre></div><p>Dengan metode <code>getUser()</code>, kita mendapatkan ID dari pengguna yang telah login dengan menggunakan akun Facebook-nya. Meskipun begitu, pengguna tersebut belum tentu masih &ldquo;login&rdquo;; oleh karenanya kita menggunakan blok <code>try</code> and <code>catch</code>.</p>
+<p>Jika kita mendapatkan ID Facebook pengguna dan ia masih login, kita panggil API Facebook untuk mendapatkan data profil pengguna:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">api</span>(<span style="color:#f1fa8c">&#39;/me&#39;</span>);
+</code></pre></div><p>Sementara jika kita mendapatkan ID pengguna, tetapi ternyata ia sudah logout dari akun Facebook-nya, kita <em>assign</em> saja data <code>false</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</code></pre></div><h2 id="sentuhan-akhir">Sentuhan Akhir</h2>
+<p>Sebagai sentuhan terakhir, kita akan menampilkan data profil pengguna jika ia sudah terotentikasi dan akun Facebook-nya masih dalam keadaan login. Kita juga akan menampilkan tautan untuk login menggunakan Facebook, kepada pengguna yang belum terotentikasi atau akun Facebook-nya dalam kondisi ter-<em>logged out</em>. Tambahkan kode berikut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#6272a4">// If user is authenticated and still logged-in
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$user</span>) {
+  <span style="color:#6272a4">// Display user profile
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;ID: </span><span style="color:#f1fa8c">$user[id]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Name: </span><span style="color:#f1fa8c">$user[name]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Profile URL: </span><span style="color:#f1fa8c">$user[link]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Bio: </span><span style="color:#f1fa8c">$user[bio]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Gender: </span><span style="color:#f1fa8c">$user[gender]</span><span style="color:#f1fa8c">&#34;</span>;
+} <span style="color:#ff79c6">else</span> {
+  <span style="color:#6272a4">// If user is not authenticated or not logged-in yet
+</span><span style="color:#6272a4"></span>  <span style="color:#6272a4">// Display login Url
+</span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">$loginUrl</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getLoginUrl</span>();
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;a href=&#39;</span><span style="color:#f1fa8c">$loginUrl</span><span style="color:#f1fa8c">&#39;&gt;Login with Facebook&lt;/a&gt;&lt;hr&gt;&#34;</span>;
+}
+</code></pre></div><p>Jika pengguna masih terotentikasi dan masih dalam keandaan login, kita menampilkan beberapa data profil pengguna:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;ID: </span><span style="color:#f1fa8c">$user[id]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Name: </span><span style="color:#f1fa8c">$user[name]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Profile URL: </span><span style="color:#f1fa8c">$user[link]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Bio: </span><span style="color:#f1fa8c">$user[bio]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Gender: </span><span style="color:#f1fa8c">$user[gender]</span><span style="color:#f1fa8c">&#34;</span>;
+</code></pre></div><p>Perhatikan bahwa pemanggilan <code>$fb-&gt;api('/me')</code> akan mengambalikan data profil pengguna dalam bentuk <em>associative-array</em>. Tentu apa yang kita tampilkan dalam contoh kode di atas baru sebagian dari data profil pengguna, masih ada <em>field-field</em> lainnya: <code>username</code>, <code>first_name</code>, <code>quotes</code>, <code>work</code>, <code>education</code>, dan lain-lain. Gunakan saja <code>print_r($user)</code> untuk melihat semua data yang didapatkan.</p>
+<p>Sementara apabila pengguna belem terotentikasi atau status akun Facebook-nya sudah <em>logged-out</em>, maka kita akan tampilkan tautan untuk login:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#8be9fd;font-style:italic">$loginUrl</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getLoginUrl</span>();
+<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;a href=&#39;</span><span style="color:#f1fa8c">$loginUrl</span><span style="color:#f1fa8c">&#39;&gt;Login with Facebook&lt;/a&gt;&lt;hr&gt;&#34;</span>;
+</code></pre></div><p>Metode <code>get:loginUrl()</code> digunakan untuk men-<em>generate</em> tautan untuk login. Sekarang jalankan aplikasi kita. Apabila kita mengklik tautan &ldquo;Login with Facebook&rdquo; tersebut, kita akan dibawa ke laman otentikasi Facebook.
+￼
+Pada popup yang muncul, klik tombol Ok untuk mengijinkan aplikasi mengakses akun facebook kita. Bila proses otentikasi sukses, kita akan dibawa kembali ke alamat aplikasi kita. Hasilnya, kita akan mendapatkan data profil kita pada laman aplikasi.
+￼
+Bagaimana? Mudah bukan? Lengkapnya, file <code>index.php</code> kita akan terlihat seperti ini:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+<span style="color:#ff79c6">require</span> <span style="color:#f1fa8c">&#39;vendor/autoload.php&#39;</span>;
+
+<span style="color:#8be9fd;font-style:italic">$fb</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Facebook(<span style="color:#ff79c6">array</span>(
+  <span style="color:#f1fa8c">&#39;appId&#39;</span>  <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;YOUR_APP_ID&#39;</span>,
+  <span style="color:#f1fa8c">&#39;secret&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;YOUR_APP_SECRET&#39;</span>,
+));
+
+<span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getUser</span>();
+
+<span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$user</span>) {
+    <span style="color:#ff79c6">try</span> {
+      <span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">api</span>(<span style="color:#f1fa8c">&#39;/me&#39;</span>);
+    } <span style="color:#ff79c6">catch</span> (FacebookApiException <span style="color:#8be9fd;font-style:italic">$e</span>) {
+      <span style="color:#8be9fd;font-style:italic">$user</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+    }
+}
+
+<span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$user</span>) {
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;ID: </span><span style="color:#f1fa8c">$user[id]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Name: </span><span style="color:#f1fa8c">$user[name]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Profile URL: </span><span style="color:#f1fa8c">$user[link]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Bio: </span><span style="color:#f1fa8c">$user[bio]</span><span style="color:#f1fa8c"> &lt;br&gt;&#34;</span>;
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Gender: </span><span style="color:#f1fa8c">$user[gender]</span><span style="color:#f1fa8c">&#34;</span>;
+}
+
+<span style="color:#ff79c6">else</span> {
+  <span style="color:#8be9fd;font-style:italic">$loginUrl</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$fb</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getLoginUrl</span>();
+  <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;a href=&#39;</span><span style="color:#f1fa8c">$loginUrl</span><span style="color:#f1fa8c">&#39;&gt;Login with Facebook&lt;/a&gt;&lt;hr&gt;&#34;</span>;
+}
+</code></pre></div><p>Anda juga bisa mengunduh seluruh <em>source-code</em> pada tutorial ini di <a href="https://github.com/risan/risan-myapp">repository Github</a>. Tabik.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/new-blog/">New Blog and Things I learned Building It</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/laravel-ajax-request-dengan-csrf-token/">Laravel AJAX Request dengan CSRF Token</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

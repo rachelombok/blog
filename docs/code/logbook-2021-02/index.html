@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Logbook: 2021 February | rachel&#39;s blog</title>
+    <meta name="description" content="Install PHP 8 on Windows Today I managed to install the latest PHP version 8 on my Windows machine. It&rsquo;s a pretty straightforward process:
+ Download the binary from windows.php.net/download. I …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Logbook: 2021 February" />
+<meta property="og:description" content="Install PHP 8 on Windows Today I managed to install the latest PHP version 8 on my Windows machine. It&rsquo;s a pretty straightforward process:
+ Download the binary from windows.php.net/download. I use the Thread Safe version to pair it with Nginx. If you PHP as a FastCGI on IIS, choose the Non Thread Safe version. I use Laragon, so I just have to extract the downloaded file into Laragon&rsquo;s PHP directory (default to C:\laragon\bin\php)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/logbook-2021-02/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2021-02-17T21:19:00&#43;07:00" />
+<meta property="article:modified_time" content="2021-02-24T21:54:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Logbook: 2021 February"/>
+<meta name="twitter:description" content="Install PHP 8 on Windows Today I managed to install the latest PHP version 8 on my Windows machine. It&rsquo;s a pretty straightforward process:
+ Download the binary from windows.php.net/download. I use the Thread Safe version to pair it with Nginx. If you PHP as a FastCGI on IIS, choose the Non Thread Safe version. I use Laragon, so I just have to extract the downloaded file into Laragon&rsquo;s PHP directory (default to C:\laragon\bin\php)."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Logbook: 2021 February</h1>Updated on <time datetime='2021-02-24T21:54:00&#43;07:00'>24 February 2021</time><h3 id="install-php-8-on-windows">Install PHP 8 on Windows</h3>
+<p>Today I managed to install the latest PHP version 8 on my Windows machine. It&rsquo;s a pretty straightforward process:</p>
+<ul>
+<li>Download the binary from <a href="https://windows.php.net/download/">windows.php.net/download</a>. I use the <em>Thread Safe</em> version to pair it with Nginx. If you PHP as a FastCGI on IIS, choose the <em>Non Thread Safe</em> version.</li>
+<li>I use <a href="https://laragon.org/">Laragon</a>, so I just have to extract the downloaded file into Laragon&rsquo;s PHP directory (default to <code>C:\laragon\bin\php</code>).</li>
+<li>The latest PHP version 8 requires <a href="https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0">Visual C++ redistributable packages for Visual Studio 2019</a>. Once it&rsquo;s installed, you&rsquo;ll probably need to restart the computer.</li>
+<li>If you want to use PHP 8 with SQL Server, you will also need to download the PHP driver for SQL Server. You will need at least a <a href="https://github.com/microsoft/msphpsql/releases/tag/v5.9.0">PHP driver for SQL Server version 5.9.0</a>.</li>
+<li>Extract the downloaded file and place the required DLLs on the <code>/ext</code> directory within your PHP installation. Note that the DLLs have both the <em>Thread Safe</em> and <em>Non Thread Safe</em> version, choose the appropriate version for your PHP installation.</li>
+<li>Now all you have to do is to enable the DLLs through the <code>php.ini</code> file.</li>
+</ul>
+<hr>
+<p><time datetime=" 2021-02-18T21:04:00Z07:00">18 February 2021</time></p>
+<h3 id="list-pages-with-specific-tag-on-hugo">List Pages with Specific Tag on Hugo</h3>
+<p>We can combine the <code>range</code> and the <code>where</code> functions on Hugo to get a list of pages with some specific tag. Let say we want to get the first 5 recent pages that contain the <code>logbook</code> tag, we can achieve it like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#ff79c6">ul</span>&gt;
+    {{- range first 5 (where .Site.RegularPages &#34;Params.tags&#34; &#34;intersect&#34; (slice &#34;logbook&#34;)) -}}
+    &lt;<span style="color:#ff79c6">li</span>&gt;
+        &lt;<span style="color:#ff79c6">a</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ .RelPermalink }}&#34;</span>&gt;{{ .Title }}&lt;/<span style="color:#ff79c6">a</span>&gt;
+    &lt;/<span style="color:#ff79c6">li</span>&gt;
+    {{- end -}}
+&lt;/<span style="color:#ff79c6">ul</span>&gt;
+</code></pre></div><p>The <code>intersect</code> operator accepts an array, that&rsquo;s why we need to turn the <code>logbook</code> into an array first.</p>
+<h3 id="postmark-custom-metadata-on-laravel">Postmark Custom Metadata on Laravel</h3>
+<p>Postmarks support <a href="https://postmarkapp.com/support/article/1125-custom-metadata-faq">custom metadata</a> to be sent along with the outbound message. You can do so by adding a custom HTTP header named <code>X-PM-Metadata-SOMETHING</code>. On <a href="https://laravel.com/docs/8.x/mail#generating-mailables">Laravel mailable</a>, you can set this header by accessing the underlying <code>Swift_Message</code> instance through the <code>withSwiftMessage</code> function. I create a <code>PostmarkMailable</code> class that extends the Laravel <code>Mailable</code> class.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+
+<span style="color:#ff79c6">namespace</span> App\Mail;
+
+<span style="color:#ff79c6">use</span> Swift_Message;
+<span style="color:#ff79c6">use</span> Illuminate\Mail\Mailable <span style="color:#ff79c6">as</span> BaseMailable;
+
+<span style="color:#ff79c6">abstract</span> <span style="color:#ff79c6">class</span> <span style="color:#50fa7b">PostmarkMailable</span> <span style="color:#ff79c6">extends</span> BaseMailable
+{
+    <span style="color:#6272a4">// Omitted...
+</span><span style="color:#6272a4"></span>
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">metadata</span>(<span style="color:#8be9fd;font-style:italic">$key</span>, <span style="color:#8be9fd;font-style:italic">$value</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">null</span>)
+    {
+        <span style="color:#ff79c6">if</span> (is_array(<span style="color:#8be9fd;font-style:italic">$key</span>)) {
+            <span style="color:#ff79c6">foreach</span> (<span style="color:#8be9fd;font-style:italic">$key</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd;font-style:italic">$k</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#8be9fd;font-style:italic">$v</span>) {
+                <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">metadata</span>(<span style="color:#8be9fd;font-style:italic">$k</span>, <span style="color:#8be9fd;font-style:italic">$v</span>);
+            }
+
+            <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$this</span>;
+        }
+
+        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">withSwiftMessage</span>(<span style="color:#ff79c6">function</span> (Swift_Message <span style="color:#8be9fd;font-style:italic">$message</span>) <span style="color:#ff79c6">use</span> (<span style="color:#8be9fd;font-style:italic">$key</span>, <span style="color:#8be9fd;font-style:italic">$value</span>) {
+            <span style="color:#8be9fd;font-style:italic">$message</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getHeaders</span>()<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">addTextHeader</span>(<span style="color:#f1fa8c">&#34;X-PM-Metadata-</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$key</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#8be9fd;font-style:italic">$value</span>);
+        });
+
+        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$this</span>;
+    }
+}
+</code></pre></div><p>Now, when we send a mailable that extends this <code>PostmarkMailable</code> class, we can also the metadata.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#6272a4">// Some mailable that extends the PostmarkMailable
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$mailable</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> \App\Mail\OrderShipped();
+
+<span style="color:#6272a4">// Set a single metadata
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$mailable</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">metadata</span>(<span style="color:#f1fa8c">&#39;order-id&#39;</span>, <span style="color:#bd93f9">12345</span>);
+
+<span style="color:#6272a4">// Or multiple metadata at once
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">$mailable</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">metadata</span>([
+    <span style="color:#f1fa8c">&#39;order-id&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#bd93f9">12345</span>,
+    <span style="color:#f1fa8c">&#39;customer-name&#39;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;Luke Skywalker&#39;</span>,
+]);
+</code></pre></div><p>Currently, you can only set up to 10 metadata. The field name is also limited to 20 characters, while the value is restricted to 80 characters.</p>
+<hr>
+<p><time datetime="2021-02-17T21:19:00Z07:00">17 February 2021</time></p>
+<h3 id="automatically-resize-the-image-on-markdown-post-on-hugo">Automatically Resize the Image on Markdown Post on Hugo</h3>
+<p>I already implemented this feature back when <a href="/code/switching-to-hugo/">I switch to Hugo</a> months ago. However, back then I used shortcode instead of a built-in markdown <a href="https://gohugo.io/getting-started/configuration-markup/#image-markdown-example">image render hook</a>. I tried the image render hook, but it threw an error. I never bother to found out why and stick with the shortcode.</p>
+<p>Turns out, the error happened because I tried to process an image from the static directory within the image render hook. We can&rsquo;t get access to the image file within the static directory from a render hook. If you want to process an image from the static directory, use shortcode.</p>
+<p>Now I have updated my <code>layouts/_default/_markup/render-image.html</code> to automatically resize any image larger than 1080px in width:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#ff79c6">figure</span>&gt;
+    &lt;<span style="color:#ff79c6">a</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ .Destination | safeURL }}&#34;</span>&gt;
+        {{- $img := .Page.Resources.GetMatch .Destination -}}
+        {{- if gt $img.Width 1080 -}}
+            {{- $img = $img.Resize &#34;1080x&#34; -}}
+        {{- end -}}
+        &lt;<span style="color:#ff79c6">img</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ $img.Permalink | safeURL }}&#34;</span> {{<span style="color:#50fa7b">-</span> <span style="color:#50fa7b">with</span> .<span style="color:#50fa7b">Text</span> | <span style="color:#50fa7b">plainify</span> }} <span style="color:#50fa7b">alt</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ . }}&#34;</span>{{ <span style="color:#50fa7b">end</span> <span style="color:#50fa7b">-</span>}} {{<span style="color:#50fa7b">-</span> <span style="color:#50fa7b">with</span> .<span style="color:#50fa7b">Title</span> }} <span style="color:#50fa7b">title</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ . }}&#34;</span>{{ <span style="color:#50fa7b">end</span> <span style="color:#50fa7b">-</span>}}&gt;
+    &lt;/<span style="color:#ff79c6">a</span>&gt;
+    {{- with .Text | markdownify }}&lt;<span style="color:#ff79c6">figcaption</span>&gt;{{ . }}&lt;/<span style="color:#ff79c6">figcaption</span>&gt;{{ end -}}
+&lt;/<span style="color:#ff79c6">figure</span>&gt;
+</code></pre></div><h3 id="host-file-on-windows-10">Host File on Windows 10</h3>
+<p>On Windows 10, the host file is located at:</p>
+<pre><code>C:\Windows\System32\drivers\etc\hosts
+</code></pre><p>The format is the same as the one found on Linux or macOS. So unfortunately you cannot set a wildcard subdomain entry too.</p>
+<pre><code>102.54.94.97   foo.example.com      # Some comment
+127.0.0.1      project.test 
+127.0.0.1      secret.project.test
+</code></pre><h3 id="laravel-subdomain-routing">Laravel Subdomain Routing</h3>
+<p>I know that Laravel has support for subdomain routing for a long time. It goes as early as version 4 in 2013—the first version of Laravel that I used. But I never really tried that feature, until today. It just works out-of-the-box. Of course, you still need to properly configure your webserver to point those subdomains to your Laravel&rsquo;s public directory. But it still blew my mind.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">Route<span style="color:#ff79c6">::</span><span style="color:#50fa7b">domain</span>(<span style="color:#f1fa8c">&#39;{user}.example.com&#39;</span>)<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">group</span>(<span style="color:#ff79c6">function</span> () {
+    Route<span style="color:#ff79c6">::</span><span style="color:#50fa7b">get</span>(<span style="color:#f1fa8c">&#39;/messages/{id}&#39;</span>, <span style="color:#ff79c6">function</span> (<span style="color:#8be9fd;font-style:italic">$user</span>, <span style="color:#8be9fd;font-style:italic">$id</span>) {
+        <span style="color:#6272a4">// Get the {user} value through $user
+</span><span style="color:#6272a4"></span>    });
+});
+</code></pre></div><footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/log/">log</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/logbook/">logbook</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/logbook-2021-03/">Logbook: 2021 March</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/">Building a Web-App to Track My Expense on Google Sheets</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

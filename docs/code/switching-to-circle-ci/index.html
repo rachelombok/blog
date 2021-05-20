@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Switching to Circle CI | rachel&#39;s blog</title>
+    <meta name="description" content="I used to use Travis CI for running my test suites. But now I&rsquo;m switching to Circle CI for my latest open-source JavaScript project: helpers. Though it has no build matrix feature out of the …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Switching to Circle CI" />
+<meta property="og:description" content="I used to use Travis CI for running my test suites. But now I&rsquo;m switching to Circle CI for my latest open-source JavaScript project: helpers. Though it has no build matrix feature out of the box, the test suites often complete faster (I&rsquo;m speaking about the free version here).
+Similar to Travis CI, Circle CI also uses a YAML file for configuration. We have to store this configuration file in ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/switching-to-circle-ci/" /><meta property="og:image" content="https://smith.github.io/img/circleci.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-01-26T22:15:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-01-26T22:15:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/img/circleci.png"/>
+
+<meta name="twitter:title" content="Switching to Circle CI"/>
+<meta name="twitter:description" content="I used to use Travis CI for running my test suites. But now I&rsquo;m switching to Circle CI for my latest open-source JavaScript project: helpers. Though it has no build matrix feature out of the box, the test suites often complete faster (I&rsquo;m speaking about the free version here).
+Similar to Travis CI, Circle CI also uses a YAML file for configuration. We have to store this configuration file in ."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Switching to Circle CI</h1><time datetime='2020-01-26T22:15:00&#43;07:00'>2020-01-26</time><p>I used to use <a href="https://travis-ci.org">Travis CI</a> for running my test suites. But now I&rsquo;m switching to <a href="https://circleci.com">Circle CI</a> for my latest open-source JavaScript project: <a href="https://github.com/risan/helpers">helpers</a>. Though it has no build matrix feature out of the box, the test suites often complete faster (I&rsquo;m speaking about the free version here).</p>
+<p>Similar to Travis CI, Circle CI also uses a YAML file for configuration. We have to store this configuration file in <code>.circleci/config.yml</code>. Here&rsquo;s the Circle CI configuration file that I use in my latest JavaScript project. Note that I use <a href="https://yarnpkg.com">Yarn</a> instead of the built in NPM for the package manager in this project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">version</span>: <span style="color:#bd93f9">2.1</span>
+<span style="color:#ff79c6">jobs</span>:
+  <span style="color:#ff79c6">build</span>:
+    <span style="color:#ff79c6">working_directory</span>: ~/repo
+    <span style="color:#ff79c6">docker</span>:
+      - <span style="color:#ff79c6">image</span>: circleci/node:10.18.0
+    <span style="color:#ff79c6">steps</span>:
+      - checkout
+      - <span style="color:#ff79c6">restore_cache</span>:
+          <span style="color:#ff79c6">key</span>: dependency-cache-{{ checksum &#34;yarn.lock&#34; }}
+      - <span style="color:#ff79c6">run</span>:
+          <span style="color:#ff79c6">name</span>: install-dependencies
+          <span style="color:#ff79c6">command</span>: yarn install --frozen-lockfile
+      - <span style="color:#ff79c6">save_cache</span>:
+          <span style="color:#ff79c6">key</span>: dependency-cache-{{ checksum &#34;yarn.lock&#34; }}
+          <span style="color:#ff79c6">paths</span>:
+            - ~/.cache/yarn
+      - <span style="color:#ff79c6">run</span>:
+          <span style="color:#ff79c6">name</span>: run-tests
+          <span style="color:#ff79c6">command</span>: yarn test
+      - <span style="color:#ff79c6">run</span>:
+          <span style="color:#ff79c6">name</span>: upload-coverage
+          <span style="color:#ff79c6">command</span>: bash &lt;(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN}
+</code></pre></div><ul>
+<li><code>build</code> is a special job that will be run every time we push our code to our VCS provider.</li>
+<li><code>working_directory</code> is a directory where the steps will be run. If it doesn&rsquo;t exist, the directory will be created automatically.</li>
+<li><code>image</code> is the docker image that we would like to use. In my case, it&rsquo;s the <a href="https://registry.hub.docker.com/layers/circleci/node/10.18.0/images/sha256-76c3eaa8dcc3bc0f812a4c5bcd2c7976204f96d449fb6313d7c60d2b73d90e2e"><code>circleci/node:10.18.0</code></a>. Since it&rsquo;s the earliest Node version that&rsquo;s still being maintaned. The Yarn package manager is also included in this image.</li>
+<li><code>checkout</code> is a special step that will pull our code to the specified <code>working_directory</code>.</li>
+<li>The <code>restore_cache</code> is a step that will try to restore the previously saved cache based on its <code>key</code>. In our case, the cache is the node modules, that&rsquo;s why we use the <code>yarn.lock</code> to uniquely identify the cache.</li>
+<li>While the <code>save_cache</code> is a step where we store the cache for any further builds.</li>
+<li><code>run</code> is used for invoking a shell command. The first <code>run</code> is for installing all dependencies. The second <code>run</code> is for running the test suites.</li>
+</ul>
+<h2 id="code-coverage">Code Coverage</h2>
+<p>I&rsquo;m using <a href="https://jestjs.io/">Jest</a> to run my test suites and it can collect code coverage information out of the box. All we have to do is to set the <code>collectCoverage</code> in our <code>jest.config.js</code> file to <code>true</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">module.exports <span style="color:#ff79c6">=</span> {
+  <span style="color:#6272a4">// other options...
+</span><span style="color:#6272a4"></span>
+  collectCoverage<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+};
+</code></pre></div><p>By default, the coverage report will be stored in a <code>coverage</code> directory. And in the last <code>run</code> I invoke a command to upload this coverage report to <a href="https://codecov.io/">Codecov</a>. I&rsquo;m using an environment variable named <code>CODECOV_TOKEN</code> to store the Codecov upload token. You can set this environment variable in <strong>Project Settings</strong> &gt; <strong>Environment Variables</strong>.</p>
+<p>There&rsquo;s also an Orb (sharable configuration element in Circle CI) for Codecov integration that we can use: <a href="https://circleci.com/orbs/registry/orb/codecov/codecov">codecov/codecov</a>. But I think the Codecov bash uploader is a very simple command that we can use directly.</p>
+<h2 id="note-for-npm">Note for NPM</h2>
+<p>If you use a default NPM package manager, there&rsquo;s a slight configuration difference.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#ff79c6">restore_cache</span>:
+    <span style="color:#6272a4"># Use package-lock.json</span>
+    <span style="color:#ff79c6">key</span>: dependency-cache-{{ checksum &#34;package-lock.json&#34; }}
+- <span style="color:#ff79c6">run</span>:
+    <span style="color:#ff79c6">name</span>: install-dependencies
+    <span style="color:#ff79c6">command</span>: npm install
+- <span style="color:#ff79c6">save_cache</span>:
+    <span style="color:#ff79c6">key</span>: dependency-cache-{{ checksum &#34;package-lock.json&#34; }}
+    <span style="color:#ff79c6">paths</span>:
+      - ./node_modules <span style="color:#6272a4"># Different cache paths</span>
+- <span style="color:#ff79c6">run</span>:
+    <span style="color:#ff79c6">name</span>: run-tests
+    <span style="color:#ff79c6">command</span>: npm run test
+</code></pre></div><p>Also, note that the caching mechanism will only work if you track the generated <code>yarn.lock</code> or <code>package-lock.json</code>. If you don&rsquo;t track these files, as an alternative you can use the <code>package.json</code> file directly to generate a unique checksum for the cache key.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/log/">log</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/devops/">devops</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/postmark-tag-in-laravel/">Add Postmark&#39;s Tag in Laravel</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/backup-restore-gpg-key/">How to Backup and Restore Your GPG Key</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

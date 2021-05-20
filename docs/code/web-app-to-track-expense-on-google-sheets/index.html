@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Building a Web-App to Track My Expense on Google Sheets | rachel&#39;s blog</title>
+    <meta name="description" content="I&rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Building a Web-App to Track My Expense on Google Sheets" />
+<meta property="og:description" content="I&rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be the spending categories that didn&rsquo;t fit my use case. Or some expense related fields that were missing, but I need those details. Or as simple as it didn&rsquo;t have a web version, so I couldn&rsquo;t log my spending while I was on my laptop." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/" /><meta property="og:image" content="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/cover.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-12-27T21:41:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-12-27T21:41:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/cover.png"/>
+
+<meta name="twitter:title" content="Building a Web-App to Track My Expense on Google Sheets"/>
+<meta name="twitter:description" content="I&rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be the spending categories that didn&rsquo;t fit my use case. Or some expense related fields that were missing, but I need those details. Or as simple as it didn&rsquo;t have a web version, so I couldn&rsquo;t log my spending while I was on my laptop."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Building a Web-App to Track My Expense on Google Sheets</h1><time datetime='2020-12-27T21:41:00&#43;07:00'>2020-12-27</time><p>I&rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be the spending categories that didn&rsquo;t fit my use case. Or some expense related fields that were missing, but I need those details. Or as simple as it didn&rsquo;t have a web version, so I couldn&rsquo;t log my spending while I was on my laptop.</p>
+<p>Since December last year, I&rsquo;ve been using Google Sheets to track my daily expenses, income, and investments. And it just works! I can have flexible spending categories.  Or put as much or as little spending detail to record. And I can access it through my phone or my PC.</p>
+<p>However, the problem started to arise just a month ago. As my spreadsheet started to grow more than 1,000 rows, it takes some time for me to input a new record on my phone. I have to scroll to the bottom of the spreadsheet to add a new one. It&rsquo;s not the best experience to work with a spreadsheet with many columns on the phone. Though it still works great on a PC.</p>
+<p>So I built a simple web-app that will programmatically append a new record to my Google Sheets. It was a bare-bones HTML+JS application. Just look at that ugly form. Even the spreadsheet ID was hardcoded, so I was the only one that can use the app. It worked great! I no longer need to open my Google Spreadsheet and scroll down to the bottom to add a new record.</p>
+<p><figure>
+    <a href="v1.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/v1_hu1253b3cee6acd8cad02ec2f7fd49d695_93660_1080x0_resize_box_2.png" alt="Balance Sheet v1.">
+    </a><figcaption>Balance Sheet v1.</figcaption></figure>
+</p>
+<p>Last week I decided to start <a href="/blog/lets-build-stuff-again/">building more stuff again</a>. So why not start with ramping up this expense tracking app? I named this app &ldquo;Balance Sheet&rdquo; simply because it&rsquo;s the name I use for my spreadsheet. Besides expenses, I also track my income and investments on Google Sheets. I built the form only for spending because that was the one that I use more often.</p>
+<p>You can check out the web-app at <a href="https://balancesheet.netlify.app/">balancesheet.netlify.app</a>. Note that you will get a warning from Google because this app is not verified yet. I do not use any database. This app works directly with the Google Sheets and Google Drive APIs. I can guarantee you that this app won&rsquo;t collect any of your data. You can always check your Network tab and see that it will only send XHR to the Google API endpoint. To proceed, you can click on the &ldquo;Advanced&rdquo; button, then continue to open this website.</p>
+<p>Here are some screenshots of this app. Note that these are coming from some randomly generated data, not my actual finance data.</p>
+<p><figure>
+    <a href="homepage.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/homepage_hu6b8d08ad42e3da2dfd0fdfe8a09187b4_27996_1080x0_resize_box_2.png" alt="The homepage.">
+    </a><figcaption>The homepage.</figcaption></figure>
+</p>
+<p><figure>
+    <a href="select-spreadsheet.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/select-spreadsheet_hu355ca23436ee86240ef60ee28e8e5fa2_23945_1080x0_resize_box_2.png" alt="Select the spreadsheet you want to use.">
+    </a><figcaption>Select the spreadsheet you want to use.</figcaption></figure>
+</p>
+<p><figure>
+    <a href="copy-template.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/copy-template_hu60b5149c93226220cdb648570278e80a_14371_1080x0_resize_box_2.png" alt="Programmatically copy the starter template into your own Google Drive.">
+    </a><figcaption>Programmatically copy the starter template into your own Google Drive.</figcaption></figure>
+\</p>
+<p><figure>
+    <a href="expenses.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/expenses_hud80e983ec29444303f91965cd6517571_37182_1080x0_resize_box_2.png" alt="The expense form is a lot nicer now.">
+    </a><figcaption>The expense form is a lot nicer now.</figcaption></figure>
+</p>
+<p><figure>
+    <a href="dashboard.png"><img src="https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/dashboard_hu670f3f5a3fa46de8a97e9f23c2030a84_79467_1080x0_resize_box_2.png" alt="Some charts to visualize your financial data.">
+    </a><figcaption>Some charts to visualize your financial data.</figcaption></figure>
+</p>
+<p>I used vanilla JavaScript to build the first version. Now the Balance Sheet is much more sophisticated in terms of its tech stacks:</p>
+<ul>
+<li><a href="https://v3.vuejs.org/">Vue.js</a> version 3 for the framework.</li>
+<li><a href="https://router.vuejs.org/">Vue Router</a> for routing.</li>
+<li><a href="https://vuex.vuejs.org/">Vuex</a> mainly for managing authentication state and interfacing with Google Sheets API.</li>
+<li><a href="https://cli.vuejs.org/">Vue CLI</a> for tooling.</li>
+<li><a href="https://vee-validate.logaretm.com/v4/">VeeValidate</a> and <a href="https://github.com/jquense/yup">Yup</a> for easy form validation.</li>
+<li><a href="https://vega.github.io/vega-lite/">Vega-Lite</a> for visualizing the financial data.</li>
+<li><a href="https://bulma.io/">Bulma</a> to make this app more pleasant to look at.</li>
+<li><a href="https://www.netlify.com/">Netlify</a> to host the web app for free.</li>
+</ul>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/log/">log</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a>,&nbsp;<a href="/tags/vue/">vue</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/logbook-2021-02/">Logbook: 2021 February</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/lets-build-stuff-again/">Let&#39;s Build Stuff Again</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

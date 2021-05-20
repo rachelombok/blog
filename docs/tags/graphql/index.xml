@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>graphql on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/graphql/</link>
+    <description>Recent content in graphql on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Apr 2018 13:00:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/graphql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set Authorization Header with Apollo Client</title>
+      <link>https://smith.github.io/code/set-authorization-header-with-apollo-client/</link>
+      <pubDate>Sat, 14 Apr 2018 13:00:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/set-authorization-header-with-apollo-client/</guid>
+      <description>A GraphQL API often requires us to provide an authorization header to authenticate the request. How can we provide this authorization header using the popular Apollo Client library?
+It turns our Apollo already provides us with the apollo-link module. apollo-link is a composable network layer that we can use to configure the HTTP request. With apollo-link, we can create chainable middlewares that will construct our final HTTP request.
+Suppose our initial code to instantiate an Apollo Client look like this:</description>
+    </item>
+    
+  </channel>
+</rss>

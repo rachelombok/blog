@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Bundling Your JavaScript Library with Rollup | rachel&#39;s blog</title>
+    <meta name="description" content="Similar to Webpack or Browserify, Rollup is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Bundling Your JavaScript Library with Rollup" />
+<meta property="og:description" content="Similar to Webpack or Browserify, Rollup is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It can also bundle our module and wrap it inside the IIFE (Immediately-Invoked Function Expression).
+Though people usually use Rollup to bundle a library. It&rsquo;s possible to bundle an application too.
+ You can access the source code for this tutorial here: github." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/bundling-your-javascript-library-with-rollup/" /><meta property="og:image" content="https://smith.github.io/img/rollup.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2018-11-04T02:51:00&#43;02:00" />
+<meta property="article:modified_time" content="2018-11-04T02:51:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/img/rollup.png"/>
+
+<meta name="twitter:title" content="Bundling Your JavaScript Library with Rollup"/>
+<meta name="twitter:description" content="Similar to Webpack or Browserify, Rollup is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It can also bundle our module and wrap it inside the IIFE (Immediately-Invoked Function Expression).
+Though people usually use Rollup to bundle a library. It&rsquo;s possible to bundle an application too.
+ You can access the source code for this tutorial here: github."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Bundling Your JavaScript Library with Rollup</h1><time datetime='2018-11-04T02:51:00&#43;02:00'>2018-11-04</time><p>Similar to Webpack or Browserify, <a href="https://rollupjs.org">Rollup</a> is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It can also bundle our module and wrap it inside the IIFE (Immediately-Invoked Function Expression).</p>
+<p>Though people usually use Rollup to bundle a library. It&rsquo;s possible to bundle an application too.</p>
+<blockquote>
+<p>You can access the source code for this tutorial here: <a href="https://github.com/risan/eat-fruit">github.com/risan/eat-fruit</a>.</p>
+</blockquote>
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#quick-start">Quick Start</a></li>
+    <li><a href="#exploring-other-output-formats">Exploring Other Output Formats</a>
+      <ul>
+        <li><a href="#amd-output">AMD Output</a></li>
+        <li><a href="#umd-output">UMD Output</a></li>
+        <li><a href="#es-output">ES Output</a></li>
+        <li><a href="#iife">IIFE</a></li>
+      </ul>
+    </li>
+    <li><a href="#rollup-configuration-file">Rollup Configuration File</a>
+      <ul>
+        <li><a href="#multiple-output-formats">Multiple Output Formats</a></li>
+        <li><a href="#multiple-inputs">Multiple Inputs</a></li>
+      </ul>
+    </li>
+    <li><a href="#tree-shaking">Tree-Shaking</a>
+      <ul>
+        <li><a href="#preparing-our-food-factory">Preparing Our Food Factory</a></li>
+        <li><a href="#tree-shaking-in-action">Tree-Shaking in Action</a></li>
+        <li><a href="#three-shaking-gotcha">Three-Shaking Gotcha</a></li>
+      </ul>
+    </li>
+    <li><a href="#importing-npm-package">Importing NPM Package</a>
+      <ul>
+        <li><a href="#resolving-third-party-modules-with-plugin">Resolving Third Party Modules with Plugin</a></li>
+        <li><a href="#another-three-shaking-gotcha">Another Three-Shaking Gotcha</a></li>
+        <li><a href="#importing-commonjs-module">Importing CommonJS Module</a></li>
+        <li><a href="#peer-dependencies">Peer Dependencies</a></li>
+      </ul>
+    </li>
+    <li><a href="#compiling-es-2015-code-with-babel">Compiling ES 2015+ Code with Babel</a>
+      <ul>
+        <li><a href="#using-browserlist">Using Browserlist</a></li>
+        <li><a href="#different-output-format-different-minimum-environments">Different Output Format, Different Minimum Environments</a></li>
+      </ul>
+    </li>
+    <li><a href="#minifying-bundle">Minifying Bundle</a></li>
+    <li><a href="#publishing-our-bundles">Publishing Our Bundles</a>
+      <ul>
+        <li><a href="#update-our-packagejson-file">Update Our package.json File</a></li>
+        <li><a href="#updating-the-rollup-config-file">Updating the Rollup Config File</a></li>
+        <li><a href="#add-npmignore-file">Add .npmignore File</a></li>
+        <li><a href="#login-to-npm">Login To NPM</a></li>
+        <li><a href="#publishing">Publishing</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+
+<h2 id="installation">Installation</h2>
+<p>To install Rollup globally, run the following command on your terminal:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install -g rollup
+
+<span style="color:#6272a4"># Or if you prefer to use Yarn</span>
+$ yarn global add rollup
+</code></pre></div><p>You can now run the following command to print the Rollup CLI help:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -h
+</code></pre></div><h2 id="quick-start">Quick Start</h2>
+<p>To see Rollup in action, let&rsquo;s create a simple ES module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// main.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> eat;
+</code></pre></div><p>It just a simple function that will print <code>I eat something</code> on the console or the terminal. Save the file as <code>main.js</code>. On the terminal type the following command to transform our ES module into a CommonJS module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup main.js --file bundle.js --format cjs
+</code></pre></div><ul>
+<li><code>--file</code>: The path for the output file</li>
+<li><code>--format</code>: The targetted output format, in our case the <code>cjs</code> is for the CommonJS module.</li>
+</ul>
+<p>Along with the <code>main.js</code> file, we should now have the <code>bundle.js</code> file. If we open the <code>bundle.js</code> file, we&rsquo;ll see that our <code>eat</code> function is now using the CommonJS module.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// bundle.js
+</span><span style="color:#6272a4"></span><span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+<span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+module.exports <span style="color:#ff79c6">=</span> eat;
+</code></pre></div><p>If you&rsquo;re familiar with Node.js, that&rsquo;s how you usually export a module.</p>
+<h2 id="exploring-other-output-formats">Exploring Other Output Formats</h2>
+<p>Rollup offers five output formats for your bundle:</p>
+<ul>
+<li><code>cjs</code>: The CommonJS module that typically targetted for the Node.js environment.</li>
+<li><code>amd</code>: The AMD module which usually used in the browser.</li>
+<li><code>umd</code>: The UMD module which often use to target both the Node.js and the browser environments.</li>
+<li><code>es</code>: The ES module itself.</li>
+<li><code>iife</code>: Which will wrap our bundle within the IIFE (Immediately-Invoked Function Expression) for browser usage.</li>
+</ul>
+<h3 id="amd-output">AMD Output</h3>
+<p>Let&rsquo;s bundle our <code>main.js</code> module into an AMD module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup main.js --file amd.js --format amd
+</code></pre></div><p>Here&rsquo;s the generated <code>amd.js</code> file looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// amd.js
+</span><span style="color:#6272a4"></span>define(<span style="color:#8be9fd;font-style:italic">function</span> () { <span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+    <span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+    <span style="color:#ff79c6">return</span> eat;
+
+});
+</code></pre></div><p>If you ever worked with <a href="https://requirejs.org">RequireJS</a> or <a href="https://github.com/cujojs/curl">curl.js</a> in the past. You might notice the <code>define</code> function above. It&rsquo;s how you register a factory function in the AMD format.</p>
+<h3 id="umd-output">UMD Output</h3>
+<p>Now, let&rsquo;s create the UMD version:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup main.js --file umd.js --format umd --name eat
+</code></pre></div><p>For UMD format, we also need to pass the <code>--name</code> option. It&rsquo;s the identifier that will be used to expose our module. We use the same name as our <code>eat</code> function. We can use a different name though.</p>
+<p>If we open up the <code>umd.js</code> file, the generated code will look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">(<span style="color:#8be9fd;font-style:italic">function</span> (global, factory) {
+    <span style="color:#ff79c6">typeof</span> exports <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#39;object&#39;</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">typeof</span> module <span style="color:#ff79c6">!==</span> <span style="color:#f1fa8c">&#39;undefined&#39;</span> <span style="color:#ff79c6">?</span> module.exports <span style="color:#ff79c6">=</span> factory() <span style="color:#ff79c6">:</span>
+    <span style="color:#ff79c6">typeof</span> define <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#39;function&#39;</span> <span style="color:#ff79c6">&amp;&amp;</span> define.amd <span style="color:#ff79c6">?</span> define(factory) <span style="color:#ff79c6">:</span>
+    (global.eat <span style="color:#ff79c6">=</span> factory());
+}(<span style="color:#ff79c6">this</span>, (<span style="color:#8be9fd;font-style:italic">function</span> () { <span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+    <span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+    <span style="color:#ff79c6">return</span> eat;
+
+})));
+</code></pre></div><p>It slightly looks more complicated than the previous output formats. It&rsquo;s an IIFE that will check if the current environment supports a CommonJS or an AMD module format. If the current environment supports a CommonJS module, it will export our <code>eat</code> function.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">typeof</span> exports <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#39;object&#39;</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">typeof</span> module <span style="color:#ff79c6">!==</span> <span style="color:#f1fa8c">&#39;undefined&#39;</span> <span style="color:#ff79c6">?</span> module.exports <span style="color:#ff79c6">=</span> factory()
+</code></pre></div><p>Or if the current environment supports an AMD module, it will register a factory function for our <code>eat</code> module.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">typeof</span> define <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#39;function&#39;</span> <span style="color:#ff79c6">&amp;&amp;</span> define.amd <span style="color:#ff79c6">?</span> define(factory)
+</code></pre></div><p>Otherwise, it will add the <code>eat</code> function into the current <code>this</code> object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">global.eat <span style="color:#ff79c6">=</span> factory()
+</code></pre></div><p>For example, if we load our <code>umd.js</code> file in the browser, we can access our <code>eat</code> function from the <code>window</code> object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#8be9fd;font-style:italic">window</span>.eat(<span style="color:#f1fa8c">&#39;🍕&#39;</span>);
+</code></pre></div><h3 id="es-output">ES Output</h3>
+<p>Rollup can also output the same exact ES module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">rollup main.js <span style="color:#ff79c6">--</span>file es.js <span style="color:#ff79c6">--</span>format es
+</code></pre></div><p>If we check the generated <code>es.js</code> file, we&rsquo;ll find the identical code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> eat;
+</code></pre></div><p>We use this option in case the users of our library want to use a tool that can leverage the ES module, like Webpack  2+.</p>
+<h3 id="iife">IIFE</h3>
+<p>The last format that we can generate with Rollup is IIFE (Immediately-Invoked Function Expression):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">rollup main.js <span style="color:#ff79c6">--</span>file iife.js <span style="color:#ff79c6">--</span>format iife <span style="color:#ff79c6">--</span>name eat
+</code></pre></div><p>Just like the UMD format, we have to set the <code>--name</code> option. If we check the <code>iife.js</code> file, the <code>eat</code> function is wrapped within the IIFE block:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#8be9fd;font-style:italic">var</span> eat <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd;font-style:italic">function</span> () {
+    <span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+    <span style="color:#ff79c6">const</span> eat <span style="color:#ff79c6">=</span> food =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+    <span style="color:#ff79c6">return</span> eat;
+
+}());
+</code></pre></div><h2 id="rollup-configuration-file">Rollup Configuration File</h2>
+<p>We can also use a configuration file to configure Rollup. Before continuing, let&rsquo;s delete the generated files. Then move the <code>main.js</code> file into the <code>src</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Delete generated files</span>
+$ rm bundle.js amd.js umd.js es.js iife.js
+
+<span style="color:#6272a4"># Move main.js to src directory</span>
+$ mkdir src
+$ mv main.js src
+</code></pre></div><p>Create a new file named <code>rollup.config.js</code> and put the following configuration object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  }
+};
+</code></pre></div><p>Your current directory should now look like this:</p>
+<pre><code>|-- rollup.config.js
+|-- src
+|   |-- main.js
+</code></pre><p>Run the following command to bundle our main.js file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><ul>
+<li><code>-c</code>: The config file path. If not set, it will look for the <code>rollup.config.js</code> file.</li>
+</ul>
+<p>We should now have the generated CommonJS file stored at: <code>dist/cjs.js</code>.</p>
+<h3 id="multiple-output-formats">Multiple Output Formats</h3>
+<p>We can also assign an array to the <code>output</code> option to generate various output formats:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> [
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eat&#39;</span>
+    }
+  ]
+};
+</code></pre></div><p>If you run the <code>rollup -c</code> command again, it will generate two bundles with different module format: <code>cjs</code> and <code>umd</code>.</p>
+<h3 id="multiple-inputs">Multiple Inputs</h3>
+<p>It&rsquo;s also possible to build bundles from multiple inputs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> [
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> [
+      {
+        file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+        format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+      },
+      {
+        file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+        format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+        name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eat&#39;</span>
+      }
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/other.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/other.bundle.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    }
+  }
+];
+</code></pre></div><h2 id="tree-shaking">Tree-Shaking</h2>
+<p>One of the most amazing features on Rollup is its tree-shaking ability. RollUp can statically analyze our code and remove unused functions or modules from our bundle.</p>
+<h3 id="preparing-our-food-factory">Preparing Our Food Factory</h3>
+<p>Within the <code>src</code> directory create a new file named <code>food.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/food.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> FAST_FOODS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍔&#39;</span>, <span style="color:#f1fa8c">&#39;🍟&#39;</span>, <span style="color:#f1fa8c">&#39;🍕&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[getRandomNumberBetween(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> randomFastFood <span style="color:#ff79c6">=</span> () =&gt;
+  FAST_FOODS[getRandomNumberBetween(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> getRandomNumberBetween <span style="color:#ff79c6">=</span> (start, end) =&gt;
+  <span style="color:#8be9fd;font-style:italic">Math</span>.floor(<span style="color:#8be9fd;font-style:italic">Math</span>.random() <span style="color:#ff79c6">*</span> end) <span style="color:#ff79c6">+</span> start;
+
+<span style="color:#ff79c6">export</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+</code></pre></div><p>In this <code>food</code> module, we export two constants and two functions:</p>
+<ul>
+<li><code>FRUITS</code>: An array of fruit emojis.</li>
+<li><code>FAST_FOODS</code>: An array of fast food emojis.</li>
+<li><code>randomFruit</code>: Function to get a random fruit emoji.</li>
+<li><code>randomFastFood</code>: Function to get a random fast food emoji.</li>
+</ul>
+<h3 id="tree-shaking-in-action">Tree-Shaking in Action</h3>
+<p>Let&rsquo;s get back to our <code>main.js</code> file. Rename the <code>eat</code> function to <code>eatFruit</code>. Use the <code>randomFruit</code> function from our <code>food</code> module to generate a random fruit emoji:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/main.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span> as food from <span style="color:#f1fa8c">&#39;./food&#39;</span>;
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food.randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> eatFruit;
+</code></pre></div><p>Type the following command on the terminal to bundle our <code>main.js</code> module into a CommonJS format.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup src/main.js --file dist/bundle.js --format cjs
+</code></pre></div><p>Let&rsquo;s inspect the generated <code>bundle.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// dist/bundle.js
+</span><span style="color:#6272a4"></span><span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[getRandomNumberBetween(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> getRandomNumberBetween <span style="color:#ff79c6">=</span> (start, end) =&gt;
+  <span style="color:#8be9fd;font-style:italic">Math</span>.floor(<span style="color:#8be9fd;font-style:italic">Math</span>.random() <span style="color:#ff79c6">*</span> end) <span style="color:#ff79c6">+</span> start;
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+module.exports <span style="color:#ff79c6">=</span> eatFruit;
+</code></pre></div><p>Even though we import the whole <code>food</code> module into our code, Rollup is smart enough to strip any unused parts. Both the <code>FAST_FOODS</code> constant and the <code>randomFastFood</code> function are excluded from the final bundle. Isn&rsquo;t that awesome?</p>
+<p>Even though Rollup is smart enough to exclude any unused functions or modules, it&rsquo;s a good practice to explicitly export things that we only need. Let&rsquo;s modify our <code>main.js</code> file to import the <code>randomFruit</code> function only:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/main.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> { randomFruit } from <span style="color:#f1fa8c">&#39;./food&#39;</span>;
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> eatFruit;
+</code></pre></div><p>Run the command to bundle our <code>main.js</code> file again, we should have the same exact output.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup src/main.js --file dist/bundle.js --format cjs
+</code></pre></div><h3 id="three-shaking-gotcha">Three-Shaking Gotcha</h3>
+<p>Suppose we use the <code>default</code> keyword to export the four items in the <code>food.js</code> module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// Omitted for brevity...
+</span><span style="color:#6272a4"></span>
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+</code></pre></div><p>And the <code>main.js</code> file looks like this to accommodate that change:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/main.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> food from <span style="color:#f1fa8c">&#39;./food&#39;</span>;
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food.randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> eatFruit;
+</code></pre></div><p>If we bundle that <code>main.js</code> file through Rollup, the output will look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// dist/bundle.js
+</span><span style="color:#6272a4"></span><span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> FAST_FOODS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍔&#39;</span>, <span style="color:#f1fa8c">&#39;🍟&#39;</span>, <span style="color:#f1fa8c">&#39;🍕&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[getRandomNumberBetween(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> randomFastFood <span style="color:#ff79c6">=</span> () =&gt;
+  FAST_FOODS[getRandomNumberBetween(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> getRandomNumberBetween <span style="color:#ff79c6">=</span> (start, end) =&gt;
+  <span style="color:#8be9fd;font-style:italic">Math</span>.floor(<span style="color:#8be9fd;font-style:italic">Math</span>.random() <span style="color:#ff79c6">*</span> end) <span style="color:#ff79c6">+</span> start;
+
+<span style="color:#8be9fd;font-style:italic">var</span> food <span style="color:#ff79c6">=</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>food.randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+module.exports <span style="color:#ff79c6">=</span> eatFruit;
+</code></pre></div><p>Even though we&rsquo;re not using them, we ended up having both <code>FAST_FOODS</code> and <code>randomFastFood</code> in our bundle file.</p>
+<p>There&rsquo;s <a href="#another-three-shaking-gotcha">another three-shaking gotcha</a> explained on the next section that you should be aware of.</p>
+<h2 id="importing-npm-package">Importing NPM Package</h2>
+<p>We often need to pull a third party library from NPM. For our example, let&rsquo;s pull the <code>lodash</code> library. Within the project directory, type the following command to create an empty <code>package.json</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#ff79c6">{}</span> &gt; package.json
+</code></pre></div><p>Then install the <code>lodash-es</code> package, it&rsquo;s the ES modules version for <code>lodash</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install lodash-es
+
+<span style="color:#6272a4"># Or if you prefer to use Yarn</span>
+$ yarn add lodash-es
+</code></pre></div><p>Open up the <code>src/food.js</code> file. Let&rsquo;s replace the <code>getRandomNumberBetween</code> with the lodash&rsquo;s <code>random</code> function instead.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/food.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> { random } from <span style="color:#f1fa8c">&#39;lodash-es&#39;</span>;
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> FAST_FOODS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍔&#39;</span>, <span style="color:#f1fa8c">&#39;🍟&#39;</span>, <span style="color:#f1fa8c">&#39;🍕&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> randomFastFood <span style="color:#ff79c6">=</span> () =&gt;
+  FAST_FOODS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">export</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+</code></pre></div><p>This time we&rsquo;re going to use the Rollup configuration file. On your project directory, create a new file named <code>rollup.config.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  }
+};
+</code></pre></div><p>With this configuration file, we&rsquo;re going to generate a bundle with CommonJS format. Let&rsquo;s build our <code>main.js</code> file!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>You&rsquo;ll get a warning that it can&rsquo;t resolve the <code>lodash-es</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>!<span style="color:#ff79c6">)</span> Unresolved dependencies
+https://rollupjs.org/guide/en#warning-treating-module-as-external-dependency
+lodash-es <span style="color:#ff79c6">(</span>imported by src/food.js<span style="color:#ff79c6">)</span>
+created dist/cjs.js in 32ms
+</code></pre></div><p>If you check the generated <code>dist/cjs.js</code> file, you&rsquo;ll see that the lodash code is not included. It simply <code>require</code> the <code>lodash-es</code> module.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+<span style="color:#8be9fd;font-style:italic">var</span> lodashEs <span style="color:#ff79c6">=</span> require(<span style="color:#f1fa8c">&#39;lodash-es&#39;</span>);
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[lodashEs.random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+module.exports <span style="color:#ff79c6">=</span> eatFruit;
+</code></pre></div><p>The bundle will still work if the user of your library happens to have <code>lodash-es</code> installed on their project. Of course, it&rsquo;s not a reliable approach to build a library. So how can we solve this?</p>
+<h3 id="resolving-third-party-modules-with-plugin">Resolving Third Party Modules with Plugin</h3>
+<p>Luckily, there&rsquo;s already a plugin to assist Rollup resolving any third party modules installed through NPM: <a href="https://github.com/rollup/rollup-plugin-node-resolve"><code>rollup-plugin-node-resolve</code></a>. Let&rsquo;s install this plugin as our dev-dependency:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install rollup-plugin-node-resolve -D
+
+<span style="color:#6272a4"># If you prefer to use Yarn</span>
+$ yarn add rollup-plugin-node-resolve -D
+</code></pre></div><p>Next, we need to register this plugin within our <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  },
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve()
+  ]
+};
+</code></pre></div><p>Let&rsquo;s bundle our <code>main.js</code> file once again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">$ rollup <span style="color:#ff79c6">-</span>c
+</code></pre></div><p>There&rsquo;s no warning message this time! If you check the generated <code>dist/cjs.js</code> file, you should find the lodash code in the bundle.</p>
+<p>But wait, why is there so many lodash codes in our bundle file? Though we only import the <code>random</code> function. 🤔</p>
+<h3 id="another-three-shaking-gotcha">Another Three-Shaking Gotcha</h3>
+<p>Performing static analysis in a dynamic programming language like JavaScript is hard. Rollup has to be careful in removing any unused code to guarantee that the final bundle still works correctly.</p>
+<p>If an imported module appears to have some side-effects, Rollup needs to be conservative and includes those side-effects. Even though it may be a false positive, just like in our lodash case above.</p>
+<p>In our lodash case, we can get around this by importing the submodule instead:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/food.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> random from <span style="color:#f1fa8c">&#39;lodash-es/random&#39;</span>;
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> FAST_FOODS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍔&#39;</span>, <span style="color:#f1fa8c">&#39;🍟&#39;</span>, <span style="color:#f1fa8c">&#39;🍕&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> randomFastFood <span style="color:#ff79c6">=</span> () =&gt;
+  FAST_FOODS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">export</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+</code></pre></div><h3 id="importing-commonjs-module">Importing CommonJS Module</h3>
+<p>The <code>lodash-es</code> package is using the ES module format. So Rollup can process it out of the box. Unfortunately, the majority of packages published on NPM are using the CommonJS format.</p>
+<p>Let&rsquo;s replace the <code>lodash-es</code> package with its CommonJS counterpart: <code>lodash</code> and see if Rollup can handle it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm uninstall lodash-es
+$ npm i lodash
+
+<span style="color:#6272a4"># If you use Yarn</span>
+$ yarn remove lodash-es
+$ yarn add lodash
+</code></pre></div><p>Don&rsquo;t forget to update the import statement on the <code>food.js</code> module:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// src/food.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> random from <span style="color:#f1fa8c">&#39;lodash/random&#39;</span>;
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> FAST_FOODS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍔&#39;</span>, <span style="color:#f1fa8c">&#39;🍟&#39;</span>, <span style="color:#f1fa8c">&#39;🍕&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> randomFastFood <span style="color:#ff79c6">=</span> () =&gt;
+  FAST_FOODS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">export</span> {
+  FRUITS,
+  FAST_FOODS,
+  randomFruit,
+  randomFastFood
+};
+</code></pre></div><p>Let&rsquo;s run the Rollup command to bundle our <code>main.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>We&rsquo;ll end up having an error message like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">src/main.js → dist2/cjs.js...
+<span style="color:#ff79c6">[</span>!<span style="color:#ff79c6">]</span> Error: <span style="color:#f1fa8c">&#39;default&#39;</span> is not exported by node_modules/lodash/random.js
+https://rollupjs.org/guide/en#error-name-is-not-exported-by-module-
+src/food.js <span style="color:#ff79c6">(</span>1:7<span style="color:#ff79c6">)</span>
+1: import random from <span style="color:#f1fa8c">&#39;lodash/random&#39;</span>;
+</code></pre></div><p>It turns out Rollup can&rsquo;t process the CommonJS format. Fortunately, there&rsquo;s already a plugin to solve this issue: <a href="https://github.com/rollup/rollup-plugin-commonjs">rollup-plugin-commonjs</a>. This plugin will convert any CommonJS modules into the ES module format. That way Rollup can process them.</p>
+<p>Let&rsquo;s install this plugin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install rollup-plugin-commonjs -D
+
+<span style="color:#6272a4"># Or if you use yarn</span>
+$ yarn add rollup-plugin-commonjs -D
+</code></pre></div><p>Don&rsquo;t forget to register it on <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  },
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs()
+  ]
+};
+</code></pre></div><p>Try to bundle our <code>main.js</code> file again. There should be no error this time.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup - c
+</code></pre></div><blockquote>
+<p>If you register other plugins that can also transform your module, make sure that the <code>rollup-plugin-commonjs</code> comes before any of that plugins. It&rsquo;s to prevent the other plugins from making changes that may break the CommonJS detection.</p>
+</blockquote>
+<h3 id="peer-dependencies">Peer Dependencies</h3>
+<p>Suppose that we decided to list <code>lodash</code> as our library&rsquo;s peer dependencies. So instead of bundling <code>lodash/random</code> into our bundle, we&rsquo;d ask the user to install <code>lodash</code> package separately.</p>
+<p>We can achieve this by providing the <code>external</code> property to the <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  },
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs()
+  ],
+  external<span style="color:#ff79c6">:</span> [
+    <span style="color:#f1fa8c">&#39;lodash/random&#39;</span>
+  ]
+};
+</code></pre></div><p>The module listed on the <code>external</code> option must match exactly the same as how we imported it in our code. That&rsquo;s why we use <code>lodash/random</code> instead of just <code>lodash</code>.</p>
+<p>Let&rsquo;s try to bundle our <code>main.js</code> file again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>If we peek at the generated <code>dist/cjs.file</code>, the lodash code is now excluded from our bundle:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// dist/cjs.js
+</span><span style="color:#6272a4"></span><span style="color:#f1fa8c">&#39;use strict&#39;</span>;
+
+<span style="color:#8be9fd;font-style:italic">function</span> <span style="color:#bd93f9">_</span>interopDefault (ex) { <span style="color:#ff79c6">return</span> (ex <span style="color:#ff79c6">&amp;&amp;</span> (<span style="color:#ff79c6">typeof</span> ex <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#39;object&#39;</span>) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#f1fa8c">&#39;default&#39;</span> <span style="color:#ff79c6">in</span> ex) <span style="color:#ff79c6">?</span> ex[<span style="color:#f1fa8c">&#39;default&#39;</span>] <span style="color:#ff79c6">:</span> ex; }
+
+<span style="color:#8be9fd;font-style:italic">var</span> random <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">_</span>interopDefault(require(<span style="color:#f1fa8c">&#39;lodash/random&#39;</span>));
+
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt;
+  FRUITS[random(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+
+module.exports <span style="color:#ff79c6">=</span> eatFruit;
+</code></pre></div><p>If we choose to generate the <code>umd</code> or <code>iife</code> format, we have to specify the <code>global</code> option too. This option tells Rollup on how to access that peer dependency.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> [
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>,
+      globals<span style="color:#ff79c6">:</span> {
+        <span style="color:#f1fa8c">&#39;lodash/random&#39;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;_.random&#39;</span>
+      }
+    },
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/iife.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;iife&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>,
+      globals<span style="color:#ff79c6">:</span> {
+        <span style="color:#f1fa8c">&#39;lodash/random&#39;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;_.random&#39;</span>
+      }
+    }
+  ],
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs()
+  ],
+  external<span style="color:#ff79c6">:</span> [
+    <span style="color:#f1fa8c">&#39;lodash/random&#39;</span>
+  ]
+};
+</code></pre></div><p>If we load lodash package in the browser, we can access it through the <code>_</code> identifier.</p>
+<blockquote>
+<p>⚠️ <strong>WARNING</strong></p>
+<p>If you list a package as a peer-dependency for your library, set the required version as loose as possible. At least don&rsquo;t target the exact patch version. This is to avoid version incompatibility with other libraries.</p>
+</blockquote>
+<p>Before continuing to the next section, let&rsquo;s revert our change by removing <code>lodash/random</code> module as the peer dependency. Simply remove the <code>external</code> option from <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  },
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs()
+  ]
+};
+</code></pre></div><h2 id="compiling-es-2015-code-with-babel">Compiling ES 2015+ Code with Babel</h2>
+<p>You can use Babel with Rollup to transform your ES 2015+ code into a backward compatible version of JavaScript. This way your library can also be used in some older browsers or Node versions.</p>
+<p>First, let&rsquo;s install <code>@babel/core</code>, <code>@babel/preset-env</code>, and <code>rollup-plugin-babel</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install @babel/core @babel/preset-env rollup-plugin-babel -D
+
+<span style="color:#6272a4"># If you use Yarn</span>
+$ yarn add @babel/core @babel/preset-env rollup-plugin-babel -D
+</code></pre></div><p>With <code>@babel/preset-env</code>, we can easily target the minimum environments and don&rsquo;t need to choose the Babel&rsquo;s plugins manually. The <code>rollup-plugin-babel</code> is the required plugin for Babel integration with Rollup.</p>
+<p>Next, let&rsquo;s create a <code>.babelrc</code> config file. Store it within the <code>src</code> directory instead of the project root directory. This way we can have different babel configuration for other parts, like tests.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;presets&#34;</span>: [
+    [
+      <span style="color:#f1fa8c">&#34;@babel/env&#34;</span>,
+      {
+        <span style="color:#ff79c6">&#34;modules&#34;</span>: <span style="color:#ff79c6">false</span>,
+        <span style="color:#ff79c6">&#34;useBuiltIns&#34;</span>: <span style="color:#f1fa8c">&#34;usage&#34;</span>,
+        <span style="color:#ff79c6">&#34;targets&#34;</span>: {
+          <span style="color:#ff79c6">&#34;node&#34;</span>: <span style="color:#f1fa8c">&#34;4&#34;</span>
+        }
+      }
+    ]
+  ]
+}
+</code></pre></div><p>We set the <code>modules</code> to <code>false</code> to prevent Babel from transforming any ES modules. Rollup already handles this for us. We also set the <code>useBuiltIns</code> to <code>usage</code> to import polyfills for the features that we only use.</p>
+<p>We also set the minimum Node version to <code>4</code>. If we don&rsquo;t set the <code>targets</code> option, it will work exactly the same as using <code>@babel/preset-es2015</code>, <code>@babel/preset-es2016</code>, and <code>@babel/preset-es2017</code> together.</p>
+<blockquote>
+<p>This year, Node version 4 is already in the end-of-life. We targetted this version just to see the transformation made by Babel.</p>
+</blockquote>
+<p>Lastly, we need to register the <code>rollup-plugin-babel</code> plugin within the <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#39;rollup-plugin-babel&#39;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> {
+    file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+    format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+  },
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs(),
+    babel({
+      exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+    })
+  ]
+};
+</code></pre></div><p>Note that we also pass the <code>exclude</code> option to exclude any codes from the <code>node_modules</code> directory from transformation. Let&rsquo;s bundle our <code>main.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>If you check the generated <code>dist/cjs.js</code> file, you&rsquo;ll find that our ES 2015 code is transformed into the ES5 standard:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// Omitted for brevity...
+</span><span style="color:#6272a4"></span>
+<span style="color:#8be9fd;font-style:italic">var</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#8be9fd;font-style:italic">var</span> randomFruit <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">function</span> randomFruit() {
+  <span style="color:#ff79c6">return</span> FRUITS[random_1(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+};
+
+<span style="color:#8be9fd;font-style:italic">var</span> eatFruit <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">function</span> eatFruit() {
+  <span style="color:#ff79c6">return</span> console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+};
+</code></pre></div><h3 id="using-browserlist">Using Browserlist</h3>
+<p>We can also use a <a href="https://github.com/browserslist/browserslist">browserslist</a> query for targetting the minimum environments. Let&rsquo;s update our <code>src/.babelrc</code> file to target only Node versions that are still maintained:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
+  <span style="color:#f1fa8c">&#34;presets&#34;</span><span style="color:#ff79c6">:</span> [
+    [
+      <span style="color:#f1fa8c">&#34;@babel/env&#34;</span>,
+      {
+        <span style="color:#f1fa8c">&#34;modules&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+        <span style="color:#f1fa8c">&#34;targets&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;maintained node versions&#34;</span>
+      }
+    ]
+  ]
+}
+</code></pre></div><p>Check all of the possible browserslist queries here: <a href="https://github.com/browserslist/browserslist#full-list">Full List</a>.</p>
+<p>Now run the Rollup command to bundle our <code>main.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>If we check our code in the generated bundle file, it should now back to the ES 2015 syntax again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// Omitted for brevity...
+</span><span style="color:#6272a4"></span>
+<span style="color:#ff79c6">const</span> FRUITS <span style="color:#ff79c6">=</span> [<span style="color:#f1fa8c">&#39;🍏&#39;</span>, <span style="color:#f1fa8c">&#39;🍉&#39;</span>, <span style="color:#f1fa8c">&#39;🍇&#39;</span>];
+
+<span style="color:#ff79c6">const</span> randomFruit <span style="color:#ff79c6">=</span> () =&gt; FRUITS[random_1(<span style="color:#bd93f9">0</span>, FRUITS.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)];
+
+<span style="color:#ff79c6">const</span> eatFruit <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">`I eat </span><span style="color:#f1fa8c">${</span>randomFruit()<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">.`</span>);
+</code></pre></div><p>It&rsquo;s also possible for us to use the <code>.browserslist</code> configuration file. First, let&rsquo;s remove the <code>targets</code> option from the <code>src/.babelrc</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
+  <span style="color:#f1fa8c">&#34;presets&#34;</span><span style="color:#ff79c6">:</span> [
+    [
+      <span style="color:#f1fa8c">&#34;@babel/env&#34;</span>,
+      {
+        <span style="color:#f1fa8c">&#34;modules&#34;</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>
+      }
+    ]
+  ]
+}
+</code></pre></div><p>Next, create a new <code>.browserslistrc</code> file in the project root directory:</p>
+<pre><code>maintained node versions
+</code></pre><p>We will get a similar output if we run the Rollup command again.</p>
+<h3 id="different-output-format-different-minimum-environments">Different Output Format, Different Minimum Environments</h3>
+<p>Suppose that we want to generate a <code>umd</code> format. So it can be used in a browser too. Let&rsquo;s update our <code>rollup.config.js</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#39;rollup-plugin-babel&#39;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+  output<span style="color:#ff79c6">:</span> [
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    }
+  ],
+  plugins<span style="color:#ff79c6">:</span> [
+    resolve(),
+    commonjs(),
+    babel({
+      exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+    })
+  ]
+};
+</code></pre></div><p>Let&rsquo;s update our <code>.browserslistrc</code> file too:</p>
+<pre><code>maintained node versions
+last 1 version
+&gt; 5%
+not dead
+</code></pre><p>The above query means that we want to support:</p>
+<ul>
+<li><code>maintained node versions</code>: All Node versions that are still maintained.</li>
+<li><code>last 1 version</code>: The last 1 version of each browser.</li>
+<li><code>&gt; 5%</code>: All browsers with more than 5% usage statistic.</li>
+<li><code>not dead</code>: And only include the browsers that still have official support or updates.</li>
+</ul>
+<p>Run the Rollup command again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>Check the generated bundles. Both the <code>cjs</code> and the <code>umd</code> format are using ES5 syntax. That&rsquo;s because of our query on <code>.browerslistrc</code> are applied both to the <code>cjs</code> and <code>umd</code> output. Some of the browsers from that query are still not supporting <code>const</code> and arrow function syntax that we use. You can check all of the browsers that matched our query on this website: <a href="https://browserl.ist/?q=last+1+version%2C%3E+5%25%2C+not+dead">browserl.ist</a>.</p>
+<p>So how can we use a different <code>browserslist</code> query for <code>cjs</code> and <code>umd</code> format? For the CommonJS format we want to use:</p>
+<pre><code>maintained node versions
+</code></pre><p>While for the UMD format, we&rsquo;d like to use:</p>
+<pre><code>last 1 version
+&gt; 5%
+not dead
+</code></pre><p>Remember that we&rsquo;re allowed to have <a href="#multiple-inputs">multiple inputs</a> in <code>rollup.config.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#39;rollup-plugin-babel&#39;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> [
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>,
+        babelrc<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+        presets<span style="color:#ff79c6">:</span> [
+          [
+            <span style="color:#f1fa8c">&#39;@babel/env&#39;</span>,
+            {
+              modules<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+              useBuiltIns<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;usage&#34;</span>,
+              targets<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;maintained node versions&#39;</span>
+            }
+          ]
+        ]
+      })
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      })
+    ]
+  }
+];
+</code></pre></div><p>Note that on the <code>cjs</code> section, we pass <code>babelrc: false</code> to the babel plugin. This way we can override the configurations that are set on the <code>src/.babelrc</code> file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">babel({
+  exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>,
+  babelrc<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+  presets<span style="color:#ff79c6">:</span> [
+    [
+      <span style="color:#f1fa8c">&#39;@babel/env&#39;</span>,
+      {
+        modules<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+        useBuiltIns<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;usage&#34;</span>,
+        targets<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;maintained node versions&#39;</span>
+      }
+    ]
+  ]
+})
+</code></pre></div><p>Don&rsquo;t forget to update the <code>.browerslistrc</code> too:</p>
+<pre><code>last 1 version
+&gt; 5%
+not dead
+</code></pre><p>The <code>umd</code> format will still use the query set on the <code>.browerslistrc</code>. But the <code>cjs</code> format will now use the <code>maintained node versions</code> query instead. Run the bundle command again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>You should now find that the <code>umd</code> format are using ES 2015 syntax again.</p>
+<h2 id="minifying-bundle">Minifying Bundle</h2>
+<p>For browser usage, the library author often offers a minified version of the library. We can use the <a href="https://github.com/TrySound/rollup-plugin-terser"><code>rollup-plugin-terser</code></a> to minify our <code>umd</code> bundle. Let&rsquo;s install it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm i rollup-plugin-terser -D
+
+<span style="color:#6272a4"># Or if you use Yarn</span>
+$ yarn add rollup-plugin-terser -D
+</code></pre></div><p>We&rsquo;ll keep the non-minified version of the <code>umd</code> bundle. So we just need to add a similar <code>umd</code> config but with the <code>rollup-plugin-terser</code> addition.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#39;rollup-plugin-babel&#39;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+<span style="color:#ff79c6">import</span> { terser } from <span style="color:#f1fa8c">&#39;rollup-plugin-terser&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> [
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/cjs.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>,
+        babelrc<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+        presets<span style="color:#ff79c6">:</span> [
+          [
+            <span style="color:#f1fa8c">&#39;@babel/env&#39;</span>,
+            {
+              modules<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+              useBuiltIns<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;usage&#34;</span>,
+              targets<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;maintained node versions&#39;</span>
+            }
+          ]
+        ]
+      })
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      })
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;dist/umd.min.js&#39;</span>,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      }),
+      terser()
+    ]
+  }
+];
+</code></pre></div><p>Once it&rsquo;s added, let&rsquo;s bundle our <code>main.js</code> file again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ rollup -c
+</code></pre></div><p>We should now get a new bundle named <code>umd.min.js</code>. If you check this bundle, you&rsquo;ll see that the code is minified.</p>
+<h2 id="publishing-our-bundles">Publishing Our Bundles</h2>
+<p>Let&rsquo;s wrap this up by publishing our bundles to NPM. First, let&rsquo;s install <code>rollup</code> as our dev dependency:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i rollup -D
+
+<span style="color:#6272a4"># Or if you use Yarn.</span>
+yarn add rollup -D
+</code></pre></div><p>All this time we use the globally installed <code>rollup</code> to bundle our library. It&rsquo;s not the right approach. Other people might contribute to our library. It&rsquo;s possible that they have different Rollup version, or even worse they might not have Rollup installed at all.</p>
+<p>We might also use a CI pipeline to automate package publishing. And the server might not have Rollup installed. This way we can make sure every contributor or the CI server use the same version of Rollup.</p>
+<h3 id="update-our-packagejson-file">Update Our package.json File</h3>
+<p>Let&rsquo;s update our <code>package.json</code> file too:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;eat-fruit&#34;</span>,
+  <span style="color:#ff79c6">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Package to print some random fruit I eat.&#34;</span>,
+  <span style="color:#ff79c6">&#34;version&#34;</span>: <span style="color:#f1fa8c">&#34;0.0.1&#34;</span>,
+  <span style="color:#ff79c6">&#34;license&#34;</span>: <span style="color:#f1fa8c">&#34;MIT&#34;</span>,
+  <span style="color:#ff79c6">&#34;main&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.cjs.js&#34;</span>,
+  <span style="color:#ff79c6">&#34;browser&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.umd.js&#34;</span>,
+  <span style="color:#ff79c6">&#34;module&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.es.js&#34;</span>,
+  <span style="color:#ff79c6">&#34;engines&#34;</span>: {
+    <span style="color:#ff79c6">&#34;node&#34;</span>: <span style="color:#f1fa8c">&#34;&gt;= 6&#34;</span>
+  },
+  <span style="color:#ff79c6">&#34;scripts&#34;</span>: {
+    <span style="color:#ff79c6">&#34;build&#34;</span>: <span style="color:#f1fa8c">&#34;rollup -c&#34;</span>,
+    <span style="color:#ff79c6">&#34;prepublishOnly&#34;</span>: <span style="color:#f1fa8c">&#34;npm run build&#34;</span>
+  },
+  <span style="color:#ff79c6">&#34;dependencies&#34;</span>: {
+    <span style="color:#ff79c6">&#34;lodash&#34;</span>: <span style="color:#f1fa8c">&#34;^4.17.11&#34;</span>
+  },
+  <span style="color:#ff79c6">&#34;devDependencies&#34;</span>: {
+    <span style="color:#ff79c6">&#34;@babel/core&#34;</span>: <span style="color:#f1fa8c">&#34;^7.1.2&#34;</span>,
+    <span style="color:#ff79c6">&#34;@babel/preset-env&#34;</span>: <span style="color:#f1fa8c">&#34;^7.1.0&#34;</span>,
+    <span style="color:#ff79c6">&#34;rollup&#34;</span>: <span style="color:#f1fa8c">&#34;^0.66.6&#34;</span>,
+    <span style="color:#ff79c6">&#34;rollup-plugin-babel&#34;</span>: <span style="color:#f1fa8c">&#34;^4.0.3&#34;</span>,
+    <span style="color:#ff79c6">&#34;rollup-plugin-commonjs&#34;</span>: <span style="color:#f1fa8c">&#34;^9.2.0&#34;</span>,
+    <span style="color:#ff79c6">&#34;rollup-plugin-node-resolve&#34;</span>: <span style="color:#f1fa8c">&#34;^3.4.0&#34;</span>,
+    <span style="color:#ff79c6">&#34;rollup-plugin-terser&#34;</span>: <span style="color:#f1fa8c">&#34;^3.0.0&#34;</span>
+  }
+}
+</code></pre></div><blockquote>
+<p>🚨 IMPORTANT</p>
+<p>The <code>name</code> property in the <code>package.json</code> is the most important one. It&rsquo;s the name of your package. <strong>It must be unique</strong>. I already used the <code>eat-fruit</code> name. You have to choose your own unique package name. Use the <a href="https://www.npmjs.com">NPM</a> search feature to check for the availability.</p>
+<p>Read more about the <code>name</code> rules in the <a href="https://docs.npmjs.com/files/package.json#name">documentation</a>.</p>
+</blockquote>
+<p>Note that our dependencies' version might be different, and that&rsquo;s okay. Also notice the <code>main</code>, <code>module</code>, and <code>browser</code> properties:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  ...
+  <span style="color:#ff79c6">&#34;main&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.cjs.js&#34;</span>,
+  <span style="color:#ff79c6">&#34;browser&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.umd.js&#34;</span>,
+  <span style="color:#ff79c6">&#34;module&#34;</span>: <span style="color:#f1fa8c">&#34;dist/eat-fruit.es.js&#34;</span>,
+  ...
+}
+</code></pre></div><ul>
+<li><code>main</code>: This is the primary entry point for our package. We set it to the CommonJS bundle format.</li>
+<li><code>browser</code>: This is the bundle for the browser usage.</li>
+<li><code>module</code>: This is the ES bundle that meant to be used by the ES-module-aware tools like Rollup or Webpack 2+.</li>
+</ul>
+<p>We also add some <code>scripts</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  ...
+  <span style="color:#ff79c6">&#34;scripts&#34;</span>: {
+    <span style="color:#ff79c6">&#34;build&#34;</span>: <span style="color:#f1fa8c">&#34;rollup -c&#34;</span>,
+    <span style="color:#ff79c6">&#34;prepublishOnly&#34;</span>: <span style="color:#f1fa8c">&#34;npm run build&#34;</span>
+  },
+  ...
+}
+</code></pre></div><ul>
+<li><code>build</code>: Run the Rollup bundle command.</li>
+<li><code>prepublishOnly</code>: This script will be run before our library is published. It&rsquo;s to make sure that we publish the latest bundles.</li>
+</ul>
+<h3 id="updating-the-rollup-config-file">Updating the Rollup Config File</h3>
+<p>Let&rsquo;s update our Rollup config file to generate the <code>es</code> module too. We also use the <code>package.json</code> file to specify the output path for each format.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// rollup.config.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> babel from <span style="color:#f1fa8c">&#39;rollup-plugin-babel&#39;</span>;
+<span style="color:#ff79c6">import</span> commonjs from <span style="color:#f1fa8c">&#39;rollup-plugin-commonjs&#39;</span>;
+<span style="color:#ff79c6">import</span> resolve from <span style="color:#f1fa8c">&#39;rollup-plugin-node-resolve&#39;</span>;
+<span style="color:#ff79c6">import</span> { terser } from <span style="color:#f1fa8c">&#39;rollup-plugin-terser&#39;</span>;
+
+<span style="color:#ff79c6">import</span> pkg from <span style="color:#f1fa8c">&#39;./package.json&#39;</span>;
+
+<span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> [
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> pkg.main,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;cjs&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>,
+        babelrc<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+        presets<span style="color:#ff79c6">:</span> [
+          [
+            <span style="color:#f1fa8c">&#39;@babel/env&#39;</span>,
+            {
+              modules<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>,
+              useBuiltIns<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;usage&#34;</span>,
+              targets<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;maintained node versions&#39;</span>
+            }
+          ]
+        ]
+      })
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> pkg.browser,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      })
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> pkg.browser.replace(<span style="color:#f1fa8c">/\.js$/</span>, <span style="color:#f1fa8c">&#39;.min.js&#39;</span>),
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;umd&#39;</span>,
+      name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;eatFruit&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      }),
+      terser()
+    ]
+  },
+  {
+    input<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;src/main.js&#39;</span>,
+    output<span style="color:#ff79c6">:</span> {
+      file<span style="color:#ff79c6">:</span> pkg.module,
+      format<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;es&#39;</span>
+    },
+    plugins<span style="color:#ff79c6">:</span> [
+      resolve(),
+      commonjs(),
+      babel({
+        exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;node_modules/**&#39;</span>
+      })
+    ]
+  }
+];
+</code></pre></div><p>Let&rsquo;s try to bundle our library:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm run build
+
+<span style="color:#6272a4"># Or if you use Yarn</span>
+$ yarn build
+</code></pre></div><p>We should now have four build files within the <code>dist</code> directory:</p>
+<ul>
+<li><code>eat-fruit.cjs.js</code></li>
+<li><code>eat-fruit.ed.js</code></li>
+<li><code>eat-fruit.umd.js</code></li>
+<li><code>eat-fruit.umd.min.js</code></li>
+</ul>
+<h3 id="add-npmignore-file">Add .npmignore File</h3>
+<p>We only want to distribute the generated bundle files. We don&rsquo;t need to include the <code>src</code> directory or the Rollup configuration file. We can create <code>.npmignore</code> file to exclude files or directories that we don&rsquo;t want to distribute to our users.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#.npmignore</span>
+.browserslistrc
+rollup.config.js
+src
+yarn.lock
+</code></pre></div><p>Note that the <code>node_modules</code> directory will be ignored automatically, so we don&rsquo;t have to add it into the <code>.npmignore</code>. Note that the <code>package.json</code>, <code>README</code>, <code>LICENSE</code>, and <code>CHANGELOG</code> files will always be included. Even if we list them in the <code>.npmignore</code>.</p>
+<h3 id="login-to-npm">Login To NPM</h3>
+<p>To publish a package, you must be registered as an <a href="https://www.npmjs.com">NPM</a> user. If you&rsquo;re not a user create a new account here: <a href="https://www.npmjs.com/signup">NPM Sign Up</a>.</p>
+<p>Next, login to NPM using your terminal:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm login
+</code></pre></div><p>Type the following command to check whether you&rsquo;re logged in or not:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm whoami
+</code></pre></div><h3 id="publishing">Publishing</h3>
+<p>Before publishing your package, make sure that your bundle can be installed and working properly. You can install your package locally. Create a directory somewhere outside of your project directory.</p>
+<p>Now, within that test directory, create an empty <code>package.json</code> file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#ff79c6">{}</span> &gt; package.json
+</code></pre></div><p>You can then install your package by passing the path to your package project directory:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm i ../path/to/package-directory
+
+<span style="color:#6272a4"># Or if you use Yarn</span>
+$ yarn add ../path/to/package-directory
+</code></pre></div><p>You can verify further by opening the node-repl and try to require your package:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ node
+
+&gt; const <span style="color:#8be9fd;font-style:italic">eatFruit</span> <span style="color:#ff79c6">=</span> require<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;eat-fruit&#39;</span><span style="color:#ff79c6">)</span>;
+undefined
+&gt; eatFruit<span style="color:#ff79c6">()</span>;
+I eat 🍉.
+</code></pre></div><p>If all goes well, you&rsquo;re ready to publish your package! Run the following command to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm publish
+</code></pre></div><h2 id="summary">Summary</h2>
+<p>Congratulation 🎉 You&rsquo;ve made it until the end! Let&rsquo;s recap what you&rsquo;ve learned so far:</p>
+<ul>
+<li>Rollup offers various output formats:  <code>amd</code>, <code>cjs</code>, <code>es</code>, <code>umd</code>, and <code>iife</code>.</li>
+<li>We can configure Rollup through a configuration file.</li>
+<li>Rollup has a tree-shaking feature that can eliminate unused code from the final bundle.</li>
+<li>Many plugins available to extend Rollup capability, we tried several of them: resolving external NPM package, transforming CommonJS module, integration with Babel, and plugin for minifying the bundle.</li>
+<li>We also learn how to publish our package to NPM registry.</li>
+</ul>
+<p>You can get the source code for this tutorial on my Github repository: <a href="https://github.com/risan/eat-fruit">github.com/risan/eat-fruit</a>. And don&rsquo;t forget to check out the official <a href="https://rollupjs.org/guide/en">Rollup guide</a>.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/regenerator-runtime-is-not-defined/">Regenerator Runtime is not defined</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/vue-chart-component-with-chartjs/">Vue Chart Component with Chart.js</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

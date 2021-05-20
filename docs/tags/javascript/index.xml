@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/javascript/</link>
+    <description>Recent content in javascript on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Dec 2020 21:41:00 +0700</lastBuildDate><atom:link href="https://smith.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building a Web-App to Track My Expense on Google Sheets</title>
+      <link>https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/</link>
+      <pubDate>Sun, 27 Dec 2020 21:41:00 +0700</pubDate>
+      
+      <guid>https://smith.github.io/code/web-app-to-track-expense-on-google-sheets/</guid>
+      <description>I&amp;rsquo;ve tried so many applications to track my spending in the past. None of them stick with me for six months, at least. I always found myself fighting back against those applications. It could be the spending categories that didn&amp;rsquo;t fit my use case. Or some expense related fields that were missing, but I need those details. Or as simple as it didn&amp;rsquo;t have a web version, so I couldn&amp;rsquo;t log my spending while I was on my laptop.</description>
+    </item>
+    
+    <item>
+      <title>Vue.js: Implement Log In with Google Feature</title>
+      <link>https://smith.github.io/code/vue-google-login/</link>
+      <pubDate>Sun, 08 Nov 2020 20:28:00 +0700</pubDate>
+      
+      <guid>https://smith.github.io/code/vue-google-login/</guid>
+      <description>This weekend, I was tinkering with the latest version of Vue.js (v3) and the official Google API client library for JavaScript. I tried to implement the &amp;ldquo;Log In with Google&amp;rdquo; feature on a Vue.js project. I scaffolded the project using the Vue CLI. Added Vue Router for routing and Vuex for state management.
+First, we need to include the Google API client library on our HTML file. Note that we&amp;rsquo;re using the defer property so it won&amp;rsquo;t block the browser from parsing the rest of the HTML file.</description>
+    </item>
+    
+    <item>
+      <title>Incorporating Vue UI with a Traditional Laravel Login Flow</title>
+      <link>https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</link>
+      <pubDate>Sun, 22 Mar 2020 21:21:00 +0700</pubDate>
+      
+      <guid>https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</guid>
+      <description>Let&amp;rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.
+In my case, I also use the VeeValidate library for validating on the frontend side.</description>
+    </item>
+    
+    <item>
+      <title>Axios: Handle Error Response with 200 Status Code</title>
+      <link>https://smith.github.io/code/axios-handle-error-response-with-200-status-code/</link>
+      <pubDate>Sun, 23 Feb 2020 20:19:00 +0700</pubDate>
+      
+      <guid>https://smith.github.io/code/axios-handle-error-response-with-200-status-code/</guid>
+      <description>You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact the 200 status code is meant for a successful response.
+Let&amp;rsquo;s say that the API uses the status field in the JSON body to indicate whether the operation is successful or not. When the status is false, the operation is failed, though the HTTP status code is 200.</description>
+    </item>
+    
+    <item>
+      <title>Colorful Google Maps Marker</title>
+      <link>https://smith.github.io/code/colorful-google-maps-marker/</link>
+      <pubDate>Sun, 12 May 2019 14:32:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/colorful-google-maps-marker/</guid>
+      <description>When we&amp;rsquo;re using the Google Maps API and adding a marker into our map instance, by default we&amp;rsquo;ll end up with this red pin figure.
+ The default Google Maps marker However, when we&amp;rsquo;re displaying a bunch of markers that can be grouped into different categories, it&amp;rsquo;s useful that each marker category has a different visual cue. In the past, I usually use a PNG image to replace the default marker; where each category has different image URL.</description>
+    </item>
+    
+    <item>
+      <title>Lazy Load Google Maps API</title>
+      <link>https://smith.github.io/code/lazy-load-google-maps-api/</link>
+      <pubDate>Fri, 26 Apr 2019 19:31:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/lazy-load-google-maps-api/</guid>
+      <description>Yesterday I was combing through the vue2-google-maps source code. It&amp;rsquo;s a collection of Google Maps components for Vue. Then I found an interesting bit of how it loads the Google Maps JavaScript API lazily (check the src/manager.js and the src/main.js).
+It&amp;rsquo;s pretty useful, especially if you build a SPA (single page application) where there are pages that don&amp;rsquo;t actually use the Google Maps API. By lazy loading the Google Maps API, your users will only have to download the library once they hit the page that uses it.</description>
+    </item>
+    
+    <item>
+      <title>How to Clear Nunjucks Cache</title>
+      <link>https://smith.github.io/code/how-to-clear-nunjucks-cache/</link>
+      <pubDate>Mon, 14 Jan 2019 21:01:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/how-to-clear-nunjucks-cache/</guid>
+      <description>I&amp;rsquo;m building a static site generator (again) named Flores. Initially, I use Pug for the templating engine. But then I discovered Nunjucks. It has a lot more features and the syntax is quite similar to Twig which I&amp;rsquo;m familiar with. I also did a quick test and the render time is quite similar when the cache option is activated.
+However, I had an issue when Flores is on the &amp;ldquo;watch&amp;rdquo; mode (think of Webpack watch mode).</description>
+    </item>
+    
+    <item>
+      <title>Express Responds with Base64 Encoded Image</title>
+      <link>https://smith.github.io/code/express-responds-with-base64-image/</link>
+      <pubDate>Tue, 04 Dec 2018 10:16:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/express-responds-with-base64-image/</guid>
+      <description>I want to create an endpoint that will respond with a 1x1 pixel PNG file. Instead of using the sendFile method, I choose to use the base64 encoded representation since the file size is super small. This way I can avoid accessing the file system entirely.
+Here&amp;rsquo;s the gist:
+const express = require(&amp;#34;express&amp;#34;); const app = express(); app.get(&amp;#34;/test.png&amp;#34;, (req, res) =&amp;gt; { // A 1x1 pixel red colored PNG file.  const img = Buffer.</description>
+    </item>
+    
+    <item>
+      <title>Regenerator Runtime is not defined</title>
+      <link>https://smith.github.io/code/regenerator-runtime-is-not-defined/</link>
+      <pubDate>Sun, 11 Nov 2018 11:05:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/regenerator-runtime-is-not-defined/</guid>
+      <description>I was tinkering with my antiquated, silly, and super tiny NPM module this morning: giphy-random. It basically for retrieving a random GIF using the Gihpy API.
+I simplified the code, from the class-based to just a simple function. I also replaced the Promise syntax with the async-await style. It&amp;rsquo;s super simple:
+import axios from &amp;#34;axios&amp;#34;; const giphyRandom = async (apiKey, { tag, rating = &amp;#34;g&amp;#34; } = {}) =&amp;gt; { const params = { api_key: apiKey, rating }; if (tag) { params.</description>
+    </item>
+    
+    <item>
+      <title>Bundling Your JavaScript Library with Rollup</title>
+      <link>https://smith.github.io/code/bundling-your-javascript-library-with-rollup/</link>
+      <pubDate>Sun, 04 Nov 2018 02:51:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/bundling-your-javascript-library-with-rollup/</guid>
+      <description>Similar to Webpack or Browserify, Rollup is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It can also bundle our module and wrap it inside the IIFE (Immediately-Invoked Function Expression).
+Though people usually use Rollup to bundle a library. It&amp;rsquo;s possible to bundle an application too.
+ You can access the source code for this tutorial here: github.</description>
+    </item>
+    
+    <item>
+      <title>Vue Chart Component with Chart.js</title>
+      <link>https://smith.github.io/code/vue-chart-component-with-chartjs/</link>
+      <pubDate>Sun, 14 Oct 2018 18:38:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/vue-chart-component-with-chartjs/</guid>
+      <description>Chart.js is an amazing chart library for JavaScript. It&amp;rsquo;s modern and performant; built on top of the HTML5 canvas. It includes 8 different chart types which super easy to extend and configure. On top of it all, the generated chart just looks beautiful.
+Last night I did some tinkering to integrate Chart.js within the existing Vue code base. So, how can we do that? If you want, there&amp;rsquo;s actually a wrapper for Chart.</description>
+    </item>
+    
+    <item>
+      <title>Set Authorization Header with Apollo Client</title>
+      <link>https://smith.github.io/code/set-authorization-header-with-apollo-client/</link>
+      <pubDate>Sat, 14 Apr 2018 13:00:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/set-authorization-header-with-apollo-client/</guid>
+      <description>A GraphQL API often requires us to provide an authorization header to authenticate the request. How can we provide this authorization header using the popular Apollo Client library?
+It turns our Apollo already provides us with the apollo-link module. apollo-link is a composable network layer that we can use to configure the HTTP request. With apollo-link, we can create chainable middlewares that will construct our final HTTP request.
+Suppose our initial code to instantiate an Apollo Client look like this:</description>
+    </item>
+    
+    <item>
+      <title>React Component with Dot Notation</title>
+      <link>https://smith.github.io/code/react-component-with-dot-notation/</link>
+      <pubDate>Sat, 07 Apr 2018 23:04:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/react-component-with-dot-notation/</guid>
+      <description>This is my answer to someone&amp;rsquo;s question on StackOverflow. How can we define a React component that is accessible through the dot notation?
+Take a look at the following code. We have the Menu component and its three children Menu.Item:
+const App = () =&amp;gt; ( &amp;lt;Menu&amp;gt; &amp;lt;Menu.Item&amp;gt;Home&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;Blog&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;About&amp;lt;/Menu.Item&amp;gt; &amp;lt;/Menu&amp;gt; ); How can we define a component like Menu? Where it has some kind of &amp;ldquo;sub-component&amp;rdquo; that is accessible through a dot notation.</description>
+    </item>
+    
+    <item>
+      <title>Track User&#39;s Location and Display it on Google Maps</title>
+      <link>https://smith.github.io/code/track-user-location-google-maps/</link>
+      <pubDate>Fri, 16 Mar 2018 17:57:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/track-user-location-google-maps/</guid>
+      <description>This is actually my answer to someone&amp;rsquo;s question on PHP Indonesia Facebook group. How can we track user&amp;rsquo;s location continuously using the Geolocation API and display it on Google Maps?
+Before getting started, we&amp;rsquo;re going to need an API Key to use the Google Maps JavaScript API. As a safety measure, don&amp;rsquo;t forget to set the HTTP referrers on your API key to your own domains.
+Table of Contents  Displaying Google Map on Your Page  Our HTML Structure Add Some Styles Initialize The Map   Adding Marker to Your Map Get User&amp;rsquo;s Location  Using the getCurrentPosition Method Simulating User&amp;rsquo;s Location on Chrome Handling Errors Display User&amp;rsquo;s Location on Google Maps Let&amp;rsquo;s Refactor our Code   Track User&amp;rsquo;s Location with watchPosition  The PositionOptions The Final Touch     Displaying Google Map on Your Page First, let&amp;rsquo;s start with a simple example: display a map on our HTML page using Google Maps Javascript API.</description>
+    </item>
+    
+    <item>
+      <title>I Create My Own Static Site Generator</title>
+      <link>https://smith.github.io/code/i-create-my-own-static-site-generator/</link>
+      <pubDate>Sun, 11 Feb 2018 17:06:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/i-create-my-own-static-site-generator/</guid>
+      <description>Instead of writing a blog post more often, I decided to redesign my four months old blog, ditched Jekyll and built a custom static site generator. The conversation went like this:
+My inner Yoda: &amp;ldquo;Write more often this year, you must&amp;rdquo;
+Dark side of the Force: &amp;ldquo;I find the combination of Ruby and Javascript is disturbing&amp;rdquo;
+Me: &amp;ldquo;Okay, let&amp;rsquo;s reinvent the wheel and build the static site generator entirely in Javascript!</description>
+    </item>
+    
+  </channel>
+</rss>

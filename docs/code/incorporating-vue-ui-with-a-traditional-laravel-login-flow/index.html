@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Incorporating Vue UI with a Traditional Laravel Login Flow | rachel&#39;s blog</title>
+    <meta name="description" content="Let&rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Incorporating Vue UI with a Traditional Laravel Login Flow" />
+<meta property="og:description" content="Let&rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.
+In my case, I also use the VeeValidate library for validating on the frontend side." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-03-22T21:21:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-03-22T21:21:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Incorporating Vue UI with a Traditional Laravel Login Flow"/>
+<meta name="twitter:description" content="Let&rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.
+In my case, I also use the VeeValidate library for validating on the frontend side."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Incorporating Vue UI with a Traditional Laravel Login Flow</h1><time datetime='2020-03-22T21:21:00&#43;07:00'>2020-03-22</time><p>Let&rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.</p>
+<p>In my case, I also use the VeeValidate library for validating on the frontend side. Here&rsquo;s how the Vue component might looks:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#ff79c6">template</span>&gt;
+  &lt;<span style="color:#ff79c6">ValidationObserver</span>
+    <span style="color:#50fa7b">ref</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;observer&#34;</span>
+    <span style="color:#50fa7b">v-slot</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{ handleSubmit }&#34;</span>
+  &gt;
+    &lt;<span style="color:#ff79c6">form</span>
+      <span style="color:#50fa7b">ref</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;form&#34;</span>
+      <span style="color:#50fa7b">:action</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;&#39;/login&#39;&#34;</span>
+      <span style="color:#50fa7b">method</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;POST&#34;</span>
+      @<span style="color:#50fa7b">submit</span>.<span style="color:#50fa7b">prevent</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;handleSubmit(submit)&#34;</span>
+    &gt;
+      &lt;<span style="color:#ff79c6">input</span>
+        <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;_token&#34;</span>
+        <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hidden&#34;</span>
+        <span style="color:#50fa7b">:value</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;token&#34;</span>
+      &gt;
+
+      &lt;<span style="color:#ff79c6">ValidationProvider</span>
+        <span style="color:#50fa7b">v-slot</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{ errors }&#34;</span>
+        <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;email&#34;</span>
+        <span style="color:#50fa7b">rules</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;required|email&#34;</span>
+      &gt;
+        &lt;<span style="color:#ff79c6">input</span>
+          <span style="color:#50fa7b">v-model</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;email&#34;</span>
+          <span style="color:#50fa7b">:error-messages</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;errors&#34;</span>
+          <span style="color:#50fa7b">label</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Email&#34;</span>
+          <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;email&#34;</span>
+          <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;text&#34;</span>
+        /&gt;
+      &lt;/<span style="color:#ff79c6">ValidationProvider</span>&gt;
+
+      &lt;<span style="color:#ff79c6">ValidationProvider</span>
+        <span style="color:#50fa7b">v-slot</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{ errors }&#34;</span>
+        <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;password&#34;</span>
+        <span style="color:#50fa7b">rules</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;required&#34;</span>
+      &gt;
+        &lt;<span style="color:#ff79c6">input</span>
+          <span style="color:#50fa7b">v-model</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;password&#34;</span>
+          <span style="color:#50fa7b">:error-messages</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;errors&#34;</span>
+          <span style="color:#50fa7b">label</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Password&#34;</span>
+          <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;password&#34;</span>
+          <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;password&#34;</span>
+        /&gt;
+      &lt;/<span style="color:#ff79c6">ValidationProvider</span>&gt;
+
+      &lt;<span style="color:#ff79c6">button</span> <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;submit&#34;</span>&gt;
+        Login
+      &lt;/<span style="color:#ff79c6">button</span>&gt;
+    &lt;/<span style="color:#ff79c6">form</span>&gt;
+  &lt;/<span style="color:#ff79c6">ValidationObserver</span>&gt;
+&lt;/<span style="color:#ff79c6">template</span>&gt;
+
+&lt;<span style="color:#ff79c6">script</span>&gt;
+  <span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+    data() {
+      <span style="color:#ff79c6">return</span> {
+        token<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;&#39;</span>,
+        email<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;&#39;</span>,
+        password<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;&#39;</span>,
+      };
+    },
+
+    mounted() {
+      <span style="color:#6272a4">//
+</span><span style="color:#6272a4"></span>    },
+
+    methods<span style="color:#ff79c6">:</span> {
+      submit() {
+        <span style="color:#ff79c6">this</span>.$refs.form.submit();
+      },
+    },
+  };
+&lt;/<span style="color:#ff79c6">script</span>&gt;
+</code></pre></div><p>It&rsquo;s pretty straight forward. There are three inputs: <code>_token</code>, <code>email</code>, and <code>password</code>. The <code>_token</code> will hold the CSRF token that needs to be sent along with the POST request. <code>email</code> and <code>password</code> are the credentials that will be used to authenticate the user.</p>
+<p>Since it&rsquo;s a session-based login, we need to incorporate the Laravel validation error into our Vue component. On our Blade template, we need to pass these errors into a JS variable so our Vue component can consume it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#ff79c6">html</span>&gt;
+&lt;<span style="color:#ff79c6">head</span>&gt;
+  ...
+  &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;csrf-token&#34;</span> <span style="color:#50fa7b">content</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{{ csrf_token() }}&#34;</span>&gt;
+&lt;/<span style="color:#ff79c6">head</span>&gt;
+&lt;<span style="color:#ff79c6">body</span>&gt;
+  ...
+  &lt;<span style="color:#ff79c6">script</span>&gt;
+    <span style="color:#8be9fd;font-style:italic">window</span>.errors <span style="color:#ff79c6">=</span> @json($errors<span style="color:#ff79c6">-&gt;</span>toArray());
+    <span style="color:#8be9fd;font-style:italic">window</span>.oldInputs <span style="color:#ff79c6">=</span> {
+      email<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;{{ old(&#34;email&#34;) }}&#39;</span>
+    };
+  &lt;/<span style="color:#ff79c6">script</span>&gt;
+&lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
+</code></pre></div><p>In the template above, we store the CSRF token on a <code>&lt;meta&gt;</code> tag. We also store any error data from Laravel into a global JS variable named <code>errors</code>. Last we store the old email input into a JS variable named <code>oldInputs</code>, so if the login failed, user can still see their previously entered email. Now, all we have to do is incorporate these data into our Vue component:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> {
+  data() {
+    <span style="color:#ff79c6">return</span> {
+      token<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">document</span>.querySelector(<span style="color:#f1fa8c">&#39;[name=csrf-token]&#39;</span>)
+        .getAttribute(<span style="color:#f1fa8c">&#39;content&#39;</span>),
+      email<span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">window</span>.oldInputs.email,
+      password<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;&#39;</span>,
+    };
+  },
+
+  mounted() {
+    <span style="color:#ff79c6">this</span>.$refs.observer.setErrors(<span style="color:#8be9fd;font-style:italic">window</span>.errors);
+  },
+
+  methods<span style="color:#ff79c6">:</span> {
+    submit() {
+      <span style="color:#ff79c6">this</span>.$refs.form.submit();
+    },
+  },
+};
+</code></pre></div><footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/snippet/">snippet</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a>,&nbsp;<a href="/tags/laravel/">laravel</a>,&nbsp;<a href="/tags/vue/">vue</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/switching-to-hugo/">Switching to Hugo</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/setting-up-tailwind-with-vue-cli/">Setting Up Tailwind CSS with Vue CLI</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Setting Up Tailwind CSS with Vue CLI | rachel&#39;s blog</title>
+    <meta name="description" content="It&rsquo;s quite easy to set up Tailwind CSS within your Vue CLI project. Since Vue CLI is already shipped with PostCSS, all we have to do is to install Tailwind as a PostCSS plugin. If you look at …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Setting Up Tailwind CSS with Vue CLI" />
+<meta property="og:description" content="It&rsquo;s quite easy to set up Tailwind CSS within your Vue CLI project. Since Vue CLI is already shipped with PostCSS, all we have to do is to install Tailwind as a PostCSS plugin. If you look at this Vue CLI source code, you&rsquo;ll notice that Vue CLI will look through every possible PostCSS config file.
+const hasPostCSSConfig = !!(loaderOptions.postcss || api.service.pkg.postcss || findExisting(api.resolve(&#39;.&#39;), [ &#39;.postcssrc&#39;, &#39;.postcssrc.js&#39;, &#39;postcss.config.js&#39;, &#39;.postcssrc.yaml&#39;, &#39;.postcssrc.json&#39; ])) If the config file is not found, it will create a PostCSS config object where autoprefixer is loaded as a plugin." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/setting-up-tailwind-with-vue-cli/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-03-07T22:16:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-03-07T22:16:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Setting Up Tailwind CSS with Vue CLI"/>
+<meta name="twitter:description" content="It&rsquo;s quite easy to set up Tailwind CSS within your Vue CLI project. Since Vue CLI is already shipped with PostCSS, all we have to do is to install Tailwind as a PostCSS plugin. If you look at this Vue CLI source code, you&rsquo;ll notice that Vue CLI will look through every possible PostCSS config file.
+const hasPostCSSConfig = !!(loaderOptions.postcss || api.service.pkg.postcss || findExisting(api.resolve(&#39;.&#39;), [ &#39;.postcssrc&#39;, &#39;.postcssrc.js&#39;, &#39;postcss.config.js&#39;, &#39;.postcssrc.yaml&#39;, &#39;.postcssrc.json&#39; ])) If the config file is not found, it will create a PostCSS config object where autoprefixer is loaded as a plugin."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Setting Up Tailwind CSS with Vue CLI</h1><time datetime='2020-03-07T22:16:00&#43;07:00'>2020-03-07</time><p>It&rsquo;s quite easy to set up Tailwind CSS within your Vue CLI project. Since Vue CLI is already shipped with PostCSS, all we have to do is to install Tailwind as a PostCSS plugin. If you look at this <a href="https://github.com/vuejs/vue-cli/blob/1a0b59142aa8797810ca90705290d960a4ee6d1e/packages/%40vue/cli-service/lib/config/css.js#L76-L90">Vue CLI source code</a>, you&rsquo;ll notice that Vue CLI will look through every possible PostCSS config file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">const</span> hasPostCSSConfig <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">!!</span>(loaderOptions.postcss <span style="color:#ff79c6">||</span> api.service.pkg.postcss <span style="color:#ff79c6">||</span> findExisting(api.resolve(<span style="color:#f1fa8c">&#39;.&#39;</span>), [
+  <span style="color:#f1fa8c">&#39;.postcssrc&#39;</span>,
+  <span style="color:#f1fa8c">&#39;.postcssrc.js&#39;</span>,
+  <span style="color:#f1fa8c">&#39;postcss.config.js&#39;</span>,
+  <span style="color:#f1fa8c">&#39;.postcssrc.yaml&#39;</span>,
+  <span style="color:#f1fa8c">&#39;.postcssrc.json&#39;</span>
+]))
+</code></pre></div><p>If the config file is not found, it will create a PostCSS config object where <code>autoprefixer</code> is loaded as a plugin.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>hasPostCSSConfig) {
+  loaderOptions.postcss <span style="color:#ff79c6">=</span> {
+    plugins<span style="color:#ff79c6">:</span> [
+      require(<span style="color:#f1fa8c">&#39;autoprefixer&#39;</span>)
+    ]
+  }
+}
+</code></pre></div><p>To set up Tailwind, first, we need to install Tailwind CSS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install tailwindcss
+</code></pre></div><p>Next, we have to create a new PostCSS config file on the root directory. Let&rsquo;s create one named <code>postcss.config.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// postcss.config.js
+</span><span style="color:#6272a4"></span>module.exports <span style="color:#ff79c6">=</span> {
+  plugins<span style="color:#ff79c6">:</span> [
+    require(<span style="color:#f1fa8c">&#39;tailwindcss&#39;</span>),
+    require(<span style="color:#f1fa8c">&#39;autoprefixer&#39;</span>),
+  ]
+}
+</code></pre></div><p>And that&rsquo;s pretty much it. Now, all we have to do is to inject Tailwind&rsquo;s <code>base</code>, <code>components</code>, and <code>utilities</code> on our CSS file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#6272a4">// /src/styles.css
+</span><span style="color:#6272a4"></span>@tailwind <span style="color:#ff79c6">base</span>;
+@tailwind components;
+@tailwind utilities;
+
+<span style="color:#6272a4">// rest of css...
+</span></code></pre></div><p>If we import this CSS file, we can start using Tailwind utility classes on our Vue components.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#6272a4">// /src/main.js
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> Vue from <span style="color:#f1fa8c">&#39;vue&#39;</span>;
+<span style="color:#ff79c6">import</span> App from <span style="color:#f1fa8c">&#39;./App.vue&#39;</span>;
+<span style="color:#ff79c6">import</span> <span style="color:#f1fa8c">&#39;./style.css&#39;</span>;
+
+Vue.config.productionTip <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+
+<span style="color:#ff79c6">new</span> Vue({
+  render<span style="color:#ff79c6">:</span> (h) =&gt; h(App),
+}).$mount(<span style="color:#f1fa8c">&#39;#app&#39;</span>);
+</code></pre></div><footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/snippet/">snippet</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/vue/">vue</a>,&nbsp;<a href="/tags/css/">css</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/">Incorporating Vue UI with a Traditional Laravel Login Flow</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/axios-handle-error-response-with-200-status-code/">Axios: Handle Error Response with 200 Status Code</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

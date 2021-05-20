@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>react on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/react/</link>
+    <description>Recent content in react on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Apr 2018 23:04:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Component with Dot Notation</title>
+      <link>https://smith.github.io/code/react-component-with-dot-notation/</link>
+      <pubDate>Sat, 07 Apr 2018 23:04:00 +0200</pubDate>
+      
+      <guid>https://smith.github.io/code/react-component-with-dot-notation/</guid>
+      <description>This is my answer to someone&amp;rsquo;s question on StackOverflow. How can we define a React component that is accessible through the dot notation?
+Take a look at the following code. We have the Menu component and its three children Menu.Item:
+const App = () =&amp;gt; ( &amp;lt;Menu&amp;gt; &amp;lt;Menu.Item&amp;gt;Home&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;Blog&amp;lt;/Menu.Item&amp;gt; &amp;lt;Menu.Item&amp;gt;About&amp;lt;/Menu.Item&amp;gt; &amp;lt;/Menu&amp;gt; ); How can we define a component like Menu? Where it has some kind of &amp;ldquo;sub-component&amp;rdquo; that is accessible through a dot notation.</description>
+    </item>
+    
+  </channel>
+</rss>

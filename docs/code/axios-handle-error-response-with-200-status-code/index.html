@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Axios: Handle Error Response with 200 Status Code | rachel&#39;s blog</title>
+    <meta name="description" content="You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Axios: Handle Error Response with 200 Status Code" />
+<meta property="og:description" content="You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact the 200 status code is meant for a successful response.
+Let&rsquo;s say that the API uses the status field in the JSON body to indicate whether the operation is successful or not. When the status is false, the operation is failed, though the HTTP status code is 200." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/axios-handle-error-response-with-200-status-code/" /><meta property="og:image" content="https://smith.github.io/47"/><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-02-23T20:19:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-04-01T20:19:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/47"/>
+
+<meta name="twitter:title" content="Axios: Handle Error Response with 200 Status Code"/>
+<meta name="twitter:description" content="You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact the 200 status code is meant for a successful response.
+Let&rsquo;s say that the API uses the status field in the JSON body to indicate whether the operation is successful or not. When the status is false, the operation is failed, though the HTTP status code is 200."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Axios: Handle Error Response with 200 Status Code</h1>Updated on <time datetime='2020-04-01T20:19:00&#43;07:00'>01 April 2020</time><p>You might be using an API that does not utilize the HTTP status code properly. For example, even if the operation is failed because of the client error, the API returns a 200 status code—when in fact the 200 status code is meant for a successful response.</p>
+<p>Let&rsquo;s say that the API uses the <code>status</code> field in the JSON body to indicate whether the operation is successful or not. When the <code>status</code> is <code>false</code>, the operation is failed, though the HTTP status code is 200. Of course, you can always inspect the returned JSON body before processing the response even further.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">const</span> client <span style="color:#ff79c6">=</span> axios.create({
+  baseURL<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;https://example.com&#39;</span>,
+});
+
+<span style="color:#6272a4">// Suppose that the user with 12345 id does not exist and the response&#39;s body
+</span><span style="color:#6272a4">// looks like this:
+</span><span style="color:#6272a4">// {
+</span><span style="color:#6272a4">//   status: false,
+</span><span style="color:#6272a4">//   message: &#39;User not found.&#39;
+</span><span style="color:#6272a4">// }
+</span><span style="color:#6272a4"></span>client.get(<span style="color:#f1fa8c">&#39;/users/12345&#39;</span>)
+  .then(res =&gt; {
+    <span style="color:#ff79c6">if</span> (res.status <span style="color:#ff79c6">===</span> <span style="color:#ff79c6">false</span>) {
+      <span style="color:#6272a4">// Handle the error here...
+</span><span style="color:#6272a4"></span>    } <span style="color:#ff79c6">else</span> {
+      <span style="color:#6272a4">// Handle the user data here...
+</span><span style="color:#6272a4"></span>    }
+  });
+</code></pre></div><p>However, I prefer to have an actual error instance when the operation is failed. To achieve this we can use axios <a href="https://github.com/axios/axios#interceptors">interceptors</a> feature. Within the interceptor&rsquo;s callback we can throw an error when the <code>status</code> is <code>false</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ff79c6">const</span> client <span style="color:#ff79c6">=</span> axios.create({
+  baseURL<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;https://example.com&#39;</span>,
+});
+
+client.interceptors.response.use(res =&gt; {
+  <span style="color:#ff79c6">if</span> (res.data.status <span style="color:#ff79c6">===</span> <span style="color:#ff79c6">false</span>) {
+    <span style="color:#6272a4">// Error message is retrived from the JSON body.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">const</span> error <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> <span style="color:#8be9fd;font-style:italic">Error</span>(res.data.message);
+    <span style="color:#6272a4">// Attach the response instance, in case we would like to access it.
+</span><span style="color:#6272a4"></span>    error.response <span style="color:#ff79c6">=</span> res;
+
+    <span style="color:#ff79c6">throw</span> error;
+  }
+
+  <span style="color:#6272a4">// If the status is true, simply return back the response instance.
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">return</span> res;
+});
+
+client.get(<span style="color:#f1fa8c">&#39;/users/12345&#39;</span>)
+  .then(res =&gt; {
+    <span style="color:#6272a4">// handle the user data here...
+</span><span style="color:#6272a4"></span>  })
+  .<span style="color:#ff79c6">catch</span>(error =&gt; {
+    <span style="color:#6272a4">// handle the error here...
+</span><span style="color:#6272a4"></span>  });
+</code></pre></div><p>Note that in the example above we use a custom error message that is retrieved from the <code>message</code> field in the JSON body. We also attach the response instance to the error, in case we would like to access it within the catch block later.</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/snippet/">snippet</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/setting-up-tailwind-with-vue-cli/">Setting Up Tailwind CSS with Vue CLI</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/postmark-tag-in-laravel/">Add Postmark&#39;s Tag in Laravel</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

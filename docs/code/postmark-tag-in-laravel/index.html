@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Add Postmark&#39;s Tag in Laravel | rachel&#39;s blog</title>
+    <meta name="description" content="An easy way to add a Postmark&#39;s tag in Larav">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Add Postmark&#39;s Tag in Laravel" />
+<meta property="og:description" content="An easy way to add a Postmark&#39;s tag in Larav" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/postmark-tag-in-laravel/" /><meta property="og:image" content="https://smith.github.io/img/laravel.png" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2020-02-09T20:45:00&#43;07:00" />
+<meta property="article:modified_time" content="2020-02-09T20:45:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/img/laravel.png"/>
+
+<meta name="twitter:title" content="Add Postmark&#39;s Tag in Laravel"/>
+<meta name="twitter:description" content="An easy way to add a Postmark&#39;s tag in Larav"/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Add Postmark&#39;s Tag in Laravel</h1><time datetime='2020-02-09T20:45:00&#43;07:00'>2020-02-09</time><p>Laravel makes it super easy to work with e-mail. It ships with an SMTP based mail driver out of the box. We can also easily use API based mail drivers like Amazon SES, Mailgun, or even Postmark.</p>
+<p>Since the Laravel&rsquo;s drivers are meant to be effortlessly swappable, the API tends to be more general. That&rsquo;s why some features might not be available out of the box, like Postmark&rsquo;s tag for example.</p>
+<p>But not to worry, we can still put a tag on our mail by accessing the underlying <code>Swift_Message</code> instance on our <code>Mailable</code> class. Even though we&rsquo;re sending the e-mail through an API, it turns out we can still pass the <code>X-PM-Tag</code> header to set a tag on our e-mail.</p>
+<p>Here&rsquo;s an example of adding an <code>order-shipped</code> tag on our e-mail:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">&lt;?</span>php
+
+<span style="color:#ff79c6">namespace</span> App\Mail;
+
+<span style="color:#ff79c6">use</span> App\Order;
+<span style="color:#ff79c6">use</span> Swift_Message;
+<span style="color:#ff79c6">use</span> Illuminate\Bus\Queueable;
+<span style="color:#ff79c6">use</span> Illuminate\Mail\Mailable;
+<span style="color:#ff79c6">use</span> Illuminate\Queue\SerializesModels;
+
+<span style="color:#ff79c6">class</span> <span style="color:#50fa7b">OrderShipped</span> <span style="color:#ff79c6">extends</span> Mailable
+{
+    <span style="color:#ff79c6">use</span> Queueable, SerializesModels;
+
+    <span style="color:#f1fa8c">/**
+</span><span style="color:#f1fa8c">     * The order instance.
+</span><span style="color:#f1fa8c">     *
+</span><span style="color:#f1fa8c">     * @var Order
+</span><span style="color:#f1fa8c">     */</span>
+    <span style="color:#ff79c6">public</span> <span style="color:#8be9fd;font-style:italic">$order</span>;
+
+    <span style="color:#f1fa8c">/**
+</span><span style="color:#f1fa8c">     * Create a new message instance.
+</span><span style="color:#f1fa8c">     *
+</span><span style="color:#f1fa8c">     * @return void
+</span><span style="color:#f1fa8c">     */</span>
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> __construct(Order <span style="color:#8be9fd;font-style:italic">$order</span>)
+    {
+        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">order</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$order</span>;
+    }
+
+    <span style="color:#f1fa8c">/**
+</span><span style="color:#f1fa8c">     * Build the message.
+</span><span style="color:#f1fa8c">     *
+</span><span style="color:#f1fa8c">     * @return $this
+</span><span style="color:#f1fa8c">     */</span>
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">build</span>()
+    {
+        <span style="color:#6272a4">// Access the Swift_Message instance to add X-PM-Tag header
+</span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">withSwiftMessage</span>(<span style="color:#ff79c6">function</span> (Swift_Message <span style="color:#8be9fd;font-style:italic">$message</span>) {
+            <span style="color:#8be9fd;font-style:italic">$message</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getHeaders</span>()<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">addTextHeader</span>(<span style="color:#f1fa8c">&#39;X-PM-Tag&#39;</span>, <span style="color:#f1fa8c">&#39;order-shipped&#39;</span>);
+        });
+
+        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">view</span>(<span style="color:#f1fa8c">&#39;emails.orders.shipped&#39;</span>);
+    }
+}
+</code></pre></div><p>What if we want the tag to be easily configurable when we&rsquo;re sending the <code>Mailable</code> class on our controller? Well, that&rsquo;s easy, just set the tag as a public property on our <code>Mailable</code> class.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">OrderShipped</span> <span style="color:#ff79c6">extends</span> Mailable
+{
+    <span style="color:#ff79c6">public</span> <span style="color:#8be9fd;font-style:italic">$order</span>;
+
+    <span style="color:#ff79c6">public</span> <span style="color:#8be9fd;font-style:italic">$tag</span>;
+
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> __construct(Order <span style="color:#8be9fd;font-style:italic">$order</span>, string <span style="color:#8be9fd;font-style:italic">$tag</span>)
+    {
+        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">order</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$order</span>;
+        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">tag</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$tag</span>;
+    }
+
+    <span style="color:#ff79c6">public</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">build</span>()
+    {
+        <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">withSwiftMessage</span>(<span style="color:#ff79c6">function</span> (Swift_Message <span style="color:#8be9fd;font-style:italic">$message</span>) {
+            <span style="color:#8be9fd;font-style:italic">$message</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">getHeaders</span>()<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">addTextHeader</span>(<span style="color:#f1fa8c">&#39;X-PM-Tag&#39;</span>, <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">tag</span>);
+        });
+
+        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">$this</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">view</span>(<span style="color:#f1fa8c">&#39;emails.orders.shipped&#39;</span>);
+    }
+}
+</code></pre></div><p>So when we instantiate our <code>Mailable</code> class, we have to pass the tag we want to use too:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#8be9fd;font-style:italic">$order</span> <span style="color:#ff79c6">=</span> Order<span style="color:#ff79c6">::</span><span style="color:#50fa7b">findOrFail</span>(<span style="color:#8be9fd;font-style:italic">$orderId</span>);
+
+<span style="color:#6272a4">// Ship order logic...
+</span><span style="color:#6272a4"></span>
+Mail<span style="color:#ff79c6">::</span><span style="color:#50fa7b">to</span>(<span style="color:#8be9fd;font-style:italic">$request</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">user</span>())<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">send</span>(<span style="color:#ff79c6">new</span> OrderShipped(<span style="color:#8be9fd;font-style:italic">$order</span>, <span style="color:#f1fa8c">&#39;my-custom-tag&#39;</span>));
+</code></pre></div><footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/snippet/">snippet</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/laravel/">laravel</a>,&nbsp;<a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/axios-handle-error-response-with-200-status-code/">Axios: Handle Error Response with 200 Status Code</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/switching-to-circle-ci/">Switching to Circle CI</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>

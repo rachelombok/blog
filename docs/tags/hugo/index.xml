@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hugo on rachel&#39;s blog</title>
+    <link>https://smith.github.io/tags/hugo/</link>
+    <description>Recent content in hugo on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2020 21:27:00 +0700</lastBuildDate><atom:link href="https://smith.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Switching to Hugo</title>
+      <link>https://smith.github.io/code/switching-to-hugo/</link>
+      <pubDate>Sun, 10 May 2020 21:27:00 +0700</pubDate>
+      
+      <guid>https://smith.github.io/code/switching-to-hugo/</guid>
+      <description>Another day, another static site generator to switch to. The curse is real. Instead of writing more blog posts, I ended up messing up with the platform. It was once powered by Jekyll. It was once using a custom static site generator that I wrote myself. It was once built on top of Gatsby. And now I&amp;rsquo;m switching to Hugo—the world&amp;rsquo;s fastest static site generator. And I&amp;rsquo;m very happy with it.</description>
+    </item>
+    
+  </channel>
+</rss>

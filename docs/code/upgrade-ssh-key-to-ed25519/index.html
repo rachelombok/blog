@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Upgrade Your SSH Key to Ed25519 | rachel&#39;s blog</title>
+    <meta name="description" content="When is the last time you created your SSH key? If you&#39;re still using RSA with key-size less than 2048 bits long, It&#39;s time for an upgrade!">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Upgrade Your SSH Key to Ed25519" />
+<meta property="og:description" content="When is the last time you created your SSH key? If you&#39;re still using RSA with key-size less than 2048 bits long, It&#39;s time for an upgrade!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://smith.github.io/code/upgrade-ssh-key-to-ed25519/" /><meta property="og:image" content="https://smith.github.io/code/upgrade-ssh-key-to-ed25519/og.jpg" /><meta property="article:section" content="code" />
+<meta property="article:published_time" content="2017-11-29T17:06:00&#43;02:00" />
+<meta property="article:modified_time" content="2017-11-29T17:06:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://smith.github.io/code/upgrade-ssh-key-to-ed25519/og.jpg"/>
+
+<meta name="twitter:title" content="Upgrade Your SSH Key to Ed25519"/>
+<meta name="twitter:description" content="When is the last time you created your SSH key? If you&#39;re still using RSA with key-size less than 2048 bits long, It&#39;s time for an upgrade!"/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Upgrade Your SSH Key to Ed25519</h1><time datetime='2017-11-29T17:06:00&#43;02:00'>2017-11-29</time><p>If you&rsquo;re a DevOps engineer or a web developer, there&rsquo;s a good chance that you&rsquo;re already familiar and using the SSH key authentication on a daily basis. Whether it&rsquo;s for logging into the remote server or when pushing your commit to the remote repository. It provides us with better security than the traditional password-based authentication.</p>
+<p>But, when is the last time you created or upgraded your SSH key? And did you use the latest recommended public-key algorithm? If it was more than five years ago and you generated your SSH key with the default options, you probably ended up using RSA algorithm with key-size less than 2048 bits long.</p>
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#check-available-ssh-keys-on-your-computer">Check Available SSH Keys on Your Computer</a></li>
+    <li><a href="#some-ed25519-benefits">Some Ed25519 Benefits</a></li>
+    <li><a href="#generating-ed25519-key">Generating Ed25519 Key</a></li>
+    <li><a href="#adding-your-key-to-ssh-agent">Adding Your Key to SSH Agent</a>
+      <ul>
+        <li><a href="#notes-for-macos-user">Notes for macOS User</a></li>
+      </ul>
+    </li>
+    <li><a href="#specifying-specific-key-to-ssh-into-a-remote-server">Specifying Specific Key to SSH into a Remote Server</a></li>
+  </ul>
+</nav>
+
+<h2 id="check-available-ssh-keys-on-your-computer">Check Available SSH Keys on Your Computer</h2>
+<p>To check all available SSH keys on your computer, run the following command on your terminal:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">for</span> key in ~/.ssh/id_*; <span style="color:#ff79c6">do</span> ssh-keygen -l -f <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">key</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>; <span style="color:#ff79c6">done</span> | uniq
+</code></pre></div><p>Your SSH keys might use one of the following algorithms:</p>
+<ul>
+<li><strong>DSA</strong>: It&rsquo;s unsafe and even no longer supported since OpenSSH version 7.</li>
+<li><strong>RSA</strong>: It depends on key size. If it has 3072 or 4096-bit length, then you&rsquo;re good. Less than that, you probably want to upgrade it. The 1024-bit length is even considered unsafe.</li>
+<li><strong>ECDSA</strong>: It depends on how well your machine can generate a random number that will be used to create a signature. There&rsquo;s also a <a href="https://www.hyperelliptic.org/tanja/vortraege/20130531.pdf">trustworthiness concern</a> on the NIST curves that being used by ECDSA.</li>
+<li><strong>Ed25519</strong>: It&rsquo;s the most recommended public-key algorithm available today!</li>
+</ul>
+<h2 id="some-ed25519-benefits">Some Ed25519 Benefits</h2>
+<p>The Ed25519 was introduced on OpenSSH version 6.5. It&rsquo;s the EdDSA implementation using the <a href="https://en.wikipedia.org/wiki/Twisted_Edwards_curve">Twisted Edwards curve</a>. It&rsquo;s using elliptic curve cryptography that offers a better security with faster performance compared to DSA or ECDSA.</p>
+<p>Today, the RSA is the most widely used public-key algorithm for SSH key. But compared to Ed25519, it&rsquo;s slower and even considered not safe if it&rsquo;s generated with the key smaller than 2048-bit length.</p>
+<p>The Ed25519 public-key is compact. It only contains 68 characters, compared to RSA 3072 that has 544 characters. Generating the key is also almost as fast as the signing process. It&rsquo;s also fast to perform batch signature verification with Ed25519. It&rsquo;s built to be collision resilence. Hash-function collision won&rsquo;t break the system.</p>
+<p>Are you ready to switch to Ed25519?</p>
+<h2 id="generating-ed25519-key">Generating Ed25519 Key</h2>
+<p>You can have multiple SSH keys on your machine. So you can keep your old SSH keys and generate a new one that uses Ed25519. This way you can still log in to any of your remote servers. Then slowly replace the authorized key on your remote servers one by one with the newly generated Ed25519 public-key.</p>
+<p>Open up your terminal and type the following command to generate a new SSH key that uses Ed25519 algorithm:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-keygen -o -a <span style="color:#bd93f9">100</span> -t ed25519 -f ~/.ssh/id_ed25519 -C <span style="color:#f1fa8c">&#34;john@example.com&#34;</span>
+</code></pre></div><p>You&rsquo;ll be asked to enter a passphrase for this key, use the strong one. You can also use the same passphrase like any of your old SSH keys.</p>
+<ul>
+<li><code>-o</code> : Save the private-key using the new OpenSSH format rather than the PEM format. Actually, this option is implied when you specify the key type as <code>ed25519</code>.</li>
+<li><code>-a</code> : It&rsquo;s the numbers of KDF (Key Derivation Function) rounds. Higher numbers result in slower passphrase verification, increasing the resistance to brute-force password cracking should the private-key be stolen.</li>
+<li><code>-t</code> : Specifies the type of key to create, in our case the Ed25519.</li>
+<li><code>-f</code> : Specify the filename of the generated key file. If you want it to be discovered automatically by the SSH agent, it must be stored in the default <code>.ssh</code> directory within your home directory.</li>
+<li><code>-C</code> =&gt; An option to specify a comment. It&rsquo;s purely informational and can be anything. But it&rsquo;s usually filled with <code>&lt;login&gt;@&lt;hostname&gt;</code> who generated the key.</li>
+</ul>
+<h2 id="adding-your-key-to-ssh-agent">Adding Your Key to SSH Agent</h2>
+<p>You can find your newly generated private key at <code>~/.ssh/id_ed25519</code> and your public key at <code>~/.ssh/id_ed25519.pub</code>. Always remember that your public key is the one that you copy to the target host for authentication.</p>
+<p>Before adding your new private key to the SSH agent, make sure that the SSH agent is running by executing the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">eval</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>ssh-agent -s<span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span>
+</code></pre></div><p>Then run the following command to add your newly generated Ed25519 key to SSH agent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-add ~/.ssh/id_ed25519
+</code></pre></div><p>Or if you want to add all of the available keys under the default <code>.ssh</code> directory, simply run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-add
+</code></pre></div><h3 id="notes-for-macos-user">Notes for macOS User</h3>
+<p>If you&rsquo;re using macOS Sierra 10.12.2 or later, to load the keys automatically and store the passphrases in the Keychain, you need to configure your <code>~/.ssh/config</code> file:</p>
+<pre><code>Host *
+ AddKeysToAgent yes
+ UseKeychain yes
+ IdentityFile ~/.ssh/id_ed25519
+ IdentityFile ~/.ssh/id_rsa # Keep any old key files if you want
+</code></pre><p>Once the SSH config file is updated, add the private-key to the SSH agent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-add -K ~/.ssh/id_ed25519
+</code></pre></div><h2 id="specifying-specific-key-to-ssh-into-a-remote-server">Specifying Specific Key to SSH into a Remote Server</h2>
+<p>The SSH protocol already allows the client to offer multiple keys on which the server will pick the one it needs for authentication. However, we can also specify a specific private-key to use like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -i ~/.ssh/id_ed25519 john@198.222.111.33
+</code></pre></div><p>Or you can even add an entry to the <code>~/.ssh/config</code> file to configure these options:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Host awesome
+  HostName 198.222.111.33
+  User john
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+</code></pre></div><p>Once it’s saved, later you can SSH to your target host like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh awesome
+</code></pre></div><p>Awesome right?</p>
+<p>Credits:</p>
+<ul>
+<li>Key by Matt Artz on <a href="https://unsplash.com/photos/pY_AZJfdbHQ">Unsplash</a></li>
+</ul>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/devops/">devops</a>,&nbsp;<a href="/tags/macos/">macos</a>,&nbsp;<a href="/tags/linux/">linux</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/i-create-my-own-static-site-generator/">I Create My Own Static Site Generator</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/new-blog/">New Blog and Things I learned Building It</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a></small>
+    </nav>
+</footer></body>
+</html>
