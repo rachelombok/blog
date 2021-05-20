@@ -2,47 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>macos on rachel&#39;s blog</title>
-    <link>https://smith.github.io/tags/macos/</link>
+    <link>blog.rachelombok.com/tags/macos/</link>
     <description>Recent content in macos on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jan 2020 23:13:00 +0700</lastBuildDate><atom:link href="https://smith.github.io/tags/macos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jan 2020 23:13:00 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/tags/macos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Backup and Restore Your GPG Key</title>
-      <link>https://smith.github.io/code/backup-restore-gpg-key/</link>
+      <link>blog.rachelombok.com/code/backup-restore-gpg-key/</link>
       <pubDate>Sat, 11 Jan 2020 23:13:00 +0700</pubDate>
       
-      <guid>https://smith.github.io/code/backup-restore-gpg-key/</guid>
+      <guid>blog.rachelombok.com/code/backup-restore-gpg-key/</guid>
       <description>A couple of weeks ago I upgraded my MacBook to Catalina—the latest version of macOS. Once the upgrade was completed, I couldn&amp;rsquo;t sign my Git commits because my GPG key was missing. Somehow the upgrade wiped out my entire .gnupg directory where I stored all my GPG keys. Luckily I&amp;rsquo;ve made a backup of my private GPG keys.
 Backup GPG Key What you need to backup is your GPG private key.</description>
     </item>
     
     <item>
       <title>Bash Script for Switching Between PHP Versions</title>
-      <link>https://smith.github.io/code/bash-script-for-switching-between-php-versions/</link>
+      <link>blog.rachelombok.com/code/bash-script-for-switching-between-php-versions/</link>
       <pubDate>Sat, 18 May 2019 19:18:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/bash-script-for-switching-between-php-versions/</guid>
+      <guid>blog.rachelombok.com/code/bash-script-for-switching-between-php-versions/</guid>
       <description>Lately, I have to deal with the old codebase that is still using the outdated PHP version. And so I&amp;rsquo;ve found my self switching between multiple PHP versions quite often. Since I&amp;rsquo;m using Homebrew to install the PHP, I need to type these four commands to switch into an older PHP version.
 # Stop the latest stable PHP version that&amp;#39;s currently running $ brew services stop php $ brew unlink php # Start the old PHP 5.</description>
     </item>
     
     <item>
       <title>Installing SQL Server on macOS</title>
-      <link>https://smith.github.io/code/installing-sql-server-on-macos/</link>
+      <link>blog.rachelombok.com/code/installing-sql-server-on-macos/</link>
       <pubDate>Tue, 13 Feb 2018 15:18:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/installing-sql-server-on-macos/</guid>
+      <guid>blog.rachelombok.com/code/installing-sql-server-on-macos/</guid>
       <description>It&amp;rsquo;s a bit inconvenience when working on a project that uses the Microsoft SQL Server while your dev machine is either Linux or macOS. I always ended up setting up and using a remote test database.
 But now it&amp;rsquo;s no longer the case. October last year, SQL Server 2017 for Linux finally went into general availability. It&amp;rsquo;s container images are also available on Docker hub for us to use. That means we can finally install SQL Server on macOS!</description>
     </item>
     
     <item>
       <title>Upgrade Your SSH Key to Ed25519</title>
-      <link>https://smith.github.io/code/upgrade-ssh-key-to-ed25519/</link>
+      <link>blog.rachelombok.com/code/upgrade-ssh-key-to-ed25519/</link>
       <pubDate>Wed, 29 Nov 2017 17:06:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/upgrade-ssh-key-to-ed25519/</guid>
+      <guid>blog.rachelombok.com/code/upgrade-ssh-key-to-ed25519/</guid>
       <description>If you&amp;rsquo;re a DevOps engineer or a web developer, there&amp;rsquo;s a good chance that you&amp;rsquo;re already familiar and using the SSH key authentication on a daily basis. Whether it&amp;rsquo;s for logging into the remote server or when pushing your commit to the remote repository. It provides us with better security than the traditional password-based authentication.
 But, when is the last time you created or upgraded your SSH key? And did you use the latest recommended public-key algorithm?</description>
     </item>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nginx on rachel&#39;s blog</title>
-    <link>https://smith.github.io/tags/nginx/</link>
+    <link>blog.rachelombok.com/tags/nginx/</link>
     <description>Recent content in nginx on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Oct 2017 17:06:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2017 17:06:00 +0200</lastBuildDate><atom:link href="blog.rachelombok.com/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>New Blog and Things I learned Building It</title>
-      <link>https://smith.github.io/code/new-blog/</link>
+      <link>blog.rachelombok.com/code/new-blog/</link>
       <pubDate>Mon, 09 Oct 2017 17:06:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/new-blog/</guid>
+      <guid>blog.rachelombok.com/code/new-blog/</guid>
       <description>Hello, world!
 After more than four years, I finally have my programming blog again 🎉🎉🎉. It&amp;rsquo;s been bugging for quite some time.
 Having a blog will be a good exercise to improve my writing skill. It&amp;rsquo;s also a great way for documenting my learning journey and share back the knowledge to the vast programming community.

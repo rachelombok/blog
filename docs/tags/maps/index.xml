@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>maps on rachel&#39;s blog</title>
-    <link>https://smith.github.io/tags/maps/</link>
+    <link>blog.rachelombok.com/tags/maps/</link>
     <description>Recent content in maps on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 May 2019 14:32:00 +0200</lastBuildDate><atom:link href="https://smith.github.io/tags/maps/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 May 2019 14:32:00 +0200</lastBuildDate><atom:link href="blog.rachelombok.com/tags/maps/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Colorful Google Maps Marker</title>
-      <link>https://smith.github.io/code/colorful-google-maps-marker/</link>
+      <link>blog.rachelombok.com/code/colorful-google-maps-marker/</link>
       <pubDate>Sun, 12 May 2019 14:32:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/colorful-google-maps-marker/</guid>
+      <guid>blog.rachelombok.com/code/colorful-google-maps-marker/</guid>
       <description>When we&amp;rsquo;re using the Google Maps API and adding a marker into our map instance, by default we&amp;rsquo;ll end up with this red pin figure.
  The default Google Maps marker However, when we&amp;rsquo;re displaying a bunch of markers that can be grouped into different categories, it&amp;rsquo;s useful that each marker category has a different visual cue. In the past, I usually use a PNG image to replace the default marker; where each category has different image URL.</description>
     </item>
     
     <item>
       <title>Lazy Load Google Maps API</title>
-      <link>https://smith.github.io/code/lazy-load-google-maps-api/</link>
+      <link>blog.rachelombok.com/code/lazy-load-google-maps-api/</link>
       <pubDate>Fri, 26 Apr 2019 19:31:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/lazy-load-google-maps-api/</guid>
+      <guid>blog.rachelombok.com/code/lazy-load-google-maps-api/</guid>
       <description>Yesterday I was combing through the vue2-google-maps source code. It&amp;rsquo;s a collection of Google Maps components for Vue. Then I found an interesting bit of how it loads the Google Maps JavaScript API lazily (check the src/manager.js and the src/main.js).
 It&amp;rsquo;s pretty useful, especially if you build a SPA (single page application) where there are pages that don&amp;rsquo;t actually use the Google Maps API. By lazy loading the Google Maps API, your users will only have to download the library once they hit the page that uses it.</description>
     </item>
     
     <item>
       <title>Track User&#39;s Location and Display it on Google Maps</title>
-      <link>https://smith.github.io/code/track-user-location-google-maps/</link>
+      <link>blog.rachelombok.com/code/track-user-location-google-maps/</link>
       <pubDate>Fri, 16 Mar 2018 17:57:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/track-user-location-google-maps/</guid>
+      <guid>blog.rachelombok.com/code/track-user-location-google-maps/</guid>
       <description>This is actually my answer to someone&amp;rsquo;s question on PHP Indonesia Facebook group. How can we track user&amp;rsquo;s location continuously using the Geolocation API and display it on Google Maps?
 Before getting started, we&amp;rsquo;re going to need an API Key to use the Google Maps JavaScript API. As a safety measure, don&amp;rsquo;t forget to set the HTTP referrers on your API key to your own domains.
 Table of Contents  Displaying Google Map on Your Page  Our HTML Structure Add Some Styles Initialize The Map   Adding Marker to Your Map Get User&amp;rsquo;s Location  Using the getCurrentPosition Method Simulating User&amp;rsquo;s Location on Chrome Handling Errors Display User&amp;rsquo;s Location on Google Maps Let&amp;rsquo;s Refactor our Code   Track User&amp;rsquo;s Location with watchPosition  The PositionOptions The Final Touch     Displaying Google Map on Your Page First, let&amp;rsquo;s start with a simple example: display a map on our HTML page using Google Maps Javascript API.</description>

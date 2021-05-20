@@ -7,17 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Tutorial PHP untuk Pemula" />
 <meta property="og:description" content="Tutorial dasar PHP untuk pemula. Pelajari dasar-dasar pemrograman PHP mulai dari variable, tipe data, operator, percabangan, perulangan, fungsi, hingga Closure." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://smith.github.io/code/tutorial-php-untuk-pemula/" /><meta property="og:image" content="https://smith.github.io/img/php.png" /><meta property="article:section" content="code" />
+<meta property="og:url" content="blog.rachelombok.com/code/tutorial-php-untuk-pemula/" /><meta property="og:image" content="/img/php.png" /><meta property="article:section" content="code" />
 <meta property="article:published_time" content="2018-04-27T10:00:00&#43;02:00" />
 <meta property="article:modified_time" content="2018-04-27T10:00:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
 
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://smith.github.io/img/php.png"/>
+<meta name="twitter:image" content="/img/php.png"/>
 
 <meta name="twitter:title" content="Tutorial PHP untuk Pemula"/>
 <meta name="twitter:description" content="Tutorial dasar PHP untuk pemula. Pelajari dasar-dasar pemrograman PHP mulai dari variable, tipe data, operator, percabangan, perulangan, fungsi, hingga Closure."/>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel="stylesheet" href="/blog.rachelombok.com/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
     <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
 <body>
 <header>
@@ -37,7 +37,7 @@
 <p>Meski sintaksis dan fiturnya kadang dikritik oleh programmer lain, PHP tetap populer dan mendominasi jagad internet. Perusahaan-perusahaan berbasis teknologi ternama mulai dari <a href="https://hhvm.com/">Facebook</a>, <a href="https://github.com/WordPress/WordPress">Automattic</a> (Wordpress), <a href="https://slack.engineering/taking-php-seriously-cf7a60065329">Slack</a>, hingga <a href="https://en.wikipedia.org/wiki/Wikipedia:FAQ/Technical#What_software_is_used_to_run_Wikipedia?">Wikipedia</a> masih setia dengan PHP yang sudah berumur lebih dari dua dekade ini. PHP pun kerap menjadi pilihan pertama untuk para pemula yang ingin belajar pemrograman.</p>
 <p>Tutorial kali ini diperuntukan untuk pemula yang ingin belajar PHP serta dasar-dasar pemrograman. Apakah kamu siap menjadi pengembang PHP yang handal?</p>
 <p><figure>
-    <a href="ready.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/ready.gif" alt="I&amp;rsquo;m Ready">
+    <a href="ready.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/ready.gif" alt="I&amp;rsquo;m Ready">
     </a><figcaption>I’m Ready</figcaption></figure>
 </p>
 <p>Sepanjang tutorial ini kita akan menemui sejumlah kotak dengan emoji seperti berikut:</p>
@@ -262,7 +262,7 @@
 
 <h2 id="hello-world">Hello World</h2>
 <p><figure>
-    <a href="hello-world-meme.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/hello-world-meme.jpg" alt="Hello World">
+    <a href="hello-world-meme.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/hello-world-meme.jpg" alt="Hello World">
     </a><figcaption>Hello World</figcaption></figure>
 </p>
 <p>Langkah pertama, mari kita membuat program &ldquo;Hello World&rdquo; dalam PHP. Buka alamat website berikut: <a href="https://repl.it/languages/php">repl.it/languages/php</a>. Situs ini memungkinkan kita untuk menulis dan menjalankan program PHP secara <em>online</em> (daring). Tidak hanya PHP, situs ini juga mendukung sejumlah bahasa pemrograman lainnya: Java, Ruby, Python, hingga Haskell.</p>
@@ -270,7 +270,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#39;Hello World!&#39;</span>;
 </code></pre></div><p>Selanjutnya, klik tombol dengan simbol &ldquo;play&rdquo; di bagian atas untuk menjalankan kode tersebut. <em>Output</em> (keluaran) dari program akan muncul di sebelah kanan layar. Jika berhasil, kita akan mendapatkan <em>output</em> teks berupa <code>Hello World!</code>.</p>
 <p><figure>
-    <a href="01-output-repl.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/01-output-repl_hu2194f866b546f63e6b42a6df2ea31d72_43021_1080x0_resize_box_2.png" alt="Output program Hello World">
+    <a href="01-output-repl.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/01-output-repl_hu2194f866b546f63e6b42a6df2ea31d72_43021_1080x0_resize_box_2.png" alt="Output program Hello World">
     </a><figcaption>Output program Hello World</figcaption></figure>
 </p>
 <p><code>echo</code> merupakan <em>keyword</em> dalam PHP untuk mencetak <em>string</em>. <em>String</em> adalah serangkaian karakter—dapat berupa huruf, angka, juga simbol. Dalam PHP, <em>string</em> harus diapit oleh tanda kutip tunggal (<code>'</code>) ataupun kutip ganda (<code>&quot;</code>). Perbedaan keduanya akan dibahas lebih lanjut pada <a href="#string">bagian selanjutnya</a>. Penggunaan <em>string</em> tanpa kutip akan membuahkan <em>syntax error</em>.</p>
@@ -294,7 +294,7 @@
 </code></pre></div><h2 id="menginstal-php">Menginstal PHP</h2>
 <p>Sebelum mempelajari PHP lebih lanjut, mari kita menginstal PHP di komputer.</p>
 <p><figure>
-    <a href="php-5-meme.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/php-5-meme.jpg" alt="You are still using PHP 5">
+    <a href="php-5-meme.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/php-5-meme.jpg" alt="You are still using PHP 5">
     </a><figcaption>You are still using PHP 5</figcaption></figure>
 </p>
 <h3 id="menginstal-php-di-macos">Menginstal PHP di macOS</h3>
@@ -371,7 +371,7 @@ $ brew list
 </blockquote>
 <h4 id="laragon">Laragon</h4>
 <p><figure>
-    <a href="02-laragon-website.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/02-laragon-website_huc89f35580d253aa6237d1c4d5f701fb3_155498_1080x0_resize_q80_box.jpg" alt="Website Laragon">
+    <a href="02-laragon-website.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/02-laragon-website_huc89f35580d253aa6237d1c4d5f701fb3_155498_1080x0_resize_q80_box.jpg" alt="Website Laragon">
     </a><figcaption>Website Laragon</figcaption></figure>
 </p>
 <p>Dibandingkan dengan XAMPP, <a href="https://www.laragon.org">Laragon</a> relatif lebih modern dan menawarkan banyak fitur. Untuk web <em>server</em>, Laragon menyertakan Apache dan Nginx. Untuk <em>database</em>-nya, Laragon mengandalkan MySQL. Selain itu Laragon menyediakan beragam <em>tools</em> esensial: Git, Composer, Node.js hingga Yarn. Dengan Laragon kita juga dapat dengan mudah membuat proyek berbasis Wordpress, Symfony, Laravel hingga Drupal. Fitur lainnya yang menggiurkan adalah kemampuannya untuk membuat <em>virtual host</em> secara otomatis.</p>
@@ -385,21 +385,21 @@ $ brew list
 </ul>
 <h2 id="memilih-text-editor">Memilih Text Editor</h2>
 <p><figure>
-    <a href="vim-tweet.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/vim-tweet.png" alt="Menggunakan Vim sebagai text editor?">
+    <a href="vim-tweet.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/vim-tweet.png" alt="Menggunakan Vim sebagai text editor?">
     </a><figcaption>Menggunakan Vim sebagai text editor?</figcaption></figure>
 </p>
 <p>Yang kita butuhkan selanjutnya adalah <em>text editor</em> (editor teks) yang mumpuni. Ada banyak pilihan <em>text editor</em> di luar sana. Berikut adalah dua <em>text editor</em> yang cocok untuk pemula:</p>
 <h3 id="sublime-text">Sublime Text</h3>
 <p><a href="https://www.sublimetext.com/">Sublime Text</a> merupakan salah satu <em>text editor</em> yang sangat populer. Ia tersohor karena ringan dan cepat, bahkan saat membuka file dengan ukuran yang sangat besar. Meski tak sepenuhnya gratis, ia memberikan waktu <em>trial</em> selamanya. Sayangnya, karena dikembangkan seorang diri, pembaruan aplikasinya sangat jarang.</p>
 <p><figure>
-    <a href="03-sublime-text-website.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/03-sublime-text-website_hu73b7c4801eab6711d24df954fb20cf50_117236_1080x0_resize_box_2.png" alt="Sublime Text">
+    <a href="03-sublime-text-website.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/03-sublime-text-website_hu73b7c4801eab6711d24df954fb20cf50_117236_1080x0_resize_box_2.png" alt="Sublime Text">
     </a><figcaption>Sublime Text</figcaption></figure>
 </p>
 <h3 id="visual-studio-code">Visual Studio Code</h3>
 <p><a href="https://code.visualstudio.com/">Visual Studio Code</a> atau VSCode merupakan <em>text editor</em> <em>open source</em> dari Microsoft yang akhir-akhir ini popularitasnya kian menanjak. Ia dikembangkan berdasarkan <em>text editor</em> <a href="https://atom.io/">Atom</a> besutan Github. VSCode menawarkan fitur yang mutakhir untuk sebuah <em>text editor</em>: <em>auto-completion</em> dengan <em>IntelliSense</em>, <em>debugger</em>, integrasi Git, serta <em>built-in</em> terminal yang sangat responsif.</p>
 <p>Dukungan komunitasnya juga sangat besar. Pengembangan <em>text editor</em>-nya sangat aktif serta banyak <em>extension</em> yang tersedia untuk mempermudah pekerjaan <em>coding</em> sehari-hari.</p>
 <p><figure>
-    <a href="04-vscode-website.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/04-vscode-website_hub24e8a9ac88330a37ee31875a63eee60_108546_1080x0_resize_box_2.png" alt="Visual Studio Code">
+    <a href="04-vscode-website.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/04-vscode-website_hub24e8a9ac88330a37ee31875a63eee60_108546_1080x0_resize_box_2.png" alt="Visual Studio Code">
     </a><figcaption>Visual Studio Code</figcaption></figure>
 </p>
 <h2 id="hello-again-world">Hello Again, World</h2>
@@ -470,7 +470,7 @@ echo &#39;Hello again from PHP 🐘&#39;;
 <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#39;Hello again, World!&#39;</span>;
 </code></pre></div><p>Jangan lupa simpan perubahan di atas. Tugas kita sekarang adalah menjalankan file PHP tersebut!</p>
 <p><figure>
-    <a href="dont-worry-about-it.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/dont-worry-about-it.gif" alt="Hey, don&amp;rsquo;t even worry about it">
+    <a href="dont-worry-about-it.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/dont-worry-about-it.gif" alt="Hey, don&amp;rsquo;t even worry about it">
     </a><figcaption>Hey, don’t even worry about it</figcaption></figure>
 </p>
 <blockquote>
@@ -492,7 +492,7 @@ echo &#39;Hello again from PHP 🐘&#39;;
 <h3 id="menjalankan-file-php-dengan-web-server">Menjalankan file PHP dengan Web Server</h3>
 <p>Cara kedua untuk menjalankan file PHP adalah dengan web server. Cara inilah yang paling umum digunakan.</p>
 <p><figure>
-    <a href="05-client-server-diagram.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/05-client-server-diagram.png" alt="Diagram client-server">
+    <a href="05-client-server-diagram.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/05-client-server-diagram.png" alt="Diagram client-server">
     </a><figcaption>Diagram client-server</figcaption></figure>
 </p>
 <p>Bila disederhanakan, alurnya seperti ini:</p>
@@ -518,7 +518,7 @@ Document root is /Users/risan/Documents/belajar-php
 Press Ctrl-C to quit.
 </code></pre></div><p>Buka <em>browser</em> dan masukan alamat <a href="http://localhost:8000/01_hello.php">localhost:8000/01_hello.php</a>. Kita akan mendapati teks <code>Hello again, World!</code> tercetak pada layar <em>browser</em>.</p>
 <p><figure>
-    <a href="06-hello-again-world.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/06-hello-again-world_hu02e122f8e2c374e888dc4ddb2516e886_28212_1080x0_resize_box_2.png" alt="Tampilan pada browser">
+    <a href="06-hello-again-world.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/06-hello-again-world_hu02e122f8e2c374e888dc4ddb2516e886_28212_1080x0_resize_box_2.png" alt="Tampilan pada browser">
     </a><figcaption>Tampilan pada browser</figcaption></figure>
 </p>
 <blockquote>
@@ -539,7 +539,7 @@ Press Ctrl-C to quit.
 </blockquote>
 <p>🎉 Selamat kamu telah berhasil menjalankan file PHP dengan web server!</p>
 <p><figure>
-    <a href="congratulations.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/congratulations.gif" alt="Congratulations">
+    <a href="congratulations.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/congratulations.gif" alt="Congratulations">
     </a><figcaption>Congratulations</figcaption></figure>
 </p>
 <h3 id="latihan-membuat-file-php">Latihan Membuat File PHP</h3>
@@ -555,7 +555,7 @@ echo &#39;&lt;img src=&#34;https://images.unsplash.com/photo-1519354754184-e1d9c
 </code></pre></div><p>Perhatikan kembali bagaimana kita menyisipkan dokumen HTML ke dalam file PHP. Juga cermati <em>tag</em> penutup php yang tidak disertakan di bagian akhir <em>file</em>.</p>
 <p>Jangan lupa simpan <em>file</em> <code>02_hello_php_html.php</code> di atas dan coba jalankan pada <em>browser</em>, kita akan mendapatkan tampilan seperti berikut:</p>
 <p><figure>
-    <a href="07-exercise-1.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/07-exercise-1_hu05c0a56696c7a9ec3eee46c74bf55495_152102_1080x0_resize_box_2.png" alt="Output latihan 1">
+    <a href="07-exercise-1.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/07-exercise-1_hu05c0a56696c7a9ec3eee46c74bf55495_152102_1080x0_resize_box_2.png" alt="Output latihan 1">
     </a><figcaption>Output latihan 1</figcaption></figure>
 </p>
 <h3 id="rangkuman-membuat-file-php">Rangkuman Membuat File PHP</h3>
@@ -606,7 +606,7 @@ echo &#39;&lt;img src=&#34;https://images.unsplash.com/photo-1519354754184-e1d9c
 <p>Baca lebih lanjut di buku <a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a> karya Robert C. Buku ini sangat direkomendasikan untuk para <em>programmer</em>. Salah satu bahasannya adalah tentang penggunaan komentar.</p>
 </blockquote>
 <p><figure>
-    <a href="comment-is-not-necessary.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/comment-is-not-necessary.gif" alt="Comment is not necessary">
+    <a href="comment-is-not-necessary.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/comment-is-not-necessary.gif" alt="Comment is not necessary">
     </a><figcaption>Comment is not necessary</figcaption></figure>
 </p>
 <h3 id="php-itu-case-insensitive-tapi">PHP itu Case Insensitive, Tapi</h3>
@@ -716,7 +716,7 @@ echo &#39;&lt;img src=&#34;https://images.unsplash.com/photo-1519354754184-e1d9c
 <h4 id="-gunakan-nama-variable-yang-deskriptif">️⚠️ Gunakan nama variable yang deskriptif</h4>
 <p>Sebagai <em>programmer</em>, waktu yang kita habiskan untuk membaca kode jauh lebih besar daripada menuliskan kode itu sendiri. Oleh karenanya gunakan nama <em>variable</em> yang singkat namun tetap deskriptif dan mudah dipahami. Nama <em>variable</em> yang panjang namun mudah dipahami kegunaanya, justru jauh lebih baik daripada nama <em>variable</em> yang singkat tapi membingungkan.</p>
 <p><figure>
-    <a href="terrible-variable-names-meme.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/terrible-variable-names-meme.jpg" alt="Gunakan nama variable yang deskriptif">
+    <a href="terrible-variable-names-meme.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/terrible-variable-names-meme.jpg" alt="Gunakan nama variable yang deskriptif">
     </a><figcaption>Gunakan nama variable yang deskriptif</figcaption></figure>
 </p>
 <p>Perhatikan kode berikut:</p>
@@ -822,7 +822,7 @@ Rent Price: <span style="color:#8be9fd;font-style:italic">$15000</span>
 <span style="color:#6272a4">// Akan mencetak emoji kucing: 😸😹😻😽
 </span><span style="color:#6272a4"></span>printCatEmojis();
 </code></pre></div><p><figure>
-    <a href="global-variables-meme.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/global-variables-meme.jpg" alt="Jangan mengandalkan global variable">
+    <a href="global-variables-meme.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/global-variables-meme.jpg" alt="Jangan mengandalkan global variable">
     </a><figcaption>Jangan mengandalkan global variable</figcaption></figure>
 </p>
 <blockquote>
@@ -1084,7 +1084,7 @@ define(<span style="color:#f1fa8c">&#39;COLORS&#39;</span>, [<span style="color:
 </ol>
 <p>Selain itu PHP juga memiliki beberapa <a href="#tipe-data-pseudo">tipe data <em>pseudo</em></a> yang sebetulnya tidak diimplementasikan dalam PHP namun kerap digunakan dalam dokumentasi.</p>
 <p><figure>
-    <a href="is-mayonnaise-a-data-type.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/is-mayonnaise-a-data-type.jpg" alt="Is mayonnaise a data type?">
+    <a href="is-mayonnaise-a-data-type.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/is-mayonnaise-a-data-type.jpg" alt="Is mayonnaise a data type?">
     </a><figcaption>Is mayonnaise a data type?</figcaption></figure>
 </p>
 <h3 id="tipe-data-skalar">Tipe Data Skalar</h3>
@@ -1177,7 +1177,7 @@ var_dump(<span style="color:#bd93f9">0.1</span> <span style="color:#ff79c6">+</s
 <span style="color:#6272a4">// Bisa mencetak escaped-characters. \n akan mencetak baris baru.
 </span><span style="color:#6272a4"></span><span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Never gonna give you up</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">Never gonna let you down&#34;</span>;
 </code></pre></div><p><figure>
-    <a href="rick-astley.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/rick-astley.gif" alt="Never gonna give you up. Never gonna let you down.">
+    <a href="rick-astley.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/rick-astley.gif" alt="Never gonna give you up. Never gonna let you down.">
     </a><figcaption>Never gonna give you up. Never gonna let you down.</figcaption></figure>
 </p>
 <p><strong>3. Dengan syntax Heredoc</strong></p>
@@ -1391,7 +1391,7 @@ var_dump(<span style="color:#bd93f9">1</span> <span style="color:#ff79c6">-</spa
 </span><span style="color:#f1fa8c">echo &#39; 👻&lt;br&gt;&#39;;
 </span></code></pre></div><p>Apabila kita jalankan kode di atas pada <em>browser</em>, kita akan mendapatkan hasil seperti berikut:</p>
 <p><figure>
-    <a href="08-data-types-exercise.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/08-data-types-exercise_hu39a1a2a36febd174e61aff8177ca6da5_47706_1080x0_resize_box_2.png" alt="Latihan tipe data">
+    <a href="08-data-types-exercise.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/08-data-types-exercise_hu39a1a2a36febd174e61aff8177ca6da5_47706_1080x0_resize_box_2.png" alt="Latihan tipe data">
     </a><figcaption>Latihan tipe data</figcaption></figure>
 </p>
 <p>Buat kembali <em>file</em> PHP baru dan beri nama <code>07_type_juggling_casting.php</code>. Cobalah kode berikut untuk mendemonstrasikan <em>type juggling</em> dan <em>type casting</em> yang kadang membingungkan dalam PHP:</p>
@@ -1747,7 +1747,7 @@ var_dump(<span style="color:#f1fa8c">&#39;10 ewok&#39;</span> <span style="color
 </span><span style="color:#6272a4"></span>var_dump(<span style="color:#f1fa8c">&#39;10 ewok&#39;</span> <span style="color:#ff79c6">&lt;=&gt;</span> <span style="color:#bd93f9">5</span>); <span style="color:#6272a4">// 1
 </span></code></pre></div><p>Penerapan <em>type juggling</em> pada beberapa operator perbandingan kadang dapat membuat kita bingung. Cek table perbandingan untuk beragam tipe data di dokumentasi PHP: <a href="https://secure.php.net/manual/en/types.comparisons.php">Type Comparison Tables</a>.</p>
 <p><figure>
-    <a href="why-use-strict-comparison.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/why-use-strict-comparison.jpg" alt="Why do you use strict comparison?">
+    <a href="why-use-strict-comparison.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/why-use-strict-comparison.jpg" alt="Why do you use strict comparison?">
     </a><figcaption>Why do you use strict comparison?</figcaption></figure>
 </p>
 <h3 id="operator-logika">Operator Logika</h3>
@@ -2055,7 +2055,7 @@ var_dump(<span style="color:#ff79c6">true</span> <span style="color:#ff79c6">||<
 </ul>
 <h2 id="percabangan-dengan-if-elseif-dan-else">Percabangan dengan If Elseif dan Else</h2>
 <p><figure>
-    <a href="ai-inside.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/ai-inside.jpg" alt="AI Inside">
+    <a href="ai-inside.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/ai-inside.jpg" alt="AI Inside">
     </a><figcaption>AI Inside</figcaption></figure>
 </p>
 <h3 id="keyword-if">Keyword If</h3>
@@ -2103,7 +2103,7 @@ var_dump(<span style="color:#ff79c6">true</span> <span style="color:#ff79c6">||<
 <h3 id="yoda-condition">Yoda Condition</h3>
 <p>Yoda adalah karakter dalam Star Wars yang memiliki gaya bicara yang tidak biasa. Dimana frasa-frasa dalam kalimatnya sering ditukar posisinya.</p>
 <p><figure>
-    <a href="yoda.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/yoda.gif" alt="Do or do not, there is no try">
+    <a href="yoda.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/yoda.gif" alt="Do or do not, there is no try">
     </a><figcaption>Do or do not, there is no try</figcaption></figure>
 </p>
 <p><em>Yoda condition</em>—atau dikenal juga dengan <em>Yoda notation</em>—merupakan istilah dalam pemrograman dimana dua bagian dari sebuah ekspresi kondisi ditukar. Nilai yang konstan ditempatkan di sebelah kiri operator dan nilai atau <em>variable</em> yang diperiksa ditempatkan di bagian kanan operator.</p>
@@ -2642,7 +2642,7 @@ Number: <span style="color:#bd93f9">4</span>
 <li><em>Keyword</em> <code>continue</code> digunakan untuk menghentikan eksekusi pada siklus perulangan yang tengah berlangsung dan melanjutkan perulangan pada iterasi berikutnya (selama kondisi perulangannya masih bernilai <code>true</code>).</li>
 </ul>
 <p><figure>
-    <a href="while-loop.gif"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/while-loop.gif" alt="While Loop">
+    <a href="while-loop.gif"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/while-loop.gif" alt="While Loop">
     </a><figcaption>While Loop</figcaption></figure>
 </p>
 <h2 id="perulangan-do-while">Perulangan Do-While</h2>
@@ -4140,7 +4140,7 @@ print_r(<span style="color:#8be9fd;font-style:italic">$doubled</span>);
     <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#39;🍕🍕🍕&#39;</span>;
 });
 </code></pre></div><p><figure>
-    <a href="function-as-an-argument.jpg"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/function-as-an-argument.jpg" alt="Function as an argument">
+    <a href="function-as-an-argument.jpg"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/function-as-an-argument.jpg" alt="Function as an argument">
     </a><figcaption>Function as an argument</figcaption></figure>
 </p>
 <p>Contoh fungsi yang dijadikan nilai kembalian untuk fungsi lainnya:</p>
@@ -4844,7 +4844,7 @@ print_r(<span style="color:#8be9fd;font-style:italic">$jedis</span>);
     <span style="color:#bd93f9">23</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">&#39;foo&#39;</span>,
 ];
 </code></pre></div><p><figure>
-    <a href="arrays-start-at-1.png"><img src="https://smith.github.io/code/tutorial-php-untuk-pemula/arrays-start-at-1.png" alt="Arrays start at one">
+    <a href="arrays-start-at-1.png"><img src="/blog.rachelombok.com/code/tutorial-php-untuk-pemula/arrays-start-at-1.png" alt="Arrays start at one">
     </a><figcaption>Arrays start at one</figcaption></figure>
 </p>
 <h3 id="mengecek-apakah-key-tersedia-dalam-array">Mengecek Apakah Key Tersedia dalam Array</h3>
@@ -5569,7 +5569,7 @@ var_dump(<span style="color:#8be9fd;font-style:italic">$total</span>); <span sty
             <li>
                 <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
             <li>
-                <span>Tags:&nbsp;</span><a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/building-my-first-ios-game/">Building My First iOS Game</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/set-authorization-header-with-apollo-client/">Set Authorization Header with Apollo Client</a></li></ul>
+                <span>Tags:&nbsp;</span><a href="/tags/php/">php</a></li><li><span>Next:&nbsp;</span><a href="blog.rachelombok.com/code/building-my-first-ios-game/">Building My First iOS Game</a></li><li><span>Previous:&nbsp;</span><a href="blog.rachelombok.com/code/set-authorization-header-with-apollo-client/">Set Authorization Header with Apollo Client</a></li></ul>
     </footer></article>
 </main>
 <footer>

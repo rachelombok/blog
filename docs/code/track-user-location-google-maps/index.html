@@ -7,17 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Track User&#39;s Location and Display it on Google Maps" />
 <meta property="og:description" content="We&#39;ll learn on how to track user&#39;s location using the Geolocation API and display it on Google Maps." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://smith.github.io/code/track-user-location-google-maps/" /><meta property="og:image" content="https://smith.github.io/code/track-user-location-google-maps/og.jpg" /><meta property="article:section" content="code" />
+<meta property="og:url" content="blog.rachelombok.com/code/track-user-location-google-maps/" /><meta property="og:image" content="/code/track-user-location-google-maps/og.jpg" /><meta property="article:section" content="code" />
 <meta property="article:published_time" content="2018-03-16T17:57:00&#43;02:00" />
 <meta property="article:modified_time" content="2018-03-16T17:57:00&#43;02:00" /><meta property="og:site_name" content="Software Engineering" />
 
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://smith.github.io/code/track-user-location-google-maps/og.jpg"/>
+<meta name="twitter:image" content="/code/track-user-location-google-maps/og.jpg"/>
 
 <meta name="twitter:title" content="Track User&#39;s Location and Display it on Google Maps"/>
 <meta name="twitter:description" content="We&#39;ll learn on how to track user&#39;s location using the Geolocation API and display it on Google Maps."/>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-    <link rel="stylesheet" href="https://smith.github.io/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
+    <link rel="stylesheet" href="/blog.rachelombok.com/styles.min.9606769ff64b7bcb06eaeff008d91ef001a5fffd74383d9b698531628b2f525e.css">
     <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
 <body>
 <header>
@@ -151,7 +151,7 @@
 </code></pre></div><p>The first parameter is the DOM element where the map will be displayed. In our case, it&rsquo;s the <code>div</code> with the id of <code>map</code>. The second parameter is our map configuration object. The <code>center</code> property defines the initial coordinate of our map&rsquo;s center. The <code>zoom</code> property defines the initial zoom level. You can read more about other options in <a href="https://developers.google.com/maps/documentation/javascript/reference/3/#MapOptions">Map Options Documentation</a>.</p>
 <p>Now if we open up our page in the browser, we should see our map is successfully loaded like this:</p>
 <p><figure>
-    <a href="01-google-maps.png"><img src="https://smith.github.io/code/track-user-location-google-maps/01-google-maps.png" alt="Our map is loaded on the page">
+    <a href="01-google-maps.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/01-google-maps.png" alt="Our map is loaded on the page">
     </a><figcaption>Our map is loaded on the page</figcaption></figure>
 </p>
 <h2 id="adding-marker-to-your-map">Adding Marker to Your Map</h2>
@@ -171,7 +171,7 @@
 </code></pre></div><p>It accepts a single argument: an object of marker&rsquo;s options. The <code>map</code> property is where the marker will be displayed, that&rsquo;s why we pass the created <code>Map</code> instance to this property. The <code>position</code> defines the marker&rsquo;s position. Check out all of the available options in <a href="https://developers.google.com/maps/documentation/javascript/reference/3/#MarkerOptions">Marker Options Documentation</a>.</p>
 <p>We should now see the marker placed on the map.</p>
 <p><figure>
-    <a href="02-google-maps-with-marker.png"><img src="https://smith.github.io/code/track-user-location-google-maps/02-google-maps-with-marker.png" alt="Marker on the map">
+    <a href="02-google-maps-with-marker.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/02-google-maps-with-marker.png" alt="Marker on the map">
     </a><figcaption>Marker on the map</figcaption></figure>
 </p>
 <h2 id="get-users-location">Get User&rsquo;s Location</h2>
@@ -222,7 +222,7 @@
 );
 </code></pre></div><p>Open our page in the browser. It will ask your permission to get your current location. Click <strong>Allow</strong> to give it permission and proceed.</p>
 <p><figure>
-    <a href="03-want-to-konw-your-location.png"><img src="https://smith.github.io/code/track-user-location-google-maps/03-want-to-konw-your-location.png" alt="Permission to get your location">
+    <a href="03-want-to-konw-your-location.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/03-want-to-konw-your-location.png" alt="Permission to get your location">
     </a><figcaption>Permission to get your location</figcaption></figure>
 </p>
 <blockquote>
@@ -231,20 +231,20 @@
 </blockquote>
 <p>If it&rsquo;s successful, you&rsquo;ll get your location printed on the console similar to this:</p>
 <p><figure>
-    <a href="04-location-retrieved-successfully.png"><img src="https://smith.github.io/code/track-user-location-google-maps/04-location-retrieved-successfully.png" alt="Location is successfully retrieved">
+    <a href="04-location-retrieved-successfully.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/04-location-retrieved-successfully.png" alt="Location is successfully retrieved">
     </a><figcaption>Location is successfully retrieved</figcaption></figure>
 </p>
 <h3 id="simulating-users-location-on-chrome">Simulating User&rsquo;s Location on Chrome</h3>
 <p>On Chrome, we can simulate the user&rsquo;s location. Open up your developer tools. Click on the three-vertical-dots button on the top-right of your developer tools screen. Click on <strong>More tools</strong> &raquo; <strong>Sensors</strong> menu. It will bring a new tab named <strong>Sensors</strong> where you can easily override the position.</p>
 <p><figure>
-    <a href="05-sensors-tab.png"><img src="https://smith.github.io/code/track-user-location-google-maps/05-sensors-tab.png" alt="Sensors tab">
+    <a href="05-sensors-tab.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/05-sensors-tab.png" alt="Sensors tab">
     </a><figcaption>Sensors tab</figcaption></figure>
 </p>
 <p>There&rsquo;s also some presets for various city locations that we can choose from. Select some cities and reload the page, you should get the city&rsquo;s location printed on the console.</p>
 <h3 id="handling-errors">Handling Errors</h3>
 <p>From the <code>Sensors</code> tab, you can also simulate the position unavailable error. From the drop-down select <code>Location unavailable</code> option and reload the page. You&rsquo;ll get an alert like this:</p>
 <p><figure>
-    <a href="06-location-unavailable-error.png"><img src="https://smith.github.io/code/track-user-location-google-maps/06-location-unavailable-error.png" alt="Location unavailable error">
+    <a href="06-location-unavailable-error.png"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/06-location-unavailable-error.png" alt="Location unavailable error">
     </a><figcaption>Location unavailable error</figcaption></figure>
 </p>
 <p>We only got the error <code>code</code>, but the <code>message</code> property is empty. Apparently, the specification already specifies that this <code>message</code> property is for debugging only and not to be shown directly to the user. That&rsquo;s why we should rely on the <code>code</code> and provide our own error message instead.</p>
@@ -483,7 +483,7 @@
 }
 </code></pre></div><p>Now we should get a nice user&rsquo;s coordinate and error at the bottom of the map.</p>
 <p><figure>
-    <a href="07-geolocation-example.gif"><img src="https://smith.github.io/code/track-user-location-google-maps/07-geolocation-example.gif" alt="Google Maps Geolocation Example">
+    <a href="07-geolocation-example.gif"><img src="/blog.rachelombok.com/code/track-user-location-google-maps/07-geolocation-example.gif" alt="Google Maps Geolocation Example">
     </a><figcaption>Google Maps Geolocation Example</figcaption></figure>
 </p>
 <p>You can check out the <a href="https://google-maps-geolocation.bitballoon.com/">live demo</a> and play around with it. You can also get the source for this tutorial on Github: <a href="https://github.com/risan/google-maps-geolocation-example">google-maps-geolocation-example</a>.</p>
@@ -496,7 +496,7 @@
             <li>
                 <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
             <li>
-                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a>,&nbsp;<a href="/tags/maps/">maps</a></li><li><span>Next:&nbsp;</span><a href="https://smith.github.io/code/seeding-table-with-relationships-in-laravel/">Seeding Table with Relationships in Laravel</a></li><li><span>Previous:&nbsp;</span><a href="https://smith.github.io/code/installing-sql-server-on-macos/">Installing SQL Server on macOS</a></li></ul>
+                <span>Tags:&nbsp;</span><a href="/tags/javascript/">javascript</a>,&nbsp;<a href="/tags/maps/">maps</a></li><li><span>Next:&nbsp;</span><a href="blog.rachelombok.com/code/seeding-table-with-relationships-in-laravel/">Seeding Table with Relationships in Laravel</a></li><li><span>Previous:&nbsp;</span><a href="blog.rachelombok.com/code/installing-sql-server-on-macos/">Installing SQL Server on macOS</a></li></ul>
     </footer></article>
 </main>
 <footer>

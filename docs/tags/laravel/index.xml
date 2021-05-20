@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>laravel on rachel&#39;s blog</title>
-    <link>https://smith.github.io/tags/laravel/</link>
+    <link>blog.rachelombok.com/tags/laravel/</link>
     <description>Recent content in laravel on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jun 2020 22:15:00 +0700</lastBuildDate><atom:link href="https://smith.github.io/tags/laravel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Jun 2020 22:15:00 +0700</lastBuildDate><atom:link href="blog.rachelombok.com/tags/laravel/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Integrating Raygun with Laravel</title>
-      <link>https://smith.github.io/code/integrating-raygun-with-laravel/</link>
+      <link>blog.rachelombok.com/code/integrating-raygun-with-laravel/</link>
       <pubDate>Sun, 07 Jun 2020 22:15:00 +0700</pubDate>
       
-      <guid>https://smith.github.io/code/integrating-raygun-with-laravel/</guid>
+      <guid>blog.rachelombok.com/code/integrating-raygun-with-laravel/</guid>
       <description>You can use Raygun to easily monitor any errors within your Laravel application. Once you&amp;rsquo;ve signed up for Raygun account and got your Raygun&amp;rsquo;s API key. Install the official PHP library through composer:
 $ composer require mindscape/raygun4php Now head over to your app/Providers/AppServiceProvider.php file and register the RaygunClient instance.
 &amp;lt;?php namespace App\Providers; use GuzzleHttp\Client; use Raygun4php\RaygunClient; use Raygun4php\Transports\GuzzleAsync; use Illuminate\Support\ServiceProvider; class AppServiceProvider extends ServiceProvider { public function register() { // Register the async transport.</description>
@@ -20,40 +20,40 @@ $ composer require mindscape/raygun4php Now head over to your app/Providers/AppS
     
     <item>
       <title>Incorporating Vue UI with a Traditional Laravel Login Flow</title>
-      <link>https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</link>
+      <link>blog.rachelombok.com/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</link>
       <pubDate>Sun, 22 Mar 2020 21:21:00 +0700</pubDate>
       
-      <guid>https://smith.github.io/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</guid>
+      <guid>blog.rachelombok.com/code/incorporating-vue-ui-with-a-traditional-laravel-login-flow/</guid>
       <description>Let&amp;rsquo;s say we want to create a traditional login flow using the Laravel framework. The users will enter their username and password and our system will send an HTTP POST request to authenticate that credentials. And at the same time, instead of using a traditional HTML form, we want to use a Vue component for building the form UI.
 In my case, I also use the VeeValidate library for validating on the frontend side.</description>
     </item>
     
     <item>
       <title>Add Postmark&#39;s Tag in Laravel</title>
-      <link>https://smith.github.io/code/postmark-tag-in-laravel/</link>
+      <link>blog.rachelombok.com/code/postmark-tag-in-laravel/</link>
       <pubDate>Sun, 09 Feb 2020 20:45:00 +0700</pubDate>
       
-      <guid>https://smith.github.io/code/postmark-tag-in-laravel/</guid>
+      <guid>blog.rachelombok.com/code/postmark-tag-in-laravel/</guid>
       <description>Laravel makes it super easy to work with e-mail. It ships with an SMTP based mail driver out of the box. We can also easily use API based mail drivers like Amazon SES, Mailgun, or even Postmark.
 Since the Laravel&amp;rsquo;s drivers are meant to be effortlessly swappable, the API tends to be more general. That&amp;rsquo;s why some features might not be available out of the box, like Postmark&amp;rsquo;s tag for example.</description>
     </item>
     
     <item>
       <title>Seeding Table with Relationships in Laravel</title>
-      <link>https://smith.github.io/code/seeding-table-with-relationships-in-laravel/</link>
+      <link>blog.rachelombok.com/code/seeding-table-with-relationships-in-laravel/</link>
       <pubDate>Sun, 18 Mar 2018 17:01:00 +0200</pubDate>
       
-      <guid>https://smith.github.io/code/seeding-table-with-relationships-in-laravel/</guid>
+      <guid>blog.rachelombok.com/code/seeding-table-with-relationships-in-laravel/</guid>
       <description>This is my answer to someone&amp;rsquo;s question on StackOverflow. How can we seed table with relationships in Laravel? Let&amp;rsquo;s learn how to define relationships on the Eloquent model and use Laravel&amp;rsquo;s model factory to seed the database.
 Table of Contents  Model and Table Structure  Customer Model Customer Address Model Customer Purchase Model   Defining Relationships  Defining Inverse Relationships   The Model Factory Database Seeding with Model Factory   Model and Table Structure Before getting started, let me explain the context of the question.</description>
     </item>
     
     <item>
       <title>Laravel AJAX Request dengan CSRF Token</title>
-      <link>https://smith.github.io/code/laravel-ajax-request-dengan-csrf-token/</link>
+      <link>blog.rachelombok.com/code/laravel-ajax-request-dengan-csrf-token/</link>
       <pubDate>Mon, 27 Jan 2014 20:00:00 +0700</pubDate>
       
-      <guid>https://smith.github.io/code/laravel-ajax-request-dengan-csrf-token/</guid>
+      <guid>blog.rachelombok.com/code/laravel-ajax-request-dengan-csrf-token/</guid>
       <description>Jika Anda menggunakan Laravel dan mengkombinasikan teknik AJAX untuk mengirim request ke server, pasti Anda pernah memikirkan: bagaimana caranya memproteksi endpoint AJAX tersebut dari serangan CSRF?
 AJAX Form Sebagai contoh, kita memiliki sebuah laman untuk mengirimkan pesan ke server dengan teknik AJAX:
 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Ajax Form&amp;lt;/title&amp;gt; &amp;lt;meta name=&amp;#34;csrf-token&amp;#34; content=&amp;#34;{{ csrf_token() }}&amp;#34;&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; id=&amp;#34;message&amp;#34;&amp;gt; &amp;lt;button type=&amp;#34;button&amp;#34; id=&amp;#34;send&amp;#34;&amp;gt;Send&amp;lt;/button&amp;gt; &amp;lt;script src=&amp;#34;//code.jquery.com/jquery-1.10.2.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;{{ asset(&amp;#39;ajax-setup.js&amp;#39;) }}&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;{{ asset(&amp;#39;ajax-handler.</description>
