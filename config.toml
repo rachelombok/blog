@@ -1,4 +1,4 @@
-baseurl = "https://smith.github.io"
+baseurl = "blog.rachelombok.com"
 title = "rachel's blog"
 languageCode = "en-us"
 publishDir = 'docs'
