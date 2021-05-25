@@ -40,6 +40,10 @@ a:hover {
     text-decoration: none;
 }
 
+b {
+    text-decoration: wavy;
+}
+
 
 blockquote {
     background: #2b2831;
@@ -66,6 +70,7 @@ figcaption {
 img {
     display: block;
     max-width: 100%;
+
 }
 
 hr {
@@ -208,10 +213,19 @@ footer {
 
 h3::before{
     content: "# ";
-    margin-left: -25px;
+    margin-left: -20px;
     color:rgb(102, 161, 102);
 }
 
 h3{
     color: white;
 }
+
+::selection {
+    background: #fbc8d3; /* WebKit/Blink Browsers */
+    color: black;
+  }
+  ::-moz-selection {
+    background: #fbc8d3; /* Gecko Browsers */
+    color: black;
+  }

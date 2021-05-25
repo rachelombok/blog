@@ -1,13 +1,20 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
 <ul>
+   
     {{ range .Data.Terms.Alphabetical }}
     <li>
         <a href="{{ .Page.Permalink }}">
             {{ .Page.Title }}
         </a>
         <span>({{ .Count }})</span>
+       
     </li>
+    
+    {{ end }}
+    
+    {{ if eq .Title "Categories" }}
+    <p><a href='/tags'>see tags -></a></p>
     {{ end }}
 </ul>
 {{ end }}

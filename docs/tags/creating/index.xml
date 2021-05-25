@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>creating on rachel&#39;s blog</title>
+    <link>/tags/creating/</link>
+    <description>Recent content in creating on rachel&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 08 Jan 2021 07:00:00 +0700</lastBuildDate><atom:link href="/tags/creating/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Huztle, a Gen-Z podcast</title>
+      <link>/blog/huztle/</link>
+      <pubDate>Fri, 08 Jan 2021 07:00:00 +0700</pubDate>
+      
+      <guid>/blog/huztle/</guid>
+      <description>Huztle Art background after a number of setbacks and weeks of waiting, i have finally launched my (first?) podcast! Huztle is a “Gen-Z entrepreneurship podcast, where I interview up and coming GenZ innovators and founders in the field of STEM who have taken initiative to start their own businesses, and gain insight to their journey. They share their experiences, the lessons they’ve learned and their own visions for the future in their respective fields”.</description>
+    </item>
+    
+  </channel>
+</rss>

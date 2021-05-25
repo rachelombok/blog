@@ -21,17 +21,16 @@
                     <a href="/categories/{{ $category }}/">
                         {{- $category -}}
                     </a>
+
                 {{- end -}}
+                
             </li>
             {{- end -}}
             {{- with .Params.tags }}
             <li>
                 <span>Tags:&nbsp;</span>
                 {{- range $idx, $tag := . -}}
-                {{- if $idx -}},&nbsp;{{- end -}}
-                <a href="/tags/{{ $tag }}/">
-                    {{- $tag -}}
-                </a>
+                {{- if $idx -}},&nbsp;{{- end -}}<a href="/tags/{{ $tag }}/">{{- $tag -}}</a>
                 {{- end -}}
             </li>
             {{- end -}}
