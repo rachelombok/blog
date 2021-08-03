@@ -26,8 +26,8 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 
 ### subdomains
 * [main](https://rachelombok.com/)
-* digital garden  
+* [digital garden](https://garden.rachelombok.com) 
 
-![guggenheim museum fall '18](biopic5.jpg)
+![alcatraz island summer '21](biopic6.jpg)
 
 this website is generated using [Hugo](https://gohugo.io/) and hosted for free on [Github Pages](https://pages.github.com). this is modeled after the template created by [risanb.com](https://risanb.com), and you can check out his entire source code on [Github](https://github.com/risan/risanb.com).

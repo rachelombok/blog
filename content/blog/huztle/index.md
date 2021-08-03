@@ -1,7 +1,7 @@
 ---
 lang: en
 title: Huztle, a Gen-Z podcast
-date: 2021-01-08T07:00:00+07:00
+date: 2021-08-03T07:00:00+07:00
 categories: [huztle]
 tags: [podcast, creating]
 images: [/blog/huztle/huztlecover.jpg]
