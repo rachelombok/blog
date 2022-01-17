@@ -6,107 +6,15 @@
     <description>Recent content in tutorial on rachel&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jan 2020 23:13:00 +0700</lastBuildDate><atom:link href="/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 17 Jan 2022 21:22:00 +0700</lastBuildDate><atom:link href="/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>How to Backup and Restore Your GPG Key</title>
-      <link>/code/backup-restore-gpg-key/</link>
-      <pubDate>Sat, 11 Jan 2020 23:13:00 +0700</pubDate>
+      <title>Build a Discord Bot 👾</title>
+      <link>/blog/build-a-discord-bot/</link>
+      <pubDate>Mon, 17 Jan 2022 21:22:00 +0700</pubDate>
       
-      <guid>/code/backup-restore-gpg-key/</guid>
-      <description>A couple of weeks ago I upgraded my MacBook to Catalina—the latest version of macOS. Once the upgrade was completed, I couldn&amp;rsquo;t sign my Git commits because my GPG key was missing. Somehow the upgrade wiped out my entire .gnupg directory where I stored all my GPG keys. Luckily I&amp;rsquo;ve made a backup of my private GPG keys.
-Backup GPG Key What you need to backup is your GPG private key.</description>
-    </item>
-    
-    <item>
-      <title>Bundling Your JavaScript Library with Rollup</title>
-      <link>/code/bundling-your-javascript-library-with-rollup/</link>
-      <pubDate>Sun, 04 Nov 2018 02:51:00 +0200</pubDate>
-      
-      <guid>/code/bundling-your-javascript-library-with-rollup/</guid>
-      <description>Similar to Webpack or Browserify, Rollup is a module bundler for JavaScript. It allows us to use the modern ES module system and transform it into another module system: CommonJS, AMD, or the UMD. It can also bundle our module and wrap it inside the IIFE (Immediately-Invoked Function Expression).
-Though people usually use Rollup to bundle a library. It&amp;rsquo;s possible to bundle an application too.
- You can access the source code for this tutorial here: github.</description>
-    </item>
-    
-    <item>
-      <title>Vue Chart Component with Chart.js</title>
-      <link>/code/vue-chart-component-with-chartjs/</link>
-      <pubDate>Sun, 14 Oct 2018 18:38:00 +0200</pubDate>
-      
-      <guid>/code/vue-chart-component-with-chartjs/</guid>
-      <description>Chart.js is an amazing chart library for JavaScript. It&amp;rsquo;s modern and performant; built on top of the HTML5 canvas. It includes 8 different chart types which super easy to extend and configure. On top of it all, the generated chart just looks beautiful.
-Last night I did some tinkering to integrate Chart.js within the existing Vue code base. So, how can we do that? If you want, there&amp;rsquo;s actually a wrapper for Chart.</description>
-    </item>
-    
-    <item>
-      <title>Tutorial PHP untuk Pemula</title>
-      <link>/code/tutorial-php-untuk-pemula/</link>
-      <pubDate>Fri, 27 Apr 2018 10:00:00 +0200</pubDate>
-      
-      <guid>/code/tutorial-php-untuk-pemula/</guid>
-      <description>PHP—akronim rekursif dari PHP: Hypertext Preprocessor)—merupakan bahasa pemrograman untuk web yang mulanya dikembangkan oleh Rasmus Lerdorf pada tahun 1994. PHP berjalan di sisi server (peladen) dan umumnya digunakan untuk membuat aplikasi berbasis web yang dinamis.
-Meski sintaksis dan fiturnya kadang dikritik oleh programmer lain, PHP tetap populer dan mendominasi jagad internet. Perusahaan-perusahaan berbasis teknologi ternama mulai dari Facebook, Automattic (Wordpress), Slack, hingga Wikipedia masih setia dengan PHP yang sudah berumur lebih dari dua dekade ini.</description>
-    </item>
-    
-    <item>
-      <title>Seeding Table with Relationships in Laravel</title>
-      <link>/code/seeding-table-with-relationships-in-laravel/</link>
-      <pubDate>Sun, 18 Mar 2018 17:01:00 +0200</pubDate>
-      
-      <guid>/code/seeding-table-with-relationships-in-laravel/</guid>
-      <description>This is my answer to someone&amp;rsquo;s question on StackOverflow. How can we seed table with relationships in Laravel? Let&amp;rsquo;s learn how to define relationships on the Eloquent model and use Laravel&amp;rsquo;s model factory to seed the database.
-Table of Contents  Model and Table Structure  Customer Model Customer Address Model Customer Purchase Model   Defining Relationships  Defining Inverse Relationships   The Model Factory Database Seeding with Model Factory   Model and Table Structure Before getting started, let me explain the context of the question.</description>
-    </item>
-    
-    <item>
-      <title>Track User&#39;s Location and Display it on Google Maps</title>
-      <link>/code/track-user-location-google-maps/</link>
-      <pubDate>Fri, 16 Mar 2018 17:57:00 +0200</pubDate>
-      
-      <guid>/code/track-user-location-google-maps/</guid>
-      <description>This is actually my answer to someone&amp;rsquo;s question on PHP Indonesia Facebook group. How can we track user&amp;rsquo;s location continuously using the Geolocation API and display it on Google Maps?
-Before getting started, we&amp;rsquo;re going to need an API Key to use the Google Maps JavaScript API. As a safety measure, don&amp;rsquo;t forget to set the HTTP referrers on your API key to your own domains.
-Table of Contents  Displaying Google Map on Your Page  Our HTML Structure Add Some Styles Initialize The Map   Adding Marker to Your Map Get User&amp;rsquo;s Location  Using the getCurrentPosition Method Simulating User&amp;rsquo;s Location on Chrome Handling Errors Display User&amp;rsquo;s Location on Google Maps Let&amp;rsquo;s Refactor our Code   Track User&amp;rsquo;s Location with watchPosition  The PositionOptions The Final Touch     Displaying Google Map on Your Page First, let&amp;rsquo;s start with a simple example: display a map on our HTML page using Google Maps Javascript API.</description>
-    </item>
-    
-    <item>
-      <title>Installing SQL Server on macOS</title>
-      <link>/code/installing-sql-server-on-macos/</link>
-      <pubDate>Tue, 13 Feb 2018 15:18:00 +0200</pubDate>
-      
-      <guid>/code/installing-sql-server-on-macos/</guid>
-      <description>It&amp;rsquo;s a bit inconvenience when working on a project that uses the Microsoft SQL Server while your dev machine is either Linux or macOS. I always ended up setting up and using a remote test database.
-But now it&amp;rsquo;s no longer the case. October last year, SQL Server 2017 for Linux finally went into general availability. It&amp;rsquo;s container images are also available on Docker hub for us to use. That means we can finally install SQL Server on macOS!</description>
-    </item>
-    
-    <item>
-      <title>Upgrade Your SSH Key to Ed25519</title>
-      <link>/code/upgrade-ssh-key-to-ed25519/</link>
-      <pubDate>Wed, 29 Nov 2017 17:06:00 +0200</pubDate>
-      
-      <guid>/code/upgrade-ssh-key-to-ed25519/</guid>
-      <description>If you&amp;rsquo;re a DevOps engineer or a web developer, there&amp;rsquo;s a good chance that you&amp;rsquo;re already familiar and using the SSH key authentication on a daily basis. Whether it&amp;rsquo;s for logging into the remote server or when pushing your commit to the remote repository. It provides us with better security than the traditional password-based authentication.
-But, when is the last time you created or upgraded your SSH key? And did you use the latest recommended public-key algorithm?</description>
-    </item>
-    
-    <item>
-      <title>Tutorial Dasar Facebook PHP SDK</title>
-      <link>/code/tutorial-dasar-facebook-php-sdk/</link>
-      <pubDate>Wed, 29 Jan 2014 20:00:00 +0700</pubDate>
-      
-      <guid>/code/tutorial-dasar-facebook-php-sdk/</guid>
-      <description>Pada tutorial kali ini kita akan mempelajari dasar-dasar penggunaan Facebook PHP SDK untuk mengakses API dari Facebook. Kita akan membuat aplikasi sederhana untuk menampilkan data profil Facebook dari pengguna yang menggunakan aplikasi kita.
-Mendaftarkan Aplikasi Facebook Sebelum membahas lebih lanjut, Anda perlu memiliki Facebook App ID serta App Secret sebagai prasyarat mengakses API Facebook. Untuk mendapatkan App ID dan App Secret, Anda harus mendaftarkan aplikasi Anda di Facebook Developer. ￼ Pada laman developer, klik menu Apps &amp;gt; Create a new app.</description>
-    </item>
-    
-    <item>
-      <title>Realtime Notification using PHP and Pusher</title>
-      <link>/code/realtime-notification-php-pusher/</link>
-      <pubDate>Mon, 27 Jan 2014 19:00:00 +0700</pubDate>
-      
-      <guid>/code/realtime-notification-php-pusher/</guid>
-      <description>Pada tutorial kali ini kita akan membangun sistem notifikasi realtime sederhana dengan menggunakan PHP serta layanan third-party dari Pusher. Pusher adalah layanan cloud untuk mempermudah pengembangan aplikasi realtime. Selain Pusher, masih banyak provider lain yang menyediakan layanan sejenis, seperti Firebase dan PubNub .
-Registrasi Akun Pusher Jika Anda belum memiliki akun Pusher, registrasi dahulu di sini. Setelah proses registrasi berhasil dilakukan, Anda akan diarahkan ke laman dashboard dari aplikasi Pusher. Di sisi sebelah kanan, Anda akan mendapati App Credential yang nantinya akan kita gunakan untuk mengakses API dari Pusher.</description>
+      <guid>/blog/build-a-discord-bot/</guid>
+      <description>* this post is apart of a workshop i hosted for Starhacks 💫 *
+Discord is a powerful messaging platform with great chat capabilities originally built to serve gaming communities. it has grown to a massive popularity and offers a lot of customization and autonomy via bots, custom moderation tools and more, which I’ll show you how to work with! in this tutorial I’ll show you how to set up a fully customizable Discord bot that can be running on your server in under 15 minutes.</description>
     </item>
     
   </channel>

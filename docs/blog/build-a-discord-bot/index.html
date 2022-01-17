@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+    <meta charset="utf-8">
+    <title>Build a Discord Bot 👾 | rachel&#39;s blog</title>
+    <meta name="description" content="* this post is apart of a workshop i hosted for Starhacks 💫 *
+Discord is a powerful messaging platform with great chat capabilities originally built to serve gaming communities. it has grown to a …">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="Build a Discord Bot 👾" />
+<meta property="og:description" content="* this post is apart of a workshop i hosted for Starhacks 💫 *
+Discord is a powerful messaging platform with great chat capabilities originally built to serve gaming communities. it has grown to a massive popularity and offers a lot of customization and autonomy via bots, custom moderation tools and more, which I’ll show you how to work with! in this tutorial I’ll show you how to set up a fully customizable Discord bot that can be running on your server in under 15 minutes." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/build-a-discord-bot/" /><meta property="og:image" content="/blog/build-a-discord-bot/discordworkshop.jpg" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-01-17T21:22:00&#43;07:00" />
+<meta property="article:modified_time" content="2022-01-17T21:22:00&#43;07:00" /><meta property="og:site_name" content="Software Engineering" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/blog/build-a-discord-bot/discordworkshop.jpg"/>
+
+<meta name="twitter:title" content="Build a Discord Bot 👾"/>
+<meta name="twitter:description" content="* this post is apart of a workshop i hosted for Starhacks 💫 *
+Discord is a powerful messaging platform with great chat capabilities originally built to serve gaming communities. it has grown to a massive popularity and offers a lot of customization and autonomy via bots, custom moderation tools and more, which I’ll show you how to work with! in this tutorial I’ll show you how to set up a fully customizable Discord bot that can be running on your server in under 15 minutes."/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="stylesheet" href="/styles.min.06fb27dfa3515df4a50e142872ae497ba8d1479913843d6c2fe616ae20363443.css">
+    <link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🍣</text></svg>'></head>
+<body>
+<header>
+    <a href="/" class='blog-title'>
+       
+        <h1>blog.</h1>
+    </a>
+    <nav>
+        <a href="/categories/">Categories</a>
+        
+        <a href="/about/">About</a>
+    </nav>
+</header>
+<main>
+<article>
+    <h1 class='article-title'>Build a Discord Bot 👾</h1><time datetime='2022-01-17T21:22:00&#43;07:00'>2022-01-17</time><p>* this post is apart of a workshop i hosted for <a href="https://www.starhacks.tech/">Starhacks</a> 💫 *</p>
+<p>Discord is a powerful messaging platform with great chat capabilities originally
+built to serve gaming communities. it has grown to a massive popularity and offers
+a lot of customization and autonomy via bots, custom moderation tools and more,
+which I’ll show you how to work with! in this tutorial I’ll show you how to set
+up a fully customizable Discord bot that can be running on your server in under
+15 minutes. this tutorial is taught using Javascript, but if you are a beginner
+don’t worry! We’ll walk through it together.</p>
+<p>i set <a href="https://github.com/rachelombok/DiscordBotWorkshop">this repository</a> up so that anyone can fork or clone it and add their own tokens
+and capabilities for their own bot easily, so if you don&rsquo;t want to start from scratch,
+fork the repo!</p>
+<h3 id="prerequisites">prerequisites</h3>
+<ul>
+<li>a Discord account (<a href="https://discord.com">sign up here</a>)</li>
+<li>NodeJS(<a href="https://nodejs.org/en/download/"><code>node</code></a>) and <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"><code>npm</code></a> installed</li>
+<li>your favorite IDE 🤩 (VSCode, Notepad++, Webstorm, etc.)</li>
+</ul>
+<h3 id="workshop-resources">workshop resources</h3>
+<ul>
+<li><a href="https://github.com/rachelombok/DiscordBotWorkshop">Skeleton Base Repo</a></li>
+<li><a href="https://discord.js.org/#/docs/discord.js/stable/general/welcome">discord.js Documentation</a></li>
+<li><a href="discordbots.org">discordbots.org</a> (premade bot examples)</li>
+</ul>
+<h3 id="steps">steps</h3>
+<h4 id="1-creating-the-discord-bot">1.) Creating the Discord bot</h4>
+<ul>
+<li>Visit the <a href="https://discordapp.com/developers/applications/">Discord portal</a> and click on new application</li>
+<li>Give your application a unique name and click the Create button</li>
+<li>On the left panel, click on the <strong>Bot</strong> tab and click on <strong>Add Bot</strong></li>
+<li>Now our bot is created and we can invite it to our server!</li>
+</ul>
+<h4 id="2-adding-the-bot-to-your-server">2.) Adding the bot to your server</h4>
+<ul>
+<li>On the left panel, navigate to the <strong>OAuth2</strong> panel and select the bot you just created</li>
+<li>Select the needed permissions for your bot (Read Messages/View Channels, Send Messages, Manage Messages, etc.)</li>
+<li>Copy the generated URL link and paste it into your browser</li>
+<li>After pasting it we can add it to our server by selecting it and clicking the authorize button</li>
+</ul>
+<h4 id="3-creating-our-project">3.) Creating our Project</h4>
+<ul>
+<li>We can create our project directory from the terminal and start coding it!
+<code>mkdir my-bot &amp;&amp; cd my-bot</code></li>
+<li>Then create the two files that we will work with
+<code>touch index.js &amp;&amp; touch config.json</code></li>
+<li>run <code>npm init</code> and fill out the questions, this will help us keep track of our project information</li>
+<li>Now open your project in your preferred IDE</li>
+</ul>
+<h4 id="4-discordjs-basics">4.) DiscordJS basics</h4>
+<ul>
+<li>Install these dependencies
+<code>npm install discord.js @discordjs/opus --save</code></li>
+<li>Fill our <a href="https://github.com/rachelombok/DiscordBotWorkshop/blob/master/config.json"><code>config.json</code></a> file with your command prefix and your bot token. To get the token go back to the Discord portal and copy it from the bot section</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+<span style="color:#ff79c6">&#34;prefix&#34;</span>: <span style="color:#f1fa8c">&#34;!&#34;</span>,
+<span style="color:#ff79c6">&#34;token&#34;</span>: <span style="color:#f1fa8c">&#34;your-token&#34;</span>
+}
+</code></pre></div><ul>
+<li>In our <code>index.js</code> file we need to import all our dependencies we installed for our app</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#ff79c6">const</span> Discord <span style="color:#ff79c6">=</span> require(<span style="color:#f1fa8c">&#39;discord.js&#39;</span>);
+<span style="color:#ff79c6">const</span> {
+	prefix,
+	token,
+} <span style="color:#ff79c6">=</span> require(<span style="color:#f1fa8c">&#39;./config.json&#39;</span>);
+</code></pre></div><ul>
+<li>After that we create our client (bot object) and login using our token</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#ff79c6">const</span> { Client, Intents, MessageEmbed } <span style="color:#ff79c6">=</span> require(<span style="color:#f1fa8c">&#39;discord.js&#39;</span>);
+<span style="color:#ff79c6">const</span> client <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> Client({ intents<span style="color:#ff79c6">:</span> [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+client.login(token);
+</code></pre></div><ul>
+<li>Add some basic listeners to your bot that will console.log when executed</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">client.once(<span style="color:#f1fa8c">&#39;ready&#39;</span>, () =&gt; {
+    console.log(<span style="color:#f1fa8c">&#39;Ready!&#39;</span>);
+});
+client.once(<span style="color:#f1fa8c">&#39;reconnecting&#39;</span>, () =&gt; {
+    console.log(<span style="color:#f1fa8c">&#39;Reconnecting!&#39;</span>);
+});
+client.once(<span style="color:#f1fa8c">&#39;disconnect&#39;</span>, () =&gt; {
+    console.log(<span style="color:#f1fa8c">&#39;Disconnect!&#39;</span>);
+});
+</code></pre></div><ul>
+<li>Test your bot by running <code>node index.js</code> in your terminal, which should output a &lsquo;Ready!&rsquo; message</li>
+</ul>
+<h4 id="5-reading-and-writing-message-commands">5.) Reading and Writing Message Commands</h4>
+<ul>
+<li>Now that our bot can go online, we can start by giving it the functionality to read chat messages, an event listener, by writing one simple function:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">client.on(<span style="color:#f1fa8c">&#39;messageCreate&#39;</span>, <span style="color:#ff79c6">async</span> message =&gt; {
+  
+}
+</code></pre></div><ul>
+<li>Check if the message is from our own bot, or if the message doesn&rsquo;t start with our specified prefix. In these cases, we just return and don&rsquo;t do anything</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#ff79c6">if</span> (message.author.bot) <span style="color:#ff79c6">return</span>;
+<span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>message.content.startsWith(prefix)) <span style="color:#ff79c6">return</span>;
+</code></pre></div><ul>
+<li>Afterwards we can add capabilities for messaging to our bot with some conditional statements</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#ff79c6">if</span> (message.content.startsWith(<span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">name`</span>)){
+    message.reply(<span style="color:#f1fa8c">`Your name is </span><span style="color:#f1fa8c">${</span>message.author.username<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">`</span>); <span style="color:#6272a4">// sends reply in channel to author
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span>;
+} <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (message.content.startsWith(<span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">greeting`</span>)){
+    message.channel.send(<span style="color:#f1fa8c">&#34;Hello world!&#34;</span>); <span style="color:#6272a4">// sends general message to channel
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span>;
+} <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (message.content.startsWith(<span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">secret`</span>)){
+    message.author.send(<span style="color:#f1fa8c">&#34;Shhh! This is a secret message for you&#34;</span>); <span style="color:#6272a4">// sends direct message to author
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span>;
+} <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (message.content.startsWith(<span style="color:#f1fa8c">`</span><span style="color:#f1fa8c">${</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">quote`</span>)){
+    <span style="color:#ff79c6">const</span> quoteEmbed <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> MessageEmbed().setColor(<span style="color:#f1fa8c">&#34;ORANGE&#34;</span>).setTitle(<span style="color:#f1fa8c">`Quote for </span><span style="color:#f1fa8c">${</span>message.author.username<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">`</span>).setURL(<span style="color:#f1fa8c">&#34;https://discord.js.org/#/docs/discord.js/stable/class/Client&#34;</span>).setDescription(<span style="color:#f1fa8c">&#34;To be, or not to be. That is the question.&#34;</span>)
+    message.channel.send({embeds<span style="color:#ff79c6">:</span> [quoteEmbed]}); <span style="color:#6272a4">// sends embedded message to channel
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span>;
+} <span style="color:#ff79c6">else</span> {
+    message.channel.send(<span style="color:#f1fa8c">&#34;You need to enter a valid command!&#34;</span>); <span style="color:#6272a4">// if invalid command, send this error message to the channel
+</span><span style="color:#6272a4"></span>}
+</code></pre></div><h4 id="6-run-locally-">6.) Run Locally 📡</h4>
+<ul>
+<li>to start your bot, run <code>node index.js</code>, you should see the console message &lsquo;Ready&rsquo; if it is up and running.</li>
+<li>type your commands in the channel where the bot has been invited, and make sure the bot behaves as your programmed it to</li>
+</ul>
+<h4 id="7-pushing-to-your-repository">7.) Pushing to your repository</h4>
+<p>If you push your repo as is, your secret bot token will be exposed publicly will cause Discord to flag you down and your token will no longer work. To make sure your token stays secure, we need to tell our project to ignore when pushing to our repository. We will also include the <code>node_modules</code> folder since that is also not needed for pushing our project</p>
+<ul>
+<li>Create an environment file to host your variables
+<code>touch .env</code>, and then add this code block to the file:</li>
+</ul>
+<pre><code>TOKEN='your-bot-token'
+PREFIX='your-prefix'
+</code></pre><ul>
+<li>Create a gitignore file<br>
+<code>touch .gitignore</code></li>
+<li>install the <code>dotenv</code> dependency<br>
+<code>npm install dotenv</code></li>
+<li>Since your <code>.env</code> file was created before the <code>.gitignore</code>, it is not yet tracking the file. To do so, untrack the cached files with the two commands:<br>
+<code>git rm --cached .env</code> and <code>git rm --cached node_modules</code></li>
+<li>if you&rsquo;ve already committed these files and are given an error, try adding <code>-r</code> to the command:<br>
+<code>git rm -r --cached .env</code> and <code>git rm -r --cached node_modules</code></li>
+<li>now if you run <code>git status</code> in your terminal, it will show all the files that are untracked in your project</li>
+<li>in <code>index.js</code>, add <code>require('dotenv').config();</code> to the top of the file</li>
+<li>instead of importing the config variables from <code>config.json</code> we can now use the <code>.env</code> file variables by using:<br>  <code>process.env.TOKEN</code> and <code>process.env.PREFIX</code></li>
+<li>if you are working on a team, you can add the environment variables by going to the <strong>Settings</strong> tab in your repository, navigating to <strong>Environments</strong>, and clicking the <strong>New Environments</strong> button to add the variable secrets</li>
+<li>You can now host your bot on an external service, tutorial links and resources are listed below.</li>
+</ul>
+<h3 id="other-resources">other resources</h3>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/how-to-create-a-music-bot-using-discord-js-4436f5f3f0f8/">🤖Guide: How to build a Discord music bot</a> - Learn how you can create your own custom music bot for your server from scratch!</li>
+<li><a href="https://www.techwithtim.net/tutorials/discord-py/hosting-a-discord-bot-for-free/">How to Host Discord Bot on Heroku for free</a></li>
+<li><a href="https://www.writebots.com/discord-bot-hosting/">Definitive Guide for hosting your Discord Bot</a></li>
+</ul>
+<h3 id="conclusion">conclusion</h3>
+<p>if you have any questions or feedback, let me know by messaging me in Discord! discord (racheletc#1212)</p>
+<footer>
+        <ul>
+            <li>
+                <span>Categories:&nbsp;</span><a href="/categories/tutorial/">tutorial</a></li>
+            <li>
+                <span>Tags:&nbsp;</span><a href="/tags/node/">node</a>,&nbsp;<a href="/tags/javascript/">javascript</a></li><li><span>Previous:&nbsp;</span><a href="/blog/huztle/">Huztle, a Gen-Z podcast</a></li></ul>
+    </footer></article>
+</main>
+<footer>
+    <small>&copy; Rachel Ombok 2021</small>
+    <nav>
+        <small><a href="https://github.com/rachelombok">Github</a>
+        <a href="https://twitter.com/therachelplan">Twitter</a>
+        <a href="https://rachelombok.com/">Main</a>
+        <a href='http://garden.rachelombok.com'>Garden</a></small>
+
+    </nav>
+</footer></body>
+</html>

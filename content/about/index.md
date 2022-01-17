@@ -16,7 +16,6 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 
 ### call me beep me, if you wanna reach me 😗
 * twitter - [@therachelplan](https://twitter.com/therachelplan)
-* ig - [@rachelombok](https://www.instagram.com/rachelombok)
 * github - [rachelombok](https://github.com/rachelombok)
 * email - [rachel.ombok@nyu.edu](rachel.ombok@nyu.edu)
 

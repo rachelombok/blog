@@ -2,29 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/blog/build-a-discord-bot/</loc>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
+  </url><url>
     <loc>/categories/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
   </url><url>
-    <loc>/tags/creating/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <loc>/tags/javascript/</loc>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
   </url><url>
-    <loc>/categories/huztle/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
-  </url><url>
-    <loc>/blog/huztle/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
-  </url><url>
-    <loc>/tags/podcast/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <loc>/tags/node/</loc>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
   </url><url>
     <loc>/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
+  </url><url>
+    <loc>/categories/tutorial/</loc>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
   </url><url>
     <loc>/blog/</loc>
-    <lastmod>2021-01-08T07:00:00+07:00</lastmod>
+    <lastmod>2022-01-17T21:22:00+07:00</lastmod>
+  </url><url>
+    <loc>/tags/creating/</loc>
+    <lastmod>2021-08-03T07:00:00+07:00</lastmod>
+  </url><url>
+    <loc>/categories/huztle/</loc>
+    <lastmod>2021-08-03T07:00:00+07:00</lastmod>
+  </url><url>
+    <loc>/blog/huztle/</loc>
+    <lastmod>2021-08-03T07:00:00+07:00</lastmod>
+  </url><url>
+    <loc>/tags/podcast/</loc>
+    <lastmod>2021-08-03T07:00:00+07:00</lastmod>
   </url><url>
     <loc>/about/</loc>
     <lastmod>2021-02-15T20:49:00+07:00</lastmod>
