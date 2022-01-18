@@ -21,7 +21,6 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 
 ### elsewhere...
 * devblogs - [dev.to](https://dev.to/rachelombok)
-* pix - [vsco](https://vsco.co/rachelombok/gallery)
 
 ### subdomains
 * [main](https://rachelombok.com/)
