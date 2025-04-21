@@ -1,26 +1,25 @@
 ---
 date: 2017-10-09T17:06:00+02:00
-lastmod: 2021-02-15T20:49:00+07:00
+lastmod: 2024-04-21T20:49:00+07:00
 title: whoami?
 ---
 ### the blogger
 
-hi i'm Rachel! im a computer science student interested in **web development**, **games** and **ar/vr**.
+hi i'm Rachel! im a software engineer interested in **web development**, **games** and **ar/vr**.
 
-right now i am currently studying at NYU, and this summer i will be interning @twitter. i made this blog to document some
-non-programming topics in my head. im not sure what else to say here so maybe ill update it more in the future :P
+i currently work as a frontend engineer at [Distyl](https://distyl.ai/). i made this blog to document some programming and
+non-programming topics in my head. im not sure what else to say here so maybe ill update it more in the future 😗
 
 <!---
 ### the blog
  --->
 
 ### hey!
-* twitter - [@therachelplan](https://twitter.com/therachelplan)
 * github - [rachelombok](https://github.com/rachelombok)
-* email - [rachel.ombok@nyu.edu](rachel.ombok@nyu.edu)
+* email - [rachel.ombok@gmail.com](rachel.ombok@gmail.com)
 
 ### elsewhere...
-* devblogs - [dev.to](https://dev.to/rachelombok)
+* devblog - [dev.to](https://dev.to/rachelombok)
 
 ### subdomains
 * [main](https://rachelombok.com/)

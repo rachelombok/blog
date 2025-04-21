@@ -6,27 +6,6 @@ categories: []
 tags: [software-engineering, job-hunting]
 images: [/blog/this-isnt-your-dads-job-market/jobsearch-summary.png]
 ---
-<!--- I
-replacements:
-, Linkedin Leetcode Zoom Safari , . , capitalize dsa jd , ive -> i've
-
-title colors:
-behavioral 
-<span style="color:#f9cb9c;font-weight:bolder"></span>
-
-technical
-<span style="color:#b4a7d6;font-weight:bolder"></span>
-
-practical
-<span style="color:#93c47d;font-weight:bolder"></span>
-
-mental
-<span style="color:#a2c4c9;font-weight:bolder"></span>
-
-title
-## <span style="color:#93c47d;font-weight:bolder">**#** <u></u></span> {#}
-
---->
 
 today i start my [new job](https://distyl.ai/). after a long 10-month job process and 400+ applications, i’ve finally accomplished what seemed like the (almost) impossible— going through this arduous process for candidates, practicing the technical questions, sending out regular applications, attending all the necessary networking events, and constantly tweaking my resume. writing out all those tasks on paper doesn’t really make it out to seem all that different from any other job search for any other person in the last 25 years of this millennium, but i know many are feeling and felt the way i do. 
 
@@ -219,6 +198,8 @@ interviews are generally 45 minutes or less, and there is usually a buffer of ab
 ## **#18** <a href='#lock-in'><span style="color:#a2c4c9;font-weight:bolder"><u>lock in, it’s as easy as it will get</u>¯\\\_(ツ)_/¯</span></a> {#lock-in}
 
 i know i just spent a couple paragraphs before talking about how hard and awful this job market is and the unprecedented levels of ‘over’ it is. but even still in this hellscape of a job market, it is still the easiest as it will get for you, so ***lock in***.
+
+<div style="display:flex; justify-content:center"><img src="lock-in.jpg" alt="the cycle of locking in" width="400"/></div>
 
 what do i mean by this? i mean that the further you go in your career, the more years you work, the bar expectation will rise regardless. the general bar for candidates may fluctuate and change in the future depending on the job market, but the bar for an engineer, as they gain more years of experience, work on more teams and projects, and stay in the industry, will always increase. i was talking about this with a friend i regularly mock interviewed with, and he spoke about a friend from college who grinded hard on Leetcode and applications in junior year and secured great offers out of college and had great stability and opportunities, and we both said *‘damn it would’ve been nice to do that back then so we wouldn’t be in this situation and job market now’*. and while this may sound true, this line of thinking is not completely logical, because while we could have done more preparation in college, we had the opportunity to do so ***now***. it may have been ‘easier’ back then, but the next easiest time is right now. we can’t go back and do anything about our college selves, we can only focus on the here and now of what we can control. 
 
