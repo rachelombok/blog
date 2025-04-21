@@ -14,7 +14,7 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 ### the blog
  --->
 
-### call me beep me, if you wanna reach me 😗
+### hey!
 * twitter - [@therachelplan](https://twitter.com/therachelplan)
 * github - [rachelombok](https://github.com/rachelombok)
 * email - [rachel.ombok@nyu.edu](rachel.ombok@nyu.edu)
@@ -24,7 +24,7 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 
 ### subdomains
 * [main](https://rachelombok.com/)
-* [digital garden](https://garden.rachelombok.com) 
+<!--- * [digital garden](https://garden.rachelombok.com)  --->
 
 ![alcatraz island summer '21](biopic6.jpg)
 

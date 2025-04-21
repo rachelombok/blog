@@ -95,6 +95,7 @@ abbr[title] {
 b,
 strong {
     font-weight: bolder;
+    color: #f6f2f1;
 }
 
 /**

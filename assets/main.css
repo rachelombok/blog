@@ -31,8 +31,9 @@ body {
 }
 
 a {
-    color: #b8b6be;
+    color: #c6c4cd;
     text-decoration-color: rgb(102, 161, 102);
+    text-decoration-thickness: 1.5px;
 }
 
 a:hover {
