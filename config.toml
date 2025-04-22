@@ -16,9 +16,9 @@ publishDir = 'docs'
 [params]
   header_image = "images/main_go_wideandtall_darklayer.jpeg"
   title = "Software Engineering"
-  SEOTitle = "Rich Youngkin Blog"
-  keyword = "Rich, Youngkin, Raspberry, Pi, Docker, Kubernetes, Go, Golang, Microservice"
+  SEOTitle = "software engineering blog"
+  keyword = "software engineering, blog, job search"
   image_404 = "img/404-bg.jpg"
   title_404 = "We couldn't find what you were looking for..."
-  description = "My name is Risan Bagja Pradana and I love playing with the computer. This website is an archive of my thoughts. I blog about programming stuff, my daily life, my traveling experiences, and other random things."
-  images = "/img/risan-og.jpg"
+  description = "My name is Rachel Ombok, hello! I blog about programming and non-programming stuff."
+  images = "/about/biopic6.jpg"
