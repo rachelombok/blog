@@ -16,7 +16,7 @@ The following item is required to run this blog:
 Run the following command to clone this repository into your computer:
 
 ```shell
-$ git clone git@github.com:risan/risanb.com.git
+$ git clone git@github.com:rachelombok/blog.git
 ```
 
 ### 2. Run the Blog 🎉

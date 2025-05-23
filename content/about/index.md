@@ -16,13 +16,14 @@ non-programming topics in my head. im not sure what else to say here so maybe il
 
 ### hey!
 * github - [rachelombok](https://github.com/rachelombok)
-* email - [rachel.ombok@gmail.com](rachel.ombok@gmail.com)
+* email - <a href="mailto:rachel.ombok\@gmail.com">rachel.ombok@gmail.com</a>
 
 ### elsewhere...
 * devblog - [dev.to](https://dev.to/rachelombok)
 
 ### subdomains
-* [main](https://rachelombok.com/)
+* <a href='https://rachelombok.com/' target="_blank" rel="noopener noreferrer" >main</a>
+* <a href='https://portfolio.rachelombok.com/concerts' target="_blank" rel="noopener noreferrer" >portfolio</a>
 <!--- * [digital garden](https://garden.rachelombok.com)  --->
 
 ![alcatraz island summer '21](biopic6.jpg)

@@ -1,0 +1,15 @@
+baseURL: "blog.rachelombok.com"
+title: Rachel Ombok Blog
+languageCode: en
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: dracula
+imaging:
+  quality: 80
+params:
+  description: My name is Rachel Ombok, hello! I blog about programming and non-programming stuff.
+  images: [/img/risan-og.jpg]
+
