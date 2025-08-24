@@ -1,7 +1,7 @@
 ---
 lang: en
 title: this isn't your dad's job market
-date: 2024-04-21T07:00:00+07:00
+date: 2025-04-21T07:00:00+07:00
 categories: []
 tags: [software-engineering, job-hunting]
 images: [/blog/this-isnt-your-dads-job-market/jobsearch-summary.png]

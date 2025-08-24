@@ -11,5 +11,5 @@ imaging:
   quality: 80
 params:
   description: My name is Rachel Ombok, hello! I blog about programming and non-programming stuff.
-  images: [/img/risan-og.jpg]
+  images: []
 
