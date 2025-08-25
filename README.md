@@ -35,6 +35,15 @@ To build the blog for production, run the following command:
 $ hugo -D
 ```
 
+To add a new blog post;
+```shell
+$ hugo new /blog/[blog-title]/index.md
+```
+And then to build it for production;
+```shell
+$ hugo -D
+```
+
 The static files will be generated at the `public` directory.
 
 ## License
