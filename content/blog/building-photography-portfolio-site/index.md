@@ -4,7 +4,7 @@ title: "building photography portfolio site"
 date: 2025-08-24T20:01:40-04:00
 categories: [side-project]
 tags: [software-engineering, typescript, nextjs, photography]
-images: [/blog/this-isnt-your-dads-job-market/jobsearch-summary.png]
+images: [/blog/building-photography-portfolio-site/portfolio-site.png]
 ---
 
 when i was a senior in high school, my grandma gave me a nikon d3200 as a graduation present. i had been into photography and taking pictures before but didn’t have any real equipment to practice with. by the start of my freshman year of collegeihad a million ideas and places i wanted to shoot. Granted i was not great at the start, but that is why you practice right? to ultimately get to a place where you don’t cringe at your terrible faux-artsy shots. i always liked photographing people and interesting places, usually i would just take pictures of my friends and around NYC, but in 2022, i began learning more about concert photography from an upperclassman in a student club i was in. he taught us about how to best adjust your settings to shoot in lowlight, high motion environments like concerts, how to find a publication and be represented for press pass, or even creating your own publication, and how to edit the photos and find your signature style. it basically was a crash course into live photography and i knew this would be my new preferred photography interest. of course this was dampered a bit through COVID, when i was living at home and there wasn’t really any concerts going on, but in 2021 when i came back to NYU for senior year, i became the Events & Media sub-chair for the [Program Board](https://www.instagram.com/nyupb/?hl=en) student club, which organizes the university wide student body events at NYU. 
