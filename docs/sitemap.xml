@@ -2,10 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/blog/building-photography-portfolio-site/</loc>
-    <lastmod>2025-08-24T20:01:40-04:00</lastmod>
+    <loc>/blog/30-days-of-rejection/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/categories/challenge/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/tags/rejection/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/categories/side-project/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/blog/</loc>
+    <lastmod>2026-03-23T07:45:34-04:00</lastmod>
+  </url><url>
+    <loc>/blog/building-photography-portfolio-site/</loc>
     <lastmod>2025-08-24T20:01:40-04:00</lastmod>
   </url><url>
     <loc>/tags/nextjs/</loc>
@@ -14,22 +35,10 @@
     <loc>/tags/photography/</loc>
     <lastmod>2025-08-24T20:01:40-04:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2025-08-24T20:01:40-04:00</lastmod>
-  </url><url>
-    <loc>/categories/side-project/</loc>
-    <lastmod>2025-08-24T20:01:40-04:00</lastmod>
-  </url><url>
     <loc>/tags/software-engineering/</loc>
     <lastmod>2025-08-24T20:01:40-04:00</lastmod>
   </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2025-08-24T20:01:40-04:00</lastmod>
-  </url><url>
     <loc>/tags/typescript/</loc>
-    <lastmod>2025-08-24T20:01:40-04:00</lastmod>
-  </url><url>
-    <loc>/blog/</loc>
     <lastmod>2025-08-24T20:01:40-04:00</lastmod>
   </url><url>
     <loc>/tags/job-hunting/</loc>

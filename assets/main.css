@@ -229,6 +229,10 @@ h3{
     color: white;
 }
 
+h2 {
+    color: rgb(207, 206, 206);
+}
+
 ::selection {
     background: #fbc8d3; /* WebKit/Blink Browsers */
     color: black;
